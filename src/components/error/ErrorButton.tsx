@@ -1,6 +1,10 @@
 import { Component } from 'react';
 
-export class ErrorButton extends Component {
+type ErrorButtonState = {
+  throwError: boolean;
+};
+
+export class ErrorButton extends Component<unknown, ErrorButtonState> {
   state = {
     throwError: false,
   };
