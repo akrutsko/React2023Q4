@@ -3,6 +3,7 @@ import './App.css';
 import { Search } from './components/search/Search';
 import { Result } from './components/result/Result';
 import { Data, Person, ResourcesType } from './interfaces/SWApi';
+import { ErrorButton } from './components/error/ErrorButton';
 
 const URL = `https://swapi.dev/api/${ResourcesType.People}/`;
 
@@ -12,7 +13,7 @@ type AppState = {
   data: Person[];
 };
 
-class App extends Component<null, AppState> {
+class App extends Component<unknown, AppState> {
   state = {
     searchTerm: localStorage.getItem('ak-react-search-term') || '',
     isLoading: true,
@@ -26,9 +27,9 @@ class App extends Component<null, AppState> {
 
     fetch(URL + searchParam)
       .then((res) => res.json())
-      .then((data: Data<Person>) => {
-        this.setState({ data: data.results, isLoading: false });
-      })
+      .then((data: Data<Person>) =>
+        this.setState({ data: data.results, isLoading: false }),
+      )
       .catch(() => this.setState({ isLoading: false }));
   };
 
@@ -50,6 +51,7 @@ class App extends Component<null, AppState> {
       <main>
         <Search onClick={this.handleClick} searchTerm={searchTerm} />
         <Result isLoading={isLoading} data={data} />
+        <ErrorButton />
       </main>
     );
   }
