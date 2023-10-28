@@ -14,7 +14,7 @@ export class Search extends Component<SearchProps> {
     const { onClick } = this.props;
 
     const value = this.textInput.current?.value || '';
-    onClick(value);
+    onClick(value.trim());
   };
 
   render() {
