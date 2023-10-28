@@ -1,3 +1,4 @@
+import styles from './error.module.css';
 import React, { Component } from 'react';
 
 type ErrorBoundaryProps = {
@@ -17,7 +18,7 @@ export class ErrorBoundary extends Component<
   };
 
   componentDidCatch(error: Error) {
-    console.log('componentDidCatch:', error);
+    console.log('An error has been thrown:', error.message);
     this.setState({ hasError: true });
   }
 
@@ -25,7 +26,7 @@ export class ErrorBoundary extends Component<
     const { hasError } = this.state;
 
     return hasError ? (
-      <p>Something went wrong! Try later.</p>
+      <p className={styles.errorpage}>Something went wrong! Try later.</p>
     ) : (
       this.props.children
     );

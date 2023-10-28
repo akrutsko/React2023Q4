@@ -1,5 +1,6 @@
-import { Component } from 'react';
 import './App.css';
+
+import { Component } from 'react';
 import { Search } from './components/search/Search';
 import { Result } from './components/result/Result';
 import { Data, Person, ResourcesType } from './interfaces/SWApi';

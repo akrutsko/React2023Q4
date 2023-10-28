@@ -1,3 +1,5 @@
+import styles from './error.module.css';
+
 import { Component } from 'react';
 
 type ErrorButtonState = {
@@ -17,6 +19,10 @@ export class ErrorButton extends Component<unknown, ErrorButtonState> {
       throw new Error('Crashed!');
     }
 
-    return <button onClick={this.handleClick}>Throw an error</button>;
+    return (
+      <button className={styles.errorbtn} onClick={this.handleClick}>
+        throw Error
+      </button>
+    );
   }
 }

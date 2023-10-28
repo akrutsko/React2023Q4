@@ -1,3 +1,5 @@
+import styles from './search.module.css';
+
 import { Component, createRef } from 'react';
 
 type SearchProps = {
@@ -19,7 +21,7 @@ export class Search extends Component<SearchProps> {
     const { searchTerm } = this.props;
 
     return (
-      <section>
+      <section className={styles.wrapper}>
         <input ref={this.textInput} defaultValue={searchTerm} />
         <button onClick={this.handleClick}>Search</button>
       </section>

@@ -1,5 +1,8 @@
+import styles from './result.module.css';
+
 import { Component } from 'react';
 import { Person } from '../../interfaces/SWApi';
+import Spinner from '../spinner/Spinner';
 
 type ResultProps = {
   isLoading: boolean;
@@ -9,13 +12,13 @@ type ResultProps = {
 export class Result extends Component<ResultProps> {
   render() {
     const { isLoading, data } = this.props;
+    if (isLoading) return <Spinner />;
+    if (!data.length) return <p className={styles.title}>No results found</p>;
 
-    return isLoading ? (
-      <p>Loading...</p>
-    ) : (
+    return (
       <>
-        <h1>Search Results</h1>
-        <ul>
+        <h1 className={styles.title}>Search Results</h1>
+        <ul className={styles.results}>
           {data.length > 0 &&
             data.map((person: Person) => {
               const { name, birth_year, gender } = person;

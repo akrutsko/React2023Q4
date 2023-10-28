@@ -1,0 +1,7 @@
+.wrapper {
+  min-height: 10vh;
+  display: flex;
+  gap: 5px;
+  justify-content: center;
+  align-items: center;
+}
