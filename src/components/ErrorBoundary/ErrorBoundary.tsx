@@ -1,6 +1,6 @@
 import styles from './ErrorBoundary.module.css';
 
-import React, { Component } from 'react';
+import { Component } from 'react';
 
 type ErrorBoundaryProps = {
   children: React.ReactNode;

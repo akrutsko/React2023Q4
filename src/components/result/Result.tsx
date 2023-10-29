@@ -19,20 +19,19 @@ export class Result extends Component<ResultProps> {
       <section className={styles.wrapper}>
         <h1 className={styles.title}>Search Results</h1>
         <ul className={styles.results}>
-          {data.length > 0 &&
-            data.map((person: Person) => {
-              const { name, birth_year, gender } = person;
-              return (
-                <li key={person.created.toString()}>
-                  <p>
-                    <i>Name:</i> {name}
-                  </p>
-                  <p>
-                    <i>Description:</i> {gender} {birth_year}
-                  </p>
-                </li>
-              );
-            })}
+          {data.map((person: Person) => {
+            const { name, birth_year, gender } = person;
+            return (
+              <li key={person.created.toString()}>
+                <p>
+                  <i>Name:</i> {name}
+                </p>
+                <p>
+                  <i>Description:</i> {gender} {birth_year}
+                </p>
+              </li>
+            );
+          })}
         </ul>
       </section>
     );
