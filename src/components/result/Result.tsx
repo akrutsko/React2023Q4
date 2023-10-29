@@ -16,7 +16,7 @@ export class Result extends Component<ResultProps> {
     if (!data.length) return <p className={styles.title}>No results found</p>;
 
     return (
-      <>
+      <section className={styles.wrapper}>
         <h1 className={styles.title}>Search Results</h1>
         <ul className={styles.results}>
           {data.length > 0 &&
@@ -34,7 +34,7 @@ export class Result extends Component<ResultProps> {
               );
             })}
         </ul>
-      </>
+      </section>
     );
   }
 }

@@ -1,7 +1,9 @@
 .wrapper {
   min-height: 10vh;
+  margin-bottom: 10px;
   display: flex;
   gap: 5px;
   justify-content: center;
   align-items: center;
+  background-color: cadetblue;
 }
