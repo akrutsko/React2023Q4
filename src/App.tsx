@@ -1,10 +1,10 @@
 import './App.css';
 
 import { Component } from 'react';
-import { Search } from './components/search/Search';
-import { Result } from './components/result/Result';
+import { Search } from './components/Search/Search';
+import { Result } from './components/Result/Result';
 import { Data, Person, ResourcesType } from './interfaces/SWApi';
-import { ErrorButton } from './components/error/ErrorButton';
+import { ErrorButton } from './components/ErrorButton/ErrorButton';
 
 const URL = `https://swapi.dev/api/${ResourcesType.People}/`;
 

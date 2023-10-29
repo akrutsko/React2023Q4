@@ -1,4 +1,5 @@
-import styles from './error.module.css';
+import styles from './ErrorBoundary.module.css';
+
 import React, { Component } from 'react';
 
 type ErrorBoundaryProps = {

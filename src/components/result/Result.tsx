@@ -1,8 +1,8 @@
-import styles from './result.module.css';
+import styles from './Result.module.css';
 
 import { Component } from 'react';
 import { Person } from '../../interfaces/SWApi';
-import Spinner from '../spinner/Spinner';
+import Spinner from '../Spinner/Spinner';
 
 type ResultProps = {
   isLoading: boolean;
