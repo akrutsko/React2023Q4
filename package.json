@@ -1,0 +1,61 @@
+{
+  "name": "react2023q4",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "React 2023 Q4",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "lint": "eslint ./src --ext ts,tsx",
+    "lint:fix": "eslint ./src --ext ts,tsx --fix",
+    "format": "prettier ./**/*.{js,ts,tsx,css} --check",
+    "format:fix": "prettier ./**/*.{js,ts,tsx,css} --write",
+    "prepare": "husky install"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/akrutsko/React2023Q4.git"
+  },
+  "keywords": [
+    "react",
+    "router",
+    "redux",
+    "rtk",
+    "forms",
+    "yup",
+    "ssr",
+    "ssg",
+    "next.js",
+    "vite",
+    "vitest"
+  ],
+  "author": "Aliaksei Krutsko",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/akrutsko/React2023Q4/issues"
+  },
+  "homepage": "https://github.com/akrutsko/React2023Q4#readme",
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.31",
+    "@types/react-dom": "^18.2.14",
+    "@typescript-eslint/eslint-plugin": "^6.9.0",
+    "@typescript-eslint/parser": "^6.9.0",
+    "@vitejs/plugin-react": "^4.1.0",
+    "eslint": "^8.52.0",
+    "eslint-config-prettier": "^9.0.0",
+    "eslint-plugin-import": "^2.29.0",
+    "eslint-plugin-prettier": "^5.0.1",
+    "eslint-plugin-react": "^7.33.2",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "husky": "^8.0.3",
+    "lint-staged": "^15.0.2",
+    "prettier": "^3.0.3",
+    "typescript": "^5.2.2",
+    "vite": "^4.5.0"
+  }
+}

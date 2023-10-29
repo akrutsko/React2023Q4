@@ -1,0 +1,10 @@
+.errorbtn {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+
+  border-radius: 5px;
+  border-color: red;
+  font-weight: 700;
+  color: red;
+}
