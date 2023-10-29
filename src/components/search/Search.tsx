@@ -1,4 +1,5 @@
 import styles from './Search.module.css';
+import logo from '../../assets/images/star-wars.png';
 
 import { Component, createRef } from 'react';
 
@@ -22,8 +23,13 @@ export class Search extends Component<SearchProps> {
 
     return (
       <section className={styles.wrapper}>
-        <input ref={this.textInput} defaultValue={searchTerm} />
-        <button onClick={this.handleClick}>Search</button>
+        <div>
+          <img src={logo} alt="Star Wars" width={100} height={100} />
+        </div>
+        <div>
+          <input ref={this.textInput} defaultValue={searchTerm} />
+          <button onClick={this.handleClick}>Search</button>
+        </div>
       </section>
     );
   }
