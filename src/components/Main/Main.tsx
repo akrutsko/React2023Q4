@@ -1,49 +1,43 @@
-import { Component } from 'react';
-import { Search } from '../Search/Search';
-import { Result } from '../Result/Result';
+import Search from '../Search/Search';
+import Result from '../Result/Result';
+import ErrorButton from '../ErrorButton/ErrorButton';
 import { Person } from '../../interfaces/SWApi';
-import { ErrorButton } from '../ErrorButton/ErrorButton';
 import { fetchPeople } from '../../services/api';
+import { useEffect, useState } from 'react';
 
-type MainState = {
-  searchTerm: string;
-  isLoading: boolean;
-  data: Person[];
-};
+function Main() {
+  const [searchTerm, setSearchTerm] = useState(
+    localStorage.getItem('ak-react-search-term') || '',
+  );
+  const [isLoading, setLoading] = useState(true);
+  const [data, setData] = useState<Person[]>([]);
 
-export class Main extends Component<unknown, MainState> {
-  state = {
-    searchTerm: localStorage.getItem('ak-react-search-term') || '',
-    isLoading: true,
-    data: [],
-  };
+  useEffect(() => {
+    handleClick(searchTerm);
+  }, [searchTerm]);
 
-  handleClick = async (searchTerm: string) => {
-    this.setState({ searchTerm, isLoading: true });
+  const handleClick = async (searchTerm: string) => {
+    setSearchTerm(searchTerm);
+    setLoading(true);
     localStorage.setItem('ak-react-search-term', searchTerm);
 
     try {
       const data = await fetchPeople(searchTerm);
-      this.setState({ data: data.results, isLoading: false });
-    } catch {
-      this.setState({ isLoading: false });
+      setData(data.results);
+    } catch (err) {
+      console.error('API Error:', (err as Error).message);
+    } finally {
+      setLoading(false);
     }
   };
 
-  componentDidMount() {
-    const { searchTerm } = this.state;
-    this.handleClick(searchTerm);
-  }
-
-  render() {
-    const { searchTerm, isLoading, data } = this.state;
-
-    return (
-      <main>
-        <Search onClick={this.handleClick} searchTerm={searchTerm} />
-        <Result isLoading={isLoading} data={data} />
-        <ErrorButton />
-      </main>
-    );
-  }
+  return (
+    <main>
+      <Search onClick={handleClick} searchTerm={searchTerm} />
+      <Result isLoading={isLoading} data={data} />
+      <ErrorButton />
+    </main>
+  );
 }
+
+export default Main;
