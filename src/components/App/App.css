@@ -7,6 +7,6 @@ button {
   padding: 5px;
 }
 
-button {
+button:not(:disabled) {
   cursor: pointer;
 }

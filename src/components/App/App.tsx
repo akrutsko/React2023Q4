@@ -1,6 +1,16 @@
 import './App.css';
 
 import Main from '../Main/Main';
+import ErrorButton from '../ErrorButton/ErrorButton';
+import { ErrorBoundary } from '../ErrorBoundary/ErrorBoundary';
 
-const App = () => <Main />;
+function App() {
+  return (
+    <ErrorBoundary>
+      <Main />
+      <ErrorButton />
+    </ErrorBoundary>
+  );
+}
+
 export default App;

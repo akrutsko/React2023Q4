@@ -2,35 +2,40 @@ import styles from './Result.module.css';
 
 import { Person } from '../../interfaces/SWApi';
 import Spinner from '../Spinner/Spinner';
+import NoResults from '../NoResults/NoResults';
 
 type ResultProps = {
   isLoading: boolean;
   data: Person[];
+  children: React.ReactNode;
 };
 
-function Result({ isLoading, data }: ResultProps) {
+function Result({ isLoading, data, children }: ResultProps) {
   if (isLoading) return <Spinner />;
-  if (!data.length) return <p className={styles.title}>No results found</p>;
+  if (!data.length) return <NoResults />;
 
   return (
-    <section className={styles.wrapper}>
-      <h1 className={styles.title}>Search Results</h1>
-      <ul className={styles.results}>
-        {data.map((person: Person) => {
-          const { name, birth_year, gender } = person;
-          return (
-            <li key={person.created.toString()}>
-              <p>
-                <i>Name:</i> {name}
-              </p>
-              <p>
-                <i>Description:</i> {gender} {birth_year}
-              </p>
-            </li>
-          );
-        })}
-      </ul>
-    </section>
+    <>
+      {children}
+      <section className={styles.wrapper}>
+        <h1 className={styles.title}>Search Results</h1>
+        <ul className={styles.results}>
+          {data.map((person: Person) => {
+            const { name, birth_year, gender } = person;
+            return (
+              <li key={person.created.toString()}>
+                <p>
+                  <i>Name:</i> {name}
+                </p>
+                <p>
+                  <i>Description:</i> {gender} {birth_year}
+                </p>
+              </li>
+            );
+          })}
+        </ul>
+      </section>
+    </>
   );
 }
 
