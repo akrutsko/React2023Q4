@@ -1,15 +1,17 @@
-import { useOutletContext, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { usePerson } from '../../../hooks/usePerson';
-import { LinkWithQuery } from '../../Router/LinkWithQuery/LinkWithQuery';
 import Spinner from '../../Spinner/Spinner';
 import styles from './ResultDetails.module.css';
 
 export default function ResultDetails() {
-  const searchParams = useOutletContext();
-  console.log('searchParams', searchParams);
-
   const { id } = useParams() as { id: string };
   const [person, error, isLoading] = usePerson(+id);
+
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    navigate('/');
+  };
 
   if (isLoading) return <Spinner />;
   if (error) {
@@ -29,13 +31,9 @@ export default function ResultDetails() {
         <li>Eye color: {eye_color}</li>
       </ul>
       <div className={styles['wrapper-button']}>
-        <LinkWithQuery to="/">
-          <button>Close</button>
-        </LinkWithQuery>
+        <button onClick={handleClick}>Close</button>
       </div>
-      <LinkWithQuery to="/">
-        <button className={styles.overlay}></button>
-      </LinkWithQuery>
+      <button className={styles.overlay} onClick={handleClick}></button>
     </div>
   );
 }

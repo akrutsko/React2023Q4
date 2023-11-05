@@ -31,7 +31,7 @@ export default function Result({ isLoading, data, limit, children }: Props) {
 
             return (
               <li key={id}>
-                <LinkWithQuery to={id || '/'}>
+                <LinkWithQuery to={id || ''}>
                   <p>
                     <i>Name:</i> {name}
                   </p>
