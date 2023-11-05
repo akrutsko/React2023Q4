@@ -1,67 +1,43 @@
-import Search from '../Search/Search';
-import Result from '../Result/Result';
-import { Person } from '../../interfaces/SWApi';
-import { fetchPeople } from '../../services/api';
-import { useEffect, useRef, useState } from 'react';
+import { useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
+import usePersons from '../../hooks/usePersons';
 import Pagination from '../Pagination/Pagination';
+import Result from '../Results/Results';
+import Search from '../Search/Search';
 
 const INIT_PAGE = 1;
-const INIT_RESULTS = 0;
+const SEARCH_PARAM_PAGE = 'page';
 
-function Main() {
-  const totalResults = useRef(INIT_RESULTS);
-
+export default function Main() {
   const [searchTerm, setSearchTerm] = useState(
     localStorage.getItem('ak-react-search-term') || '',
   );
-  const [isLoading, setLoading] = useState(true);
-  const [data, setData] = useState<Person[]>([]);
   const [currentPage, setCurrentPage] = useState(INIT_PAGE);
+  const [data, isLoading, totalResults] = usePersons(searchTerm, currentPage);
+  const [searchParams, setSearchParams] = useSearchParams();
 
-  useEffect(() => {
-    const abortController = new AbortController();
-    const { signal } = abortController;
-
-    const fetch = async (search: string, page: number) => {
-      setLoading(true);
-      localStorage.setItem('ak-react-search-term', searchTerm);
-      try {
-        const { results, count } = await fetchPeople(search, page, { signal });
-        setData(results);
-        totalResults.current = count;
-      } catch (err) {
-        console.error('API Error:', (err as Error).message);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetch(searchTerm, currentPage);
-
-    return () => abortController.abort();
-  }, [searchTerm, currentPage]);
-
-  const handleClick = (search: string) => {
+  const handleSearchClick = (search: string) => {
     setSearchTerm(search);
     setCurrentPage(INIT_PAGE);
+    searchParams.delete(SEARCH_PARAM_PAGE);
+    setSearchParams(searchParams);
   };
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
+    setSearchParams({ [SEARCH_PARAM_PAGE]: page.toString() });
   };
 
   return (
     <main>
-      <Search onClick={handleClick} searchTerm={searchTerm} />
+      <Search onClick={handleSearchClick} searchTerm={searchTerm} />
       <Result isLoading={isLoading} data={data}>
         <Pagination
           currentPage={currentPage}
-          total={totalResults.current}
+          total={totalResults}
           onPageChange={handlePageChange}
         />
       </Result>
     </main>
   );
 }
-
-export default Main;

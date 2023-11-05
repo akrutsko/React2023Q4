@@ -1,32 +1,46 @@
-import styles from './Search.module.css';
+import { Link } from 'react-router-dom';
 import logo from '../../assets/images/star-wars.png';
+import styles from './Search.module.css';
 
 import { useRef } from 'react';
 
-type SearchProps = {
+type Props = {
   onClick: (searchTerm: string) => void;
   searchTerm: string;
 };
 
-function Search({ onClick, searchTerm }: SearchProps) {
+export default function Search({ onClick, searchTerm }: Props) {
   const textInput = useRef<HTMLInputElement>(null);
 
-  const handleClick = () => {
+  const handleSearchClick = () => {
     const value = textInput.current?.value || '';
     onClick(value.trim());
+  };
+
+  const handleButtonClick = () => {
+    if (textInput.current) {
+      textInput.current.value = '';
+    }
+    onClick('');
   };
 
   return (
     <section className={styles.wrapper}>
       <div>
-        <img src={logo} alt="Star Wars" width={100} height={100} />
+        <Link to="/">
+          <img
+            src={logo}
+            alt="Star Wars"
+            width={100}
+            height={100}
+            onClick={handleButtonClick}
+          />
+        </Link>
       </div>
       <div>
         <input ref={textInput} defaultValue={searchTerm} />
-        <button onClick={handleClick}>Search</button>
+        <button onClick={handleSearchClick}>Search</button>
       </div>
     </section>
   );
 }
-
-export default Search;

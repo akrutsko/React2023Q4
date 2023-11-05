@@ -1,0 +1,13 @@
+.wrapper {
+  padding-left: 1rem;
+}
+.wrapper ul {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.wrapper li {
+  display: flex;
+  justify-content: space-between;
+}
