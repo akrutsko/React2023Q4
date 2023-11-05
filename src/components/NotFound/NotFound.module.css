@@ -1,0 +1,8 @@
+.not-found {
+  padding-left: 1rem;
+  display: grid;
+  place-items: center;
+
+  font-size: 3rem;
+  color: red;
+}
