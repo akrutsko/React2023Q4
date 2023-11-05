@@ -2,7 +2,7 @@ import styles from './Results.module.css';
 
 import { Outlet } from 'react-router-dom';
 import { Person } from '../../interfaces/SWApi';
-import NoResults from '../NoResults/NoResults';
+import NoResults from './NoResults/NoResults';
 import { LinkWithQuery } from '../Router/LinkWithQuery/LinkWithQuery';
 import Spinner from '../Spinner/Spinner';
 

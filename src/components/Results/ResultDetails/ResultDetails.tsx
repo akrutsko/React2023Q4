@@ -31,6 +31,9 @@ export default function ResultDetails() {
       <LinkWithQuery to="/">
         <button>Close</button>
       </LinkWithQuery>
+      <LinkWithQuery to="/">
+        <button className={styles.overlay}></button>
+      </LinkWithQuery>
     </div>
   );
 }

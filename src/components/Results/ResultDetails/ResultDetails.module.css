@@ -11,3 +11,15 @@
   display: flex;
   justify-content: space-between;
 }
+
+.overlay {
+  position: fixed;
+  left: 0;
+  top: 10vh;
+  right: calc(100vw - 100vw / 4 * 3 + 1rem);
+  bottom: 0;
+  background-color: lightgray;
+  opacity: 0.3;
+  outline: none;
+  border: none;
+}
