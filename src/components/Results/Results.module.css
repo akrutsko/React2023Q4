@@ -1,0 +1,35 @@
+.wrapper {
+  padding: 1rem;
+}
+
+.title {
+  margin-bottom: 10px;
+  font-size: 2rem;
+  text-align: center;
+}
+
+.results {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  font-size: 2rem;
+}
+
+.results > * {
+  color: blueviolet;
+  border: 1px solid lightslategray;
+  text-align: center;
+}
+
+.results-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.results-wrapper ul {
+  flex: 3;
+}
+
+.results-wrapper div {
+  flex: 1;
+}

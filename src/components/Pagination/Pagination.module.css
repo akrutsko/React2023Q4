@@ -1,0 +1,14 @@
+.wrapper {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.wrapper select {
+  position: absolute;
+  left: 0;
+  top: 0;
+}

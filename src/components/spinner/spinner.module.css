@@ -1,0 +1,21 @@
+.wrapper {
+  width: auto;
+  height: auto;
+  display: grid;
+  place-items: center;
+}
+
+.spinner {
+  width: 50px;
+  height: 50px;
+  border: 6px solid lightblue;
+  border-left-color: lightgreen;
+  border-radius: 50%;
+  animation: 1.3s linear infinite spin;
+}
+
+@keyframes spin {
+  to {
+    rotate: 360deg;
+  }
+}
