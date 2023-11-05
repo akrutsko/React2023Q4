@@ -10,11 +10,14 @@ type Props = {
   isLoading: boolean;
   data: Person[];
   children: React.ReactNode;
+  limit: number;
 };
 
-export default function Result({ isLoading, data, children }: Props) {
+export default function Result({ isLoading, data, limit, children }: Props) {
   if (isLoading) return <Spinner />;
   if (!data.length) return <NoResults />;
+
+  data.length = limit;
 
   return (
     <section className={styles.wrapper}>

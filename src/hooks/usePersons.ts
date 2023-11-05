@@ -2,7 +2,11 @@ import { useEffect, useRef, useState } from 'react';
 import { fetchPeople } from '../services/api';
 import { Person } from '../interfaces/SWApi';
 
-function usePersons(searchTerm: string, currentPage: number) {
+export function usePersons(
+  searchTerm: string,
+  currentPage: number,
+  limit: number,
+) {
   const [data, setData] = useState<Person[]>([]);
   const [isLoading, setLoading] = useState(false);
 
@@ -16,7 +20,9 @@ function usePersons(searchTerm: string, currentPage: number) {
       setLoading(true);
       localStorage.setItem('ak-react-search-term', searchTerm);
       try {
-        const { results, count } = await fetchPeople(search, page, { signal });
+        const { results, count } = await fetchPeople(search, page, limit, {
+          signal,
+        });
         setData(results);
         totalResults.current = count;
         setLoading(false);
@@ -30,9 +36,7 @@ function usePersons(searchTerm: string, currentPage: number) {
     fetch(searchTerm, currentPage);
 
     return () => abortController.abort();
-  }, [searchTerm, currentPage]);
+  }, [searchTerm, currentPage, limit]);
 
   return [data, isLoading, totalResults.current] as const;
 }
-
-export default usePersons;

@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { fetchPerson } from '../services/api';
 import { Person } from '../interfaces/SWApi';
 
-function usePerson(id: number) {
+export function usePerson(id: number) {
   const [data, setData] = useState<Person>();
   const [error, setError] = useState('');
   const [isLoading, setLoading] = useState(false);
@@ -34,5 +34,3 @@ function usePerson(id: number) {
 
   return [data, error, isLoading] as const;
 }
-
-export default usePerson;

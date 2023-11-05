@@ -1,5 +1,5 @@
 import { useOutletContext, useParams } from 'react-router-dom';
-import usePerson from '../../../hooks/usePerson';
+import { usePerson } from '../../../hooks/usePerson';
 import { LinkWithQuery } from '../../Router/LinkWithQuery/LinkWithQuery';
 import Spinner from '../../Spinner/Spinner';
 import styles from './ResultDetails.module.css';
