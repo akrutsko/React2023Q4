@@ -2,18 +2,15 @@ import styles from './ErrorBoundary.module.css';
 
 import { Component } from 'react';
 
-type ErrorBoundaryProps = {
+type Props = {
   children: React.ReactNode;
 };
 
-type ErrorBoundaryState = {
+type State = {
   hasError: boolean;
 };
 
-export class ErrorBoundary extends Component<
-  ErrorBoundaryProps,
-  ErrorBoundaryState
-> {
+export class ErrorBoundary extends Component<Props, State> {
   state = {
     hasError: false,
   };
@@ -26,10 +23,11 @@ export class ErrorBoundary extends Component<
   render() {
     const { hasError } = this.state;
 
-    return hasError ? (
-      <p className={styles.errorpage}>Something went wrong! Try later.</p>
-    ) : (
-      this.props.children
-    );
+    if (hasError)
+      return (
+        <p className={styles.errorpage}>Something went wrong! Try later.</p>
+      );
+
+    return this.props.children;
   }
 }

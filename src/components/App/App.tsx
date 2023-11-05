@@ -4,7 +4,7 @@ import Main from '../Main/Main';
 import ErrorButton from '../ErrorButton/ErrorButton';
 import { ErrorBoundary } from '../ErrorBoundary/ErrorBoundary';
 
-function App() {
+export default function App() {
   return (
     <ErrorBoundary>
       <Main />
@@ -12,5 +12,3 @@ function App() {
     </ErrorBoundary>
   );
 }
-
-export default App;

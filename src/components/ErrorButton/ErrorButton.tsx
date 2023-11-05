@@ -2,7 +2,7 @@ import styles from './ErrorButton.module.css';
 
 import { useState } from 'react';
 
-function ErrorButton() {
+export default function ErrorButton() {
   const [error, setError] = useState(false);
 
   const handleClick = () => setError(true);
@@ -17,5 +17,3 @@ function ErrorButton() {
     </button>
   );
 }
-
-export default ErrorButton;
