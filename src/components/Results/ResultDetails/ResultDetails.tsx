@@ -28,9 +28,11 @@ export default function ResultDetails() {
         <li>Hair color: {hair_color}</li>
         <li>Eye color: {eye_color}</li>
       </ul>
-      <LinkWithQuery to="/">
-        <button>Close</button>
-      </LinkWithQuery>
+      <div className={styles['wrapper-button']}>
+        <LinkWithQuery to="/">
+          <button>Close</button>
+        </LinkWithQuery>
+      </div>
       <LinkWithQuery to="/">
         <button className={styles.overlay}></button>
       </LinkWithQuery>

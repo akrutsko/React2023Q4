@@ -23,7 +23,7 @@ export default function Result({ isLoading, data, children }: Props) {
       <div className={styles['results-wrapper']}>
         <ul className={styles.results}>
           {data.map((person: Person) => {
-            const { name, birth_year, gender, url } = person;
+            const { name, birth_year, url } = person;
             const id = url.split('/').filter(Boolean).at(-1);
 
             return (
@@ -33,7 +33,7 @@ export default function Result({ isLoading, data, children }: Props) {
                     <i>Name:</i> {name}
                   </p>
                   <p>
-                    <i>Description:</i> {gender} {birth_year}
+                    <i>Birth year:</i> {birth_year}
                   </p>
                 </LinkWithQuery>
               </li>
