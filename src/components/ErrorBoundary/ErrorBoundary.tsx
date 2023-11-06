@@ -1,9 +1,9 @@
 import styles from './ErrorBoundary.module.css';
 
-import { Component } from 'react';
+import { Component, ReactNode } from 'react';
 
 type Props = {
-  children: React.ReactNode;
+  children: ReactNode;
 };
 
 type State = {

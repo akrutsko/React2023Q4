@@ -1,7 +1,8 @@
+import { ReactNode } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 
 type Props = {
-  children: React.ReactNode;
+  children: ReactNode;
   to: string;
 };
 

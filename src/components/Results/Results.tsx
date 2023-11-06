@@ -1,15 +1,16 @@
 import styles from './Results.module.css';
 
+import { ReactNode } from 'react';
 import { Outlet } from 'react-router-dom';
 import { Person } from '../../interfaces/SWApi';
-import NoResults from './NoResults/NoResults';
 import { LinkWithQuery } from '../Router/LinkWithQuery/LinkWithQuery';
 import Spinner from '../Spinner/Spinner';
+import NoResults from './NoResults/NoResults';
 
 type Props = {
   isLoading: boolean;
   data: Person[];
-  children: React.ReactNode;
+  children: ReactNode;
   limit: number;
 };
 
