@@ -1,4 +1,4 @@
-import { useNavigate, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { usePerson } from '../../../hooks/usePerson';
 import Spinner from '../../Spinner/Spinner';
 import styles from './ResultDetails.module.css';
@@ -8,9 +8,10 @@ export default function ResultDetails() {
   const [person, error, isLoading] = usePerson(+id);
 
   const navigate = useNavigate();
+  const { search } = useLocation();
 
   const handleClick = () => {
-    navigate('/');
+    navigate(`/${search}`);
   };
 
   if (isLoading) return <Spinner />;
