@@ -10,7 +10,7 @@ type State = {
   hasError: boolean;
 };
 
-export class ErrorBoundary extends Component<Props, State> {
+export default class ErrorBoundary extends Component<Props, State> {
   state = {
     hasError: false,
   };
