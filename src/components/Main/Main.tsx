@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { usePersons } from '../../hooks/usePersons';
+import { useSearch } from '../../hooks/useSearch';
+import { useSetSearch } from '../../hooks/useSetSearch';
 import Pagination from '../Pagination/Pagination';
 import Result from '../Results/Results';
 import Search from '../Search/Search';
@@ -10,9 +12,9 @@ const INIT_LIMIT = 10;
 const SEARCH_PARAM_PAGE = 'page';
 
 export default function Main() {
-  const [searchTerm, setSearchTerm] = useState(
-    localStorage.getItem('ak-react-search-term') || '',
-  );
+  const searchTerm = useSearch();
+  const setSearchTerm = useSetSearch();
+
   const [currentPage, setCurrentPage] = useState(INIT_PAGE);
   const [limit, setLimit] = useState(INIT_LIMIT);
   const [data, isLoading, totalResults] = usePersons(
