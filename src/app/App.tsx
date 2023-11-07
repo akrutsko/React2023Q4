@@ -10,8 +10,8 @@ export default function App() {
     <ErrorBoundary>
       <SearchProvider>
         <Main />
-        <ErrorButton />
       </SearchProvider>
+      <ErrorButton />
     </ErrorBoundary>
   );
 }

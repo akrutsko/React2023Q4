@@ -1,11 +1,11 @@
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
-import { usePerson } from '../../../hooks/usePerson';
+import { useFetchPerson } from '../../../hooks/useFetchPerson';
 import Spinner from '../../Spinner/Spinner';
 import styles from './ResultDetails.module.css';
 
 export default function ResultDetails() {
   const { id } = useParams() as { id: string };
-  const [person, error, isLoading] = usePerson(+id);
+  const [person, error, isLoading] = useFetchPerson(+id);
 
   const navigate = useNavigate();
   const { search } = useLocation();

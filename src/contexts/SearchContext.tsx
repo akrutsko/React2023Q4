@@ -7,7 +7,7 @@ import {
 } from 'react';
 
 export const SearchContext = createContext('');
-export const SearchSetStateContext = createContext<Dispatch<
+export const SearchDispatchContext = createContext<Dispatch<
   SetStateAction<string>
 > | null>(null);
 
@@ -22,9 +22,9 @@ export default function SearchProvider({ children }: Props) {
 
   return (
     <SearchContext.Provider value={searchQuery}>
-      <SearchSetStateContext.Provider value={setSearchQuery}>
+      <SearchDispatchContext.Provider value={setSearchQuery}>
         {children}
-      </SearchSetStateContext.Provider>
+      </SearchDispatchContext.Provider>
     </SearchContext.Provider>
   );
 }

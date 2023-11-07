@@ -1,8 +1,8 @@
 import { useContext } from 'react';
-import { SearchSetStateContext } from '../contexts/SearchContext';
+import { SearchDispatchContext } from '../contexts/SearchContext';
 
-export function useSetSearch() {
-  const setSearchQuery = useContext(SearchSetStateContext);
+export function useSearchDispatch() {
+  const setSearchQuery = useContext(SearchDispatchContext);
 
   if (!setSearchQuery) {
     throw new Error(

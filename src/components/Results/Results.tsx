@@ -6,15 +6,17 @@ import { Person } from '../../interfaces/SWApi';
 import { LinkWithQuery } from '../LinkWithQuery/LinkWithQuery';
 import Spinner from '../Spinner/Spinner';
 import NoResults from './NoResults/NoResults';
+import { usePerons } from '../../hooks/usePersons';
 
 type Props = {
   isLoading: boolean;
-  data: Person[];
   children: ReactNode;
   limit: number;
 };
 
-export default function Result({ isLoading, data, limit, children }: Props) {
+export default function Result({ isLoading, limit, children }: Props) {
+  const data = usePerons();
+
   if (isLoading) return <Spinner />;
   if (!data.length) return <NoResults />;
 
