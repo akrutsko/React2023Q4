@@ -2,11 +2,11 @@ import styles from './Results.module.css';
 
 import { ReactNode } from 'react';
 import { Outlet } from 'react-router-dom';
+import { usePerons } from '../../hooks/usePersons';
 import { Person } from '../../interfaces/SWApi';
 import { LinkWithQuery } from '../LinkWithQuery/LinkWithQuery';
 import Spinner from '../Spinner/Spinner';
 import NoResults from './NoResults/NoResults';
-import { usePerons } from '../../hooks/usePersons';
 
 type Props = {
   isLoading: boolean;
