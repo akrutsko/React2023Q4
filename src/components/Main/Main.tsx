@@ -6,7 +6,6 @@ import { useSearchDispatch } from '../../hooks/useSearchDispatch';
 import Pagination from '../Pagination/Pagination';
 import Results from '../Results/Results';
 import Search from '../Search/Search';
-import { PersonsContext } from '../../contexts/PersonsContext';
 
 const INIT_PAGE = 1;
 const INIT_LIMIT = 10;
@@ -17,7 +16,7 @@ export default function Main() {
   const setSearchTerm = useSearchDispatch();
   const [currentPage, setCurrentPage] = useState(INIT_PAGE);
   const [limit, setLimit] = useState(INIT_LIMIT);
-  const [data, isLoading, totalResults] = useFetchPersons(
+  const [isLoading, totalResults] = useFetchPersons(
     searchTerm,
     currentPage,
     limit,
@@ -48,17 +47,15 @@ export default function Main() {
   return (
     <main>
       <Search onClick={handleSearchClick} searchTerm={searchTerm} />
-      <PersonsContext.Provider value={data}>
-        <Results isLoading={isLoading} limit={limit}>
-          <Pagination
-            currentPage={currentPage}
-            total={totalResults}
-            limit={limit}
-            onPageChange={handlePageChange}
-            onLimitChage={handleLimitChange}
-          />
-        </Results>
-      </PersonsContext.Provider>
+      <Results isLoading={isLoading} limit={limit}>
+        <Pagination
+          currentPage={currentPage}
+          total={totalResults}
+          limit={limit}
+          onPageChange={handlePageChange}
+          onLimitChage={handleLimitChange}
+        />
+      </Results>
     </main>
   );
 }

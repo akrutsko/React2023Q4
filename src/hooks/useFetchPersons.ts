@@ -1,13 +1,13 @@
 import { useEffect, useRef, useState } from 'react';
-import { Person } from '../interfaces/SWApi';
 import { fetchPeople } from '../services/api';
+import { usePersonsDispatch } from './usePersonsDispatch';
 
 export function useFetchPersons(
   searchTerm: string,
   currentPage: number,
   limit: number,
 ) {
-  const [data, setData] = useState<Person[]>([]);
+  const setPersons = usePersonsDispatch();
   const [isLoading, setLoading] = useState(false);
   const totalResults = useRef(0);
 
@@ -22,7 +22,7 @@ export function useFetchPersons(
         const { results, count } = await fetchPeople(search, page, limit, {
           signal,
         });
-        setData(results);
+        setPersons(results);
         totalResults.current = count;
         setLoading(false);
       } catch (err) {
@@ -35,7 +35,7 @@ export function useFetchPersons(
     fetch(searchTerm, currentPage);
 
     return () => abortController.abort();
-  }, [searchTerm, currentPage, limit]);
+  }, [searchTerm, currentPage, limit, setPersons]);
 
-  return [data, isLoading, totalResults.current] as const;
+  return [isLoading, totalResults.current] as const;
 }

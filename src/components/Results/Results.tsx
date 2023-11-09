@@ -2,7 +2,7 @@ import styles from './Results.module.css';
 
 import { ReactNode } from 'react';
 import { Outlet } from 'react-router-dom';
-import { usePerons } from '../../hooks/usePersons';
+import { usePersons } from '../../hooks/usePersons';
 import { Person } from '../../interfaces/SWApi';
 import { LinkWithQuery } from '../LinkWithQuery/LinkWithQuery';
 import Spinner from '../Spinner/Spinner';
@@ -15,12 +15,12 @@ type Props = {
 };
 
 export default function Results({ isLoading, limit, children }: Props) {
-  const parsons = usePerons();
+  const persons = usePersons();
 
   if (isLoading) return <Spinner />;
-  if (!parsons.length) return <NoResults />;
+  if (!persons.length) return <NoResults />;
 
-  parsons.length = limit;
+  persons.length = limit;
 
   return (
     <section className={styles.wrapper}>
@@ -28,7 +28,7 @@ export default function Results({ isLoading, limit, children }: Props) {
       <h1 className={styles.title}>Search Results</h1>
       <div className={styles['results-wrapper']}>
         <ul className={styles.results}>
-          {parsons.map((person: Person) => {
+          {persons.map((person: Person) => {
             const { name, birth_year, url } = person;
             const id = url.split('/').filter(Boolean).at(-1);
 
