@@ -4,7 +4,7 @@ import { useFetchPersons } from '../../hooks/useFetchPersons';
 import { useSearch } from '../../hooks/useSearch';
 import { useSearchDispatch } from '../../hooks/useSearchDispatch';
 import Pagination from '../Pagination/Pagination';
-import Result from '../Results/Results';
+import Results from '../Results/Results';
 import Search from '../Search/Search';
 import { PersonsContext } from '../../contexts/PersonsContext';
 
@@ -49,7 +49,7 @@ export default function Main() {
     <main>
       <Search onClick={handleSearchClick} searchTerm={searchTerm} />
       <PersonsContext.Provider value={data}>
-        <Result isLoading={isLoading} limit={limit}>
+        <Results isLoading={isLoading} limit={limit}>
           <Pagination
             currentPage={currentPage}
             total={totalResults}
@@ -57,7 +57,7 @@ export default function Main() {
             onPageChange={handlePageChange}
             onLimitChage={handleLimitChange}
           />
-        </Result>
+        </Results>
       </PersonsContext.Provider>
     </main>
   );

@@ -14,13 +14,13 @@ type Props = {
   limit: number;
 };
 
-export default function Result({ isLoading, limit, children }: Props) {
-  const data = usePerons();
+export default function Results({ isLoading, limit, children }: Props) {
+  const parsons = usePerons();
 
   if (isLoading) return <Spinner />;
-  if (!data.length) return <NoResults />;
+  if (!parsons.length) return <NoResults />;
 
-  data.length = limit;
+  parsons.length = limit;
 
   return (
     <section className={styles.wrapper}>
@@ -28,7 +28,7 @@ export default function Result({ isLoading, limit, children }: Props) {
       <h1 className={styles.title}>Search Results</h1>
       <div className={styles['results-wrapper']}>
         <ul className={styles.results}>
-          {data.map((person: Person) => {
+          {parsons.map((person: Person) => {
             const { name, birth_year, url } = person;
             const id = url.split('/').filter(Boolean).at(-1);
 
