@@ -12,5 +12,17 @@ export default defineConfig({
     environment: 'jsdom',
     setupFiles: './src/tests/setupTests.ts',
     css: true,
+    coverage: {
+      enabled: true,
+      all: true,
+      include: ['src'],
+      exclude: ['src/interfaces', 'src/tests', '**/*.d.ts'],
+      provider: 'v8', // istanbul or 'v8'
+      reporter: ['text', 'html'],
+      lines: 80,
+      branches: 80,
+      functions: 80,
+      statements: 80,
+    },
   },
 });
