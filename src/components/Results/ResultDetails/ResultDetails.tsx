@@ -1,7 +1,7 @@
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
-import { useFetchPerson } from '../../../hooks/useFetchPerson';
 import Spinner from '../../Spinner/Spinner';
 import styles from './ResultDetails.module.css';
+import { useFetchPerson } from '../../../hooks';
 
 export default function ResultDetails() {
   const { id } = useParams() as { id: string };

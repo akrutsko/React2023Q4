@@ -2,11 +2,11 @@ import styles from './Results.module.css';
 
 import { ReactNode } from 'react';
 import { Outlet } from 'react-router-dom';
-import { usePersons } from '../../hooks/usePersons';
 import { Person } from '../../interfaces/SWApi';
 import { LinkWithQuery } from '../LinkWithQuery/LinkWithQuery';
 import Spinner from '../Spinner/Spinner';
 import NoResults from './NoResults/NoResults';
+import { usePersons } from '../../hooks';
 
 type Props = {
   isLoading: boolean;

@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { fetchPeople } from '../services/api';
-import { usePersonsDispatch } from './usePersonsDispatch';
+import { usePersonsDispatch } from '.';
 
 export function useFetchPersons(
   searchTerm: string,

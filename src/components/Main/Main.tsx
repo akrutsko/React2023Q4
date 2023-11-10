@@ -1,11 +1,9 @@
 import { useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { useFetchPersons } from '../../hooks/useFetchPersons';
-import { useSearch } from '../../hooks/useSearch';
-import { useSearchDispatch } from '../../hooks/useSearchDispatch';
 import Pagination from '../Pagination/Pagination';
 import Results from '../Results/Results';
 import Search from '../Search/Search';
+import { useFetchPersons, useSearch, useSearchDispatch } from '../../hooks';
 
 const INIT_PAGE = 1;
 const INIT_LIMIT = 10;
