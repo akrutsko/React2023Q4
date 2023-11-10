@@ -6,7 +6,7 @@ export function usePersonsDispatch() {
 
   if (!setPersons) {
     throw new Error(
-      'setPersons has to be used within <PersonsDispatchContext.Provider>',
+      'usePersonsDispatch has to be used within <PersonsDispatchContext.Provider>',
     );
   }
   return setPersons;
