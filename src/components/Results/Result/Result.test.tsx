@@ -30,6 +30,8 @@ describe('Result component', () => {
   });
 
   test('clicking on a card opens a detailed card component', async () => {
+    const user = userEvent.setup();
+
     render(
       <MemoryRouter>
         <PersonsContext.Provider value={personsMock}>
@@ -49,7 +51,7 @@ describe('Result component', () => {
       </MemoryRouter>,
     );
 
-    await userEvent.click(screen.getByRole('link'));
+    await user.click(screen.getByRole('link'));
     const closeButton = await screen.findByRole('button', {
       name: 'Close',
     });
@@ -58,6 +60,8 @@ describe('Result component', () => {
   });
 
   test('clicking triggers an additional API call to fetch detailed information', async () => {
+    const user = userEvent.setup();
+
     render(
       <MemoryRouter>
         <PersonsContext.Provider value={personsMock}>
@@ -77,7 +81,7 @@ describe('Result component', () => {
       </MemoryRouter>,
     );
 
-    await userEvent.click(screen.getByRole('link'));
+    await user.click(screen.getByRole('link'));
     await screen.findByRole('button', {
       name: 'Close',
     });
