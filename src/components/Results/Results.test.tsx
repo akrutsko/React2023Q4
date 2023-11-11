@@ -1,38 +1,35 @@
 import { render, screen } from '@testing-library/react';
-import Results from './Results';
+import { BrowserRouter } from 'react-router-dom';
 import { PersonsContext } from '../../contexts/PersonsContext';
-import { mockPersons } from '../../tests/data/mock-persons';
-
-vi.mock('react-router-dom', () => {
-  return {
-    useLocation: () => '',
-    Outlet: () => {},
-    Link: () => {},
-  };
-});
+import { personsMock } from '../../tests/data/personsMock';
+import Results from './Results';
 
 describe('Results component', () => {
   test('the component renders the specified number of cards', () => {
     const limit = 3;
 
     render(
-      <PersonsContext.Provider value={mockPersons}>
-        <Results isLoading={false} limit={limit}>
-          <></>
-        </Results>
-      </PersonsContext.Provider>,
+      <BrowserRouter>
+        <PersonsContext.Provider value={personsMock}>
+          <Results isLoading={false} limit={limit}>
+            <></>
+          </Results>
+        </PersonsContext.Provider>
+      </BrowserRouter>,
     );
 
-    expect(screen.getAllByRole('listitem').length).toEqual(limit);
+    expect(screen.getAllByRole('listitem')).toHaveLength(limit);
   });
 
   test('the message is displayed if no cards are present', () => {
     render(
-      <PersonsContext.Provider value={[]}>
-        <Results isLoading={false} limit={10}>
-          <></>
-        </Results>
-      </PersonsContext.Provider>,
+      <BrowserRouter>
+        <PersonsContext.Provider value={[]}>
+          <Results isLoading={false} limit={10}>
+            <></>
+          </Results>
+        </PersonsContext.Provider>
+      </BrowserRouter>,
     );
     expect(screen.getByText(/No results found/i)).toBeInTheDocument();
   });

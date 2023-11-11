@@ -1,6 +1,6 @@
 import { Person } from '../../interfaces/SWApi';
 
-export const mockPersons: Person[] = [
+export const personsMock: Person[] = [
   {
     name: 'Luke Skywalker',
     height: '172',

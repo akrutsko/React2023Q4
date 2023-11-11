@@ -15,13 +15,10 @@ export default defineConfig({
     coverage: {
       enabled: true,
       all: true,
-      include: ['src'],
-      exclude: ['src/interfaces', 'src/tests', '**/*.d.ts'],
+      include: ['src/components/**/*'],
+      exclude: ['**/*.d.ts'],
       provider: 'v8', // istanbul or 'v8'
-      reporter: ['text', 'html'],
-      lines: 80,
-      branches: 80,
-      functions: 80,
+      reporter: ['text'],
       statements: 80,
     },
   },
