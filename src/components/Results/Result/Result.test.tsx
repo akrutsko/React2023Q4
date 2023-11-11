@@ -1,4 +1,4 @@
-import { act, render, screen } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { BrowserRouter, MemoryRouter, Route, Routes } from 'react-router-dom';
 import { PersonsContext } from '../../../contexts/PersonsContext';
@@ -11,6 +11,10 @@ import Result from './Result';
 vi.mock('../../../services/api', () => ({
   fetchPerson: vi.fn((id) => Promise.resolve(personsMock[id - 1])),
 }));
+
+afterEach(() => {
+  vi.clearAllMocks();
+});
 
 describe('Result component', () => {
   test('the card component renders the relevant card data', () => {
@@ -26,28 +30,26 @@ describe('Result component', () => {
   });
 
   test('clicking on a card opens a detailed card component', async () => {
-    await act(async () => {
-      render(
-        <MemoryRouter>
-          <PersonsContext.Provider value={personsMock}>
-            <Routes>
-              <Route
-                path="/"
-                element={
-                  <Results isLoading={false} limit={1}>
-                    <></>
-                  </Results>
-                }
-              >
-                <Route path=":id" element={<ResultDetails />} />
-              </Route>
-            </Routes>
-          </PersonsContext.Provider>
-        </MemoryRouter>,
-      );
-    });
+    render(
+      <MemoryRouter>
+        <PersonsContext.Provider value={personsMock}>
+          <Routes>
+            <Route
+              path="/"
+              element={
+                <Results isLoading={false} limit={1}>
+                  <></>
+                </Results>
+              }
+            >
+              <Route path=":id" element={<ResultDetails />} />
+            </Route>
+          </Routes>
+        </PersonsContext.Provider>
+      </MemoryRouter>,
+    );
 
-    userEvent.click(screen.getByRole('link'));
+    await userEvent.click(screen.getByRole('link'));
     const closeButton = await screen.findByRole('button', {
       name: 'Close',
     });
@@ -56,28 +58,26 @@ describe('Result component', () => {
   });
 
   test('clicking triggers an additional API call to fetch detailed information', async () => {
-    await act(async () => {
-      render(
-        <MemoryRouter>
-          <PersonsContext.Provider value={personsMock}>
-            <Routes>
-              <Route
-                path="/"
-                element={
-                  <Results isLoading={false} limit={1}>
-                    <></>
-                  </Results>
-                }
-              >
-                <Route path=":id" element={<ResultDetails />} />
-              </Route>
-            </Routes>
-          </PersonsContext.Provider>
-        </MemoryRouter>,
-      );
-    });
+    render(
+      <MemoryRouter>
+        <PersonsContext.Provider value={personsMock}>
+          <Routes>
+            <Route
+              path="/"
+              element={
+                <Results isLoading={false} limit={1}>
+                  <></>
+                </Results>
+              }
+            >
+              <Route path=":id" element={<ResultDetails />} />
+            </Route>
+          </Routes>
+        </PersonsContext.Provider>
+      </MemoryRouter>,
+    );
 
-    userEvent.click(screen.getByRole('link'));
+    await userEvent.click(screen.getByRole('link'));
     await screen.findByRole('button', {
       name: 'Close',
     });
