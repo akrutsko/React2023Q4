@@ -15,8 +15,14 @@ export default defineConfig({
     coverage: {
       enabled: true,
       all: true,
-      include: ['src/components/**/*'],
-      exclude: ['**/*.d.ts'],
+      include: ['src'],
+      exclude: [
+        'src/main.tsx',
+        'src/app',
+        'src/interfaces',
+        'src/tests',
+        '**/*.d.ts',
+      ],
       provider: 'v8',
       reporter: ['text'],
       statements: 80,
