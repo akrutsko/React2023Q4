@@ -1,4 +1,5 @@
 import { render, screen } from '@testing-library/react';
+import { Fragment } from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import { PersonsContext } from '../../contexts/PersonsContext';
 import { personsMock } from '../../tests/data/personsMock';
@@ -12,7 +13,7 @@ describe('Results component', () => {
       <BrowserRouter>
         <PersonsContext.Provider value={personsMock}>
           <Results isLoading={false} limit={limit}>
-            <></>
+            <Fragment />
           </Results>
         </PersonsContext.Provider>
       </BrowserRouter>,
@@ -26,7 +27,7 @@ describe('Results component', () => {
       <BrowserRouter>
         <PersonsContext.Provider value={[]}>
           <Results isLoading={false} limit={10}>
-            <></>
+            <Fragment />
           </Results>
         </PersonsContext.Provider>
       </BrowserRouter>,

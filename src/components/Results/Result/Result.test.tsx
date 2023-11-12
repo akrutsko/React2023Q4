@@ -1,5 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import user from '@testing-library/user-event';
+import { Fragment } from 'react';
 import { BrowserRouter, MemoryRouter, Route, Routes } from 'react-router-dom';
 import { PersonsContext } from '../../../contexts/PersonsContext';
 import { fetchPerson } from '../../../services/api';
@@ -40,7 +41,7 @@ describe('Result component', () => {
               path="/"
               element={
                 <Results isLoading={false} limit={1}>
-                  <></>
+                  <Fragment />
                 </Results>
               }
             >
@@ -68,7 +69,7 @@ describe('Result component', () => {
               path="/"
               element={
                 <Results isLoading={false} limit={1}>
-                  <></>
+                  <Fragment />
                 </Results>
               }
             >
