@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
+import user from '@testing-library/user-event';
 import { BrowserRouter, MemoryRouter, Route, Routes } from 'react-router-dom';
 import { PersonsContext } from '../../../contexts/PersonsContext';
 import { fetchPerson } from '../../../services/api';
@@ -30,7 +30,7 @@ describe('Result component', () => {
   });
 
   test('clicking on a card opens a detailed card component', async () => {
-    const user = userEvent.setup();
+    user.setup();
 
     render(
       <MemoryRouter>
@@ -52,15 +52,13 @@ describe('Result component', () => {
     );
 
     await user.click(screen.getByRole('link'));
-    const closeButton = await screen.findByRole('button', {
-      name: 'Close',
-    });
+    const closeButton = await screen.findByRole('button', { name: 'Close' });
 
     expect(closeButton).toBeInTheDocument();
   });
 
   test('clicking triggers an additional API call to fetch detailed information', async () => {
-    const user = userEvent.setup();
+    user.setup();
 
     render(
       <MemoryRouter>
@@ -82,9 +80,7 @@ describe('Result component', () => {
     );
 
     await user.click(screen.getByRole('link'));
-    await screen.findByRole('button', {
-      name: 'Close',
-    });
+    await screen.findByRole('button', { name: 'Close' });
 
     expect(fetchPerson).toHaveBeenCalled();
   });

@@ -1,7 +1,8 @@
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { useFetchPerson } from '../../../hooks';
+import NotFound from '../../NotFound/NotFound';
 import Spinner from '../../Spinner/Spinner';
 import styles from './ResultDetails.module.css';
-import { useFetchPerson } from '../../../hooks';
 
 export default function ResultDetails() {
   const { id } = useParams() as { id: string };
@@ -15,9 +16,7 @@ export default function ResultDetails() {
   };
 
   if (isLoading) return <Spinner />;
-  if (error) {
-    throw error;
-  }
+  if (error) return <NotFound />;
   if (!person) return null;
 
   const { name, eye_color, gender, hair_color, height, skin_color } = person;

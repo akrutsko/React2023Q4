@@ -3,12 +3,12 @@ import { MemoryRouter, Route, Routes } from 'react-router-dom';
 import { personsMock } from '../../../tests/data/personsMock';
 import { server } from '../../../tests/mocks/server';
 import ResultDetails from './ResultDetails';
-import userEvent from '@testing-library/user-event';
+import user from '@testing-library/user-event';
 
 beforeAll(() => server.listen());
 afterAll(() => server.close());
 
-describe.only('ResultDetails component', () => {
+describe('ResultDetails component', () => {
   test('a loading indicator is displayed while fetching data', async () => {
     render(
       <MemoryRouter initialEntries={['/100']}>
@@ -19,7 +19,6 @@ describe.only('ResultDetails component', () => {
     );
 
     const spinner = await screen.findByTestId('spinner');
-
     expect(spinner).toBeInTheDocument();
   });
 
@@ -32,9 +31,7 @@ describe.only('ResultDetails component', () => {
       </MemoryRouter>,
     );
 
-    await screen.findByRole('button', {
-      name: 'Close',
-    });
+    await screen.findByRole('button', { name: 'Close' });
 
     const { gender, height, skin_color, hair_color, eye_color } =
       personsMock[0];
@@ -47,19 +44,18 @@ describe.only('ResultDetails component', () => {
   });
 
   test('clicking the close button hides the component', async () => {
-    const user = userEvent.setup();
+    user.setup();
 
     render(
       <MemoryRouter initialEntries={['/1']}>
         <Routes>
+          <Route path="/" element={null} />
           <Route path=":id" element={<ResultDetails />} />
         </Routes>
       </MemoryRouter>,
     );
 
-    const button = await screen.findByRole('button', {
-      name: 'Close',
-    });
+    const button = await screen.findByRole('button', { name: 'Close' });
     await user.click(button);
 
     expect(
