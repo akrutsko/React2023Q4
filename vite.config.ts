@@ -17,9 +17,12 @@ export default defineConfig({
       all: true,
       include: ['src/components/**/*'],
       exclude: ['**/*.d.ts'],
-      provider: 'v8', // istanbul or 'v8'
+      provider: 'v8',
       reporter: ['text'],
       statements: 80,
+      branches: 80,
+      functions: 80,
+      lines: 80,
     },
   },
 });
