@@ -5,20 +5,19 @@ import {
   createContext,
   useState,
 } from 'react';
+import { getSearchTerm } from '../services/local-storage';
 
 export const SearchContext = createContext('');
 export const SearchDispatchContext = createContext<Dispatch<
   SetStateAction<string>
 > | null>(null);
 
-const searchTerm = localStorage.getItem('ak-react-search-term');
-
 type Props = {
   children: ReactNode;
 };
 
 export default function SearchProvider({ children }: Props) {
-  const [searchQuery, setSearchQuery] = useState(searchTerm || '');
+  const [searchQuery, setSearchQuery] = useState(getSearchTerm);
 
   return (
     <SearchContext.Provider value={searchQuery}>

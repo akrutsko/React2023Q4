@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { fetchPeople } from '../services/api';
 import { usePersonsDispatch } from '.';
+import { setSearchTerm } from '../services/local-storage';
 
 export function useFetchPersons(
   searchTerm: string,
@@ -17,7 +18,7 @@ export function useFetchPersons(
 
     const fetch = async (search: string, page: number) => {
       setLoading(true);
-      localStorage.setItem('ak-react-search-term', searchTerm);
+      setSearchTerm(searchTerm);
       try {
         const { results, count } = await fetchPeople(search, page, limit, {
           signal,

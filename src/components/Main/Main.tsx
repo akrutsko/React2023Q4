@@ -21,7 +21,7 @@ export default function Main() {
   );
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const handleSearchClick = (search: string) => {
+  const handleSearch = (search: string) => {
     setSearchTerm(search);
     initFirstPage();
   };
@@ -44,7 +44,7 @@ export default function Main() {
 
   return (
     <main>
-      <Search onClick={handleSearchClick} searchTerm={searchTerm} />
+      <Search onClick={handleSearch} />
       <Results isLoading={isLoading} limit={limit}>
         <Pagination
           currentPage={currentPage}
