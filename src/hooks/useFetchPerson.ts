@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { fetchPerson } from '../services/api';
 import { Person } from '../interfaces/SWApi';
 
-export function usePerson(id: number) {
+export function useFetchPerson(id: number) {
   const [data, setData] = useState<Person>();
   const [error, setError] = useState('');
   const [isLoading, setLoading] = useState(false);
@@ -21,7 +21,7 @@ export function usePerson(id: number) {
       } catch (err) {
         const error = err as Error;
         if (error.name !== 'AbortError') {
-          setError('Some error ocured while retrieving person details');
+          setError(error.message || 'Failed to retrieve person details.');
           setLoading(false);
         }
       }

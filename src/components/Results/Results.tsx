@@ -1,23 +1,26 @@
 import styles from './Results.module.css';
 
+import { ReactNode } from 'react';
 import { Outlet } from 'react-router-dom';
 import { Person } from '../../interfaces/SWApi';
-import NoResults from './NoResults/NoResults';
-import { LinkWithQuery } from '../Router/LinkWithQuery/LinkWithQuery';
 import Spinner from '../Spinner/Spinner';
+import NoResults from './NoResults/NoResults';
+import { usePersons } from '../../hooks';
+import Result from './Result/Result';
 
 type Props = {
   isLoading: boolean;
-  data: Person[];
-  children: React.ReactNode;
+  children: ReactNode;
   limit: number;
 };
 
-export default function Result({ isLoading, data, limit, children }: Props) {
-  if (isLoading) return <Spinner />;
-  if (!data.length) return <NoResults />;
+export default function Results({ isLoading, limit, children }: Props) {
+  const persons = usePersons();
 
-  data.length = limit;
+  if (isLoading) return <Spinner />;
+  if (!persons.length) return <NoResults />;
+
+  persons.length = limit;
 
   return (
     <section className={styles.wrapper}>
@@ -25,21 +28,15 @@ export default function Result({ isLoading, data, limit, children }: Props) {
       <h1 className={styles.title}>Search Results</h1>
       <div className={styles['results-wrapper']}>
         <ul className={styles.results}>
-          {data.map((person: Person) => {
+          {persons.map((person: Person) => {
             const { name, birth_year, url } = person;
-            const id = url.split('/').filter(Boolean).at(-1);
-
             return (
-              <li key={id}>
-                <LinkWithQuery to={id || ''}>
-                  <p>
-                    <i>Name:</i> {name}
-                  </p>
-                  <p>
-                    <i>Birth year:</i> {birth_year}
-                  </p>
-                </LinkWithQuery>
-              </li>
+              <Result
+                key={url}
+                name={name}
+                birth_year={birth_year}
+                url={url}
+              ></Result>
             );
           })}
         </ul>

@@ -1,28 +1,27 @@
 import { useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { usePersons } from '../../hooks/usePersons';
 import Pagination from '../Pagination/Pagination';
-import Result from '../Results/Results';
+import Results from '../Results/Results';
 import Search from '../Search/Search';
+import { useFetchPersons, useSearch, useSearchDispatch } from '../../hooks';
 
 const INIT_PAGE = 1;
 const INIT_LIMIT = 10;
 const SEARCH_PARAM_PAGE = 'page';
 
 export default function Main() {
-  const [searchTerm, setSearchTerm] = useState(
-    localStorage.getItem('ak-react-search-term') || '',
-  );
+  const searchTerm = useSearch();
+  const setSearchTerm = useSearchDispatch();
   const [currentPage, setCurrentPage] = useState(INIT_PAGE);
   const [limit, setLimit] = useState(INIT_LIMIT);
-  const [data, isLoading, totalResults] = usePersons(
+  const [isLoading, totalResults] = useFetchPersons(
     searchTerm,
     currentPage,
     limit,
   );
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const handleSearchClick = (search: string) => {
+  const handleSearch = (search: string) => {
     setSearchTerm(search);
     initFirstPage();
   };
@@ -45,8 +44,8 @@ export default function Main() {
 
   return (
     <main>
-      <Search onClick={handleSearchClick} searchTerm={searchTerm} />
-      <Result isLoading={isLoading} data={data} limit={limit}>
+      <Search onClick={handleSearch} />
+      <Results isLoading={isLoading} limit={limit}>
         <Pagination
           currentPage={currentPage}
           total={totalResults}
@@ -54,7 +53,7 @@ export default function Main() {
           onPageChange={handlePageChange}
           onLimitChage={handleLimitChange}
         />
-      </Result>
+      </Results>
     </main>
   );
 }

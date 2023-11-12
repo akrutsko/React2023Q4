@@ -1,3 +1,4 @@
+import { ChangeEvent } from 'react';
 import styles from './Pagination.module.css';
 
 type Props = {
@@ -22,7 +23,7 @@ export default function Pagination({
   const isPrevBtnDisabled = currentPage <= 1;
   const isNextBtnDisabled = currentPage >= pagesCount;
 
-  const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+  const handleChange = (e: ChangeEvent<HTMLSelectElement>) => {
     onLimitChage(+e.target.value);
   };
 

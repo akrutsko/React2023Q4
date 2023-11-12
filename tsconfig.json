@@ -2,14 +2,16 @@
   "compilerOptions": {
     "module": "ESNext",
     "resolveJsonModule": true,
+    "allowSyntheticDefaultImports": true,
     "moduleResolution": "bundler",
+    "types": ["vitest/globals"],
     "allowImportingTsExtensions": true,
     "noEmit": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "isolatedModules": true,
     "target": "ESNext",
-    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "lib": ["ESNext", "DOM", "DOM.Iterable"],
     "jsx": "react-jsx",
     "skipLibCheck": true,
     "strict": true

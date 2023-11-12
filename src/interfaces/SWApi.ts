@@ -7,14 +7,14 @@ export interface Data<T> {
 
 export interface Film {
   characters: string[] | Person[];
-  created: Date;
+  created: string;
   director: string;
-  edited: Date;
+  edited: string;
   episode_id: string;
   opening_crawl: string;
   planets: string[] | Planet[];
   producer: string;
-  release_date: Date;
+  release_string: string;
   species: string[] | Specie[];
   starships: string[] | Starship[];
   title: string;
@@ -33,8 +33,8 @@ export interface Person {
   mass: string;
   name: string;
   skin_color: string;
-  created: Date;
-  edited: Date;
+  created: string;
+  edited: string;
   species: string[] | Specie[];
   starships: string[] | Starship[];
   url: string;
@@ -43,9 +43,9 @@ export interface Person {
 
 export interface Planet {
   climate: string;
-  created: Date;
+  created: string;
   diameter: string;
-  edited: Date;
+  edited: string;
   films: string[] | Film[];
   gravity: string;
   name: string;
@@ -62,9 +62,9 @@ export interface Specie {
   average_height: string;
   average_lifespan: string;
   classification: string;
-  created: Date;
+  created: string;
   designation: string;
-  edited: Date;
+  edited: string;
   eye_colors: string;
   hair_colors: string;
   homeworld: string | Planet;
@@ -81,9 +81,9 @@ export interface Starship {
   cargo_capacity: string;
   consumables: string;
   cost_in_credits: string;
-  created: Date;
+  created: string;
   crew: string;
-  edited: Date;
+  edited: string;
   hyperdrive_rating: string;
   length: string;
   manufacturer: string;
@@ -101,9 +101,9 @@ export interface Vehicle {
   cargo_capacity: string;
   consumables: string;
   cost_in_credits: string;
-  created: Date;
+  created: string;
   crew: string;
-  edited: Date;
+  edited: string;
   length: string;
   manufacturer: string;
   max_atmosphering_speed: string;
