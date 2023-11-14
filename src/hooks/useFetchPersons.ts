@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
-import { fetchPeople } from '../services/api';
 import { usePersonsDispatch } from '.';
+import { fetchPeople } from '../services/api';
 import { setSearchTerm } from '../services/local-storage';
 
 export function useFetchPersons(
@@ -18,7 +18,7 @@ export function useFetchPersons(
 
     const fetch = async (search: string, page: number) => {
       setLoading(true);
-      setSearchTerm(searchTerm);
+      setSearchTerm(search);
       try {
         const { results, count } = await fetchPeople(search, page, limit, {
           signal,

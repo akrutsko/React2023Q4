@@ -19,7 +19,7 @@ describe('Search component', () => {
     render(
       <BrowserRouter>
         <SearchProvider>
-          <Search onClick={vi.fn} />
+          <Search onSearch={vi.fn} />
         </SearchProvider>
       </BrowserRouter>,
     );

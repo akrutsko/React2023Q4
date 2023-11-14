@@ -7,14 +7,16 @@ import Spinner from '../Spinner/Spinner';
 import NoResults from './NoResults/NoResults';
 import { usePersons } from '../../hooks';
 import Result from './Result/Result';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../app/store';
 
 type Props = {
   isLoading: boolean;
   children: ReactNode;
-  limit: number;
 };
 
-export default function Results({ isLoading, limit, children }: Props) {
+export default function Results({ isLoading, children }: Props) {
+  const limit = useSelector((state: RootState) => state.itemsPerPage.limit);
   const persons = usePersons();
 
   if (isLoading) return <Spinner />;

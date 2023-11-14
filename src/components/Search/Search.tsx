@@ -3,26 +3,27 @@ import logo from '../../assets/images/star-wars.png';
 import styles from './Search.module.css';
 
 import { useRef } from 'react';
-import { useSearch } from '../../hooks';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../app/store';
 
 type Props = {
-  onClick: (searchTerm: string) => void;
+  onSearch: (searchTerm: string) => void;
 };
 
-export default function Search({ onClick }: Props) {
-  const searchTerm = useSearch();
+export default function Search({ onSearch }: Props) {
+  const searchTerm = useSelector((state: RootState) => state.search.searchTerm);
   const textInput = useRef<HTMLInputElement>(null);
 
   const handleSearchClick = () => {
     const value = textInput.current?.value.trim() || '';
-    onClick(value);
+    onSearch(value);
   };
 
   const handleLogoClick = () => {
     if (textInput.current) {
       textInput.current.value = '';
     }
-    onClick('');
+    onSearch('');
   };
 
   return (

@@ -1,19 +1,20 @@
 import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useSearchParams } from 'react-router-dom';
+import { AppDispatch, RootState } from '../../app/store';
+import { setSearch } from '../../features';
+import { useFetchPersons } from '../../hooks';
 import Pagination from '../Pagination/Pagination';
 import Results from '../Results/Results';
 import Search from '../Search/Search';
-import { useFetchPersons, useSearch, useSearchDispatch } from '../../hooks';
-
-const INIT_PAGE = 1;
-const INIT_LIMIT = 10;
-const SEARCH_PARAM_PAGE = 'page';
+import { INIT_PAGE, SEARCH_PARAM_PAGE } from '../../app/constants/constants';
 
 export default function Main() {
-  const searchTerm = useSearch();
-  const setSearchTerm = useSearchDispatch();
+  const searchTerm = useSelector((state: RootState) => state.search.searchTerm);
+  const limit = useSelector((state: RootState) => state.itemsPerPage.limit);
+  const dispatch = useDispatch<AppDispatch>();
+
   const [currentPage, setCurrentPage] = useState(INIT_PAGE);
-  const [limit, setLimit] = useState(INIT_LIMIT);
   const [isLoading, totalResults] = useFetchPersons(
     searchTerm,
     currentPage,
@@ -22,21 +23,7 @@ export default function Main() {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const handleSearch = (search: string) => {
-    setSearchTerm(search);
-    initFirstPage();
-  };
-
-  const handleLimitChange = (limit: number) => {
-    setLimit(limit);
-    initFirstPage();
-  };
-
-  const handlePageChange = (page: number) => {
-    setCurrentPage(page);
-    setSearchParams({ [SEARCH_PARAM_PAGE]: page.toString() });
-  };
-
-  const initFirstPage = () => {
+    dispatch(setSearch(search));
     setCurrentPage(INIT_PAGE);
     searchParams.delete(SEARCH_PARAM_PAGE);
     setSearchParams(searchParams);
@@ -44,14 +31,12 @@ export default function Main() {
 
   return (
     <main>
-      <Search onClick={handleSearch} />
-      <Results isLoading={isLoading} limit={limit}>
+      <Search onSearch={handleSearch} />
+      <Results isLoading={isLoading}>
         <Pagination
           currentPage={currentPage}
           total={totalResults}
-          limit={limit}
-          onPageChange={handlePageChange}
-          onLimitChage={handleLimitChange}
+          setPage={setCurrentPage}
         />
       </Results>
     </main>
