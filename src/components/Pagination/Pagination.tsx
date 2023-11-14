@@ -1,14 +1,14 @@
-import { ChangeEvent, Dispatch, SetStateAction } from 'react';
 import styles from './Pagination.module.css';
-import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch, RootState } from '../../app/store';
-import { setItemsPerPage } from '../../features';
+
+import { ChangeEvent, Dispatch, SetStateAction } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import {
   INIT_PAGE,
   LIMIT_PER_PAGE,
   SEARCH_PARAM_PAGE,
 } from '../../app/constants/constants';
-import { useSearchParams } from 'react-router-dom';
+import { limitChanged } from '../../features';
+import { useAppDispatch, useAppSelector } from '../../hooks';
 
 type Props = {
   currentPage: number;
@@ -17,8 +17,8 @@ type Props = {
 };
 
 export default function Pagination({ currentPage, total, setPage }: Props) {
-  const limit = useSelector((state: RootState) => state.itemsPerPage.limit);
-  const dispatch = useDispatch<AppDispatch>();
+  const limit = useAppSelector((state) => state.limit.limit);
+  const dispatch = useAppDispatch();
 
   const [searchParams, setSearchParams] = useSearchParams();
 
@@ -29,7 +29,7 @@ export default function Pagination({ currentPage, total, setPage }: Props) {
   const handleLimitChange = (e: ChangeEvent<HTMLSelectElement>) => {
     const { value } = e.target;
 
-    dispatch(setItemsPerPage(+value));
+    dispatch(limitChanged(+value));
 
     setPage(INIT_PAGE);
     searchParams.delete(SEARCH_PARAM_PAGE);

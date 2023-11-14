@@ -1,6 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
 import {
-  itemsPerPageReducer,
+  limitReducer,
   loadingReducer,
   searchReducer,
   viewReducer,
@@ -9,7 +9,7 @@ import {
 export const store = configureStore({
   reducer: {
     search: searchReducer,
-    itemsPerPage: itemsPerPageReducer,
+    limit: limitReducer,
     view: viewReducer,
     loading: loadingReducer,
   },

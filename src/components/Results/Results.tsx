@@ -2,13 +2,11 @@ import styles from './Results.module.css';
 
 import { ReactNode } from 'react';
 import { Outlet } from 'react-router-dom';
+import { useAppSelector, usePersons } from '../../hooks';
 import { Person } from '../../interfaces/SWApi';
 import Spinner from '../Spinner/Spinner';
 import NoResults from './NoResults/NoResults';
-import { usePersons } from '../../hooks';
 import Result from './Result/Result';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../app/store';
 
 type Props = {
   isLoading: boolean;
@@ -16,7 +14,7 @@ type Props = {
 };
 
 export default function Results({ isLoading, children }: Props) {
-  const limit = useSelector((state: RootState) => state.itemsPerPage.limit);
+  const limit = useAppSelector((state) => state.limit.limit);
   const persons = usePersons();
 
   if (isLoading) return <Spinner />;

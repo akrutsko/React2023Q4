@@ -12,11 +12,11 @@ const viewSlice = createSlice({
   name: 'view',
   initialState,
   reducers: {
-    setView: (state: ViewState, action: PayloadAction<boolean>) => {
+    viewDisplayed: (state: ViewState, action: PayloadAction<boolean>) => {
       state.mode = action.payload;
     },
   },
 });
 
-export const { setView } = viewSlice.actions;
+export const { viewDisplayed } = viewSlice.actions;
 export default viewSlice.reducer;
