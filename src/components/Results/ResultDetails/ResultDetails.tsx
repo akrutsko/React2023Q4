@@ -1,4 +1,7 @@
+import { useDispatch } from 'react-redux';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { AppDispatch } from '../../../app/store';
+import { setView } from '../../../features';
 import { useFetchPerson } from '../../../hooks';
 import NotFound from '../../NotFound/NotFound';
 import Spinner from '../../Spinner/Spinner';
@@ -11,7 +14,11 @@ export default function ResultDetails() {
   const navigate = useNavigate();
   const { search } = useLocation();
 
+  const dispatch = useDispatch<AppDispatch>();
+  dispatch(setView(true));
+
   const handleClick = () => {
+    dispatch(setView(false));
     navigate(`/${search}`);
   };
 
