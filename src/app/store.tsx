@@ -1,11 +1,17 @@
 import { configureStore } from '@reduxjs/toolkit';
-import { itemsPerPageReducer, searchReducer, viewReducer } from '../features';
+import {
+  itemsPerPageReducer,
+  loadingReducer,
+  searchReducer,
+  viewReducer,
+} from '../features';
 
 export const store = configureStore({
   reducer: {
     search: searchReducer,
     itemsPerPage: itemsPerPageReducer,
     view: viewReducer,
+    loading: loadingReducer,
   },
 });
 

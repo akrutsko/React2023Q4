@@ -22,5 +22,4 @@ const itemsPerPageSlice = createSlice({
 });
 
 export const { setItemsPerPage } = itemsPerPageSlice.actions;
-
 export default itemsPerPageSlice.reducer;
