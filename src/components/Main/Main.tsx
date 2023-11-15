@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { INIT_PAGE } from '../../app/constants/constants';
+import { INIT_PAGE } from '../../constants/constants';
 import { selectLimit } from '../../features/limitSlice';
 import { selectSearch } from '../../features/searchSlice';
 import { useAppSelector, useFetchPersons } from '../../hooks';

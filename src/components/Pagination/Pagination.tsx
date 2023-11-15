@@ -6,7 +6,7 @@ import {
   INIT_PAGE,
   LIMIT_PER_PAGE,
   SEARCH_PARAM_PAGE,
-} from '../../app/constants/constants';
+} from '../../constants/constants';
 import { limitChanged, selectLimit } from '../../features/limitSlice';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 

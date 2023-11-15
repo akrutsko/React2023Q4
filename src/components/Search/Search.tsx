@@ -3,7 +3,7 @@ import styles from './Search.module.css';
 
 import { Dispatch, SetStateAction, useRef } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
-import { INIT_PAGE, SEARCH_PARAM_PAGE } from '../../app/constants/constants';
+import { INIT_PAGE, SEARCH_PARAM_PAGE } from '../../constants/constants';
 import { searchChanged, selectSearch } from '../../features/searchSlice';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 

@@ -1,11 +1,11 @@
 import './App.css';
 
 import { Provider } from 'react-redux';
-import ErrorBoundary from '../components/ErrorBoundary/ErrorBoundary';
-import ErrorButton from '../components/ErrorButton/ErrorButton';
-import Main from '../components/Main/Main';
-import PersonsProvider from '../contexts/PersonsContext';
-import { store } from './store';
+import ErrorBoundary from './components/ErrorBoundary/ErrorBoundary';
+import ErrorButton from './components/ErrorButton/ErrorButton';
+import Main from './components/Main/Main';
+import PersonsProvider from './contexts/PersonsContext';
+import { store } from './app/store';
 
 export default function App() {
   console.log('initialState ', store.getState());
