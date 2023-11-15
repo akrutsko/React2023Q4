@@ -13,7 +13,7 @@ const viewSlice = createSlice({
   name: 'view',
   initialState,
   reducers: {
-    viewDisplayed: (state: ViewState, action: PayloadAction<boolean>) => {
+    viewDisplayed(state: ViewState, action: PayloadAction<boolean>) {
       state.mode = action.payload;
     },
   },

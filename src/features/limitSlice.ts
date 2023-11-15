@@ -13,7 +13,7 @@ const limitSlice = createSlice({
   name: 'limit',
   initialState,
   reducers: {
-    limitChanged: (state: LimitState, action: PayloadAction<number>) => {
+    limitChanged(state: LimitState, action: PayloadAction<number>) {
       state.limit = action.payload;
     },
   },

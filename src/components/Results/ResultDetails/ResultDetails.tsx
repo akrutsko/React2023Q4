@@ -5,6 +5,7 @@ import { viewDisplayed } from '../../../features/viewSlice';
 import { useAppDispatch, useFetchPerson } from '../../../hooks';
 import NotFound from '../../NotFound/NotFound';
 import Spinner from '../../Spinner/Spinner';
+import { useEffect } from 'react';
 
 export default function ResultDetails() {
   const { id } = useParams() as { id: string };
@@ -14,10 +15,15 @@ export default function ResultDetails() {
   const { search } = useLocation();
 
   const dispatch = useAppDispatch();
-  dispatch(viewDisplayed(true));
+
+  useEffect(() => {
+    dispatch(viewDisplayed(true));
+    return () => {
+      dispatch(viewDisplayed(false));
+    };
+  }, [dispatch]);
 
   const handleClick = () => {
-    dispatch(viewDisplayed(false));
     navigate(`/${search}`);
   };
 
