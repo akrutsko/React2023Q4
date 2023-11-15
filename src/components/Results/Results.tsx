@@ -2,6 +2,7 @@ import styles from './Results.module.css';
 
 import { ReactNode } from 'react';
 import { Outlet } from 'react-router-dom';
+import { selectLimit } from '../../features/limitSlice';
 import { useAppSelector, usePersons } from '../../hooks';
 import { Person } from '../../interfaces/SWApi';
 import Spinner from '../Spinner/Spinner';
@@ -14,7 +15,7 @@ type Props = {
 };
 
 export default function Results({ isLoading, children }: Props) {
-  const limit = useAppSelector((state) => state.limit.limit);
+  const limit = useAppSelector(selectLimit);
   const persons = usePersons();
 
   if (isLoading) return <Spinner />;

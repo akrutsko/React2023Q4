@@ -4,7 +4,7 @@ import styles from './Search.module.css';
 import { Dispatch, SetStateAction, useRef } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { INIT_PAGE, SEARCH_PARAM_PAGE } from '../../app/constants/constants';
-import { searchChanged } from '../../features';
+import { searchChanged, selectSearch } from '../../features/searchSlice';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 
 type Props = {
@@ -13,7 +13,7 @@ type Props = {
 
 export default function Search({ setPage }: Props) {
   const textInput = useRef<HTMLInputElement>(null);
-  const searchTerm = useAppSelector((state) => state.search.searchTerm);
+  const searchTerm = useAppSelector(selectSearch);
   const dispatch = useAppDispatch();
   const [searchParams, setSearchParams] = useSearchParams();
 

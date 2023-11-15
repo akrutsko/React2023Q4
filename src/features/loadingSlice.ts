@@ -1,17 +1,14 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
+import { RootState } from '../app/store';
 
 type LoadingState = {
-  loading: {
-    main: boolean;
-    details: boolean;
-  };
+  main: boolean;
+  details: boolean;
 };
 
 const initialState: LoadingState = {
-  loading: {
-    main: false,
-    details: false,
-  },
+  main: false,
+  details: false,
 };
 
 const loadSlice = createSlice({
@@ -19,13 +16,15 @@ const loadSlice = createSlice({
   initialState,
   reducers: {
     loadingMain: (state: LoadingState, action: PayloadAction<boolean>) => {
-      state.loading.main = action.payload;
+      state.main = action.payload;
     },
     loadingDetails: (state: LoadingState, action: PayloadAction<boolean>) => {
-      state.loading.details = action.payload;
+      state.details = action.payload;
     },
   },
 });
 
 export const { loadingMain, loadingDetails } = loadSlice.actions;
+export const selectLoadingMain = (state: RootState) => state.loading.main;
+export const selectLoadingDetails = (state: RootState) => state.loading.details;
 export default loadSlice.reducer;

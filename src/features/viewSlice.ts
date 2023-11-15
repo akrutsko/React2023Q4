@@ -1,4 +1,5 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
+import { RootState } from '../app/store';
 
 type ViewState = {
   mode: boolean;
@@ -19,4 +20,5 @@ const viewSlice = createSlice({
 });
 
 export const { viewDisplayed } = viewSlice.actions;
+export const selectView = (state: RootState) => state.view.mode;
 export default viewSlice.reducer;

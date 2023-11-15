@@ -1,5 +1,6 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { getSearchTerm } from '../services/local-storage';
+import { RootState } from '../app/store';
 
 type SearchState = {
   searchTerm: string;
@@ -23,4 +24,5 @@ const searchSlice = createSlice({
 });
 
 export const { searchChanged, searchCleared } = searchSlice.actions;
+export const selectSearch = (state: RootState) => state.search.searchTerm;
 export default searchSlice.reducer;

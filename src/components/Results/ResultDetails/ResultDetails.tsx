@@ -1,9 +1,10 @@
+import styles from './ResultDetails.module.css';
+
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
-import { viewDisplayed } from '../../../features';
+import { viewDisplayed } from '../../../features/viewSlice';
 import { useAppDispatch, useFetchPerson } from '../../../hooks';
 import NotFound from '../../NotFound/NotFound';
 import Spinner from '../../Spinner/Spinner';
-import styles from './ResultDetails.module.css';
 
 export default function ResultDetails() {
   const { id } = useParams() as { id: string };

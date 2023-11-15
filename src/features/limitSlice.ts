@@ -1,4 +1,5 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
+import { RootState } from '../app/store';
 
 type LimitState = {
   limit: number;
@@ -19,4 +20,5 @@ const limitSlice = createSlice({
 });
 
 export const { limitChanged } = limitSlice.actions;
+export const selectLimit = (state: RootState) => state.limit.limit;
 export default limitSlice.reducer;

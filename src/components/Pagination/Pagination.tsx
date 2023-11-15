@@ -7,7 +7,7 @@ import {
   LIMIT_PER_PAGE,
   SEARCH_PARAM_PAGE,
 } from '../../app/constants/constants';
-import { limitChanged } from '../../features';
+import { limitChanged, selectLimit } from '../../features/limitSlice';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 
 type Props = {
@@ -17,7 +17,7 @@ type Props = {
 };
 
 export default function Pagination({ currentPage, total, setPage }: Props) {
-  const limit = useAppSelector((state) => state.limit.limit);
+  const limit = useAppSelector(selectLimit);
   const dispatch = useAppDispatch();
 
   const [searchParams, setSearchParams] = useSearchParams();
