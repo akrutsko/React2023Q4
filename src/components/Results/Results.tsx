@@ -1,31 +1,60 @@
 import styles from './Results.module.css';
 
-import { ReactNode } from 'react';
+import { useEffect } from 'react';
 import { Outlet } from 'react-router-dom';
 import { selectLimit } from '../../features/limitSlice';
-import { useAppSelector, usePersons } from '../../hooks';
+import { loadingMain } from '../../features/loadingSlice';
+import { selectPage } from '../../features/pageSlice';
+import { selectSearch } from '../../features/searchSlice';
+import { useAppDispatch, useAppSelector } from '../../hooks';
 import { Person } from '../../interfaces/SWApi';
+import { useGetPeopleQuery } from '../../services/api';
+import Pagination from '../Pagination/Pagination';
 import Spinner from '../Spinner/Spinner';
 import NoResults from './NoResults/NoResults';
 import Result from './Result/Result';
 
-type Props = {
-  isLoading: boolean;
-  children: ReactNode;
+const initialData = {
+  count: 0,
+  next: '',
+  previous: '',
+  results: [],
 };
 
-export default function Results({ isLoading, children }: Props) {
+let n = 1;
+
+export default function Results() {
+  // TODO remove logs
+  console.log('RENDER: ', n++);
+  const dispatch = useAppDispatch();
+  const searchTerm = useAppSelector(selectSearch);
   const limit = useAppSelector(selectLimit);
-  const persons = usePersons();
+  const currentPage = useAppSelector(selectPage);
+
+  const searchParams = new URLSearchParams();
+  searchTerm && searchParams.append('search', searchTerm);
+  limit && searchParams.append('limit', limit.toString());
+  currentPage && searchParams.append('page', currentPage.toString());
+
+  console.log('searchParams:', searchParams.toString());
+
+  const { isLoading, data = initialData } = useGetPeopleQuery(
+    searchParams.toString() || '',
+  );
+  console.log('isLoading after hook:', isLoading);
+  const persons = [...data.results] as Person[];
+
+  useEffect(() => {
+    dispatch(loadingMain(isLoading));
+  }, [dispatch, isLoading]);
 
   if (isLoading) return <Spinner />;
   if (!persons.length) return <NoResults />;
-
   persons.length = limit;
 
   return (
     <section className={styles.wrapper}>
-      {children}
+      <Pagination total={82} />
       <h1 className={styles.title}>Search Results</h1>
       <div className={styles['results-wrapper']}>
         <ul className={styles.results}>

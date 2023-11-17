@@ -1,6 +1,6 @@
 import styles from './Pagination.module.css';
 
-import { ChangeEvent, Dispatch, SetStateAction } from 'react';
+import { ChangeEvent } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import {
   INIT_PAGE,
@@ -8,16 +8,16 @@ import {
   SEARCH_PARAM_PAGE,
 } from '../../constants/constants';
 import { limitChanged, selectLimit } from '../../features/limitSlice';
+import { pageUpdated, selectPage } from '../../features/pageSlice';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 
 type Props = {
-  currentPage: number;
   total: number;
-  setPage: Dispatch<SetStateAction<number>>;
 };
 
-export default function Pagination({ currentPage, total, setPage }: Props) {
+export default function Pagination({ total }: Props) {
   const limit = useAppSelector(selectLimit);
+  const currentPage = useAppSelector(selectPage);
   const dispatch = useAppDispatch();
 
   const [searchParams, setSearchParams] = useSearchParams();
@@ -30,14 +30,14 @@ export default function Pagination({ currentPage, total, setPage }: Props) {
     const { value } = e.target;
 
     dispatch(limitChanged(+value));
+    dispatch(pageUpdated(INIT_PAGE));
 
-    setPage(INIT_PAGE);
     searchParams.delete(SEARCH_PARAM_PAGE);
     setSearchParams(searchParams);
   };
 
   const handlePageChange = (pageNumber: number) => {
-    setPage(pageNumber);
+    dispatch(pageUpdated(pageNumber));
     setSearchParams({ [SEARCH_PARAM_PAGE]: String(pageNumber) });
   };
 

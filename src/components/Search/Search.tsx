@@ -1,26 +1,24 @@
 import logo from '../../assets/images/star-wars.png';
 import styles from './Search.module.css';
 
-import { Dispatch, SetStateAction, useRef } from 'react';
+import { useRef } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { INIT_PAGE, SEARCH_PARAM_PAGE } from '../../constants/constants';
+import { pageUpdated } from '../../features/pageSlice';
 import { searchChanged, selectSearch } from '../../features/searchSlice';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 
-type Props = {
-  setPage: Dispatch<SetStateAction<number>>;
-};
-
-export default function Search({ setPage }: Props) {
+export default function Search() {
   const textInput = useRef<HTMLInputElement>(null);
+  const [searchParams, setSearchParams] = useSearchParams();
+
   const searchTerm = useAppSelector(selectSearch);
   const dispatch = useAppDispatch();
-  const [searchParams, setSearchParams] = useSearchParams();
 
   const handleSearchClick = () => {
     const value = textInput.current?.value.trim() || '';
     dispatch(searchChanged(value));
-    setPage(INIT_PAGE);
+    dispatch(pageUpdated(INIT_PAGE));
     searchParams.delete(SEARCH_PARAM_PAGE);
     setSearchParams(searchParams);
   };
