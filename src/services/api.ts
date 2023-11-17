@@ -7,12 +7,9 @@ export const peopleApi = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: BASE_URL }),
   endpoints: (build) => ({
     getPeople: build.query({
-      query: (searchParams: string) => {
-        return (
-          `/${ResourcesType.People}` +
-          (searchParams ? `?${new URLSearchParams(searchParams)}` : '')
-        );
-      },
+      query: (searchParams: string) =>
+        `/${ResourcesType.People}` +
+        (searchParams ? `?${new URLSearchParams(searchParams)}` : ''),
     }),
     getPerson: build.query({
       query: (id: string) => `/${ResourcesType.People}/${id}`,
