@@ -4,7 +4,6 @@ import {
   loadingReducer,
   pageReducer,
   searchReducer,
-  viewReducer,
 } from '../features';
 import { peopleApi } from '../services/api';
 
@@ -12,7 +11,6 @@ export const store = configureStore({
   reducer: {
     search: searchReducer,
     limit: limitReducer,
-    view: viewReducer,
     loading: loadingReducer,
     page: pageReducer,
     [peopleApi.reducerPath]: peopleApi.reducer,

@@ -1,11 +1,9 @@
 import styles from './ResultDetails.module.css';
 
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
-import { viewDisplayed } from '../../../features/viewSlice';
-import { useAppDispatch, useFetchPerson } from '../../../hooks';
+import { useFetchPerson } from '../../../hooks';
 import NotFound from '../../NotFound/NotFound';
 import Spinner from '../../Spinner/Spinner';
-import { useEffect } from 'react';
 
 export default function ResultDetails() {
   const { id } = useParams() as { id: string };
@@ -13,15 +11,6 @@ export default function ResultDetails() {
 
   const navigate = useNavigate();
   const { search } = useLocation();
-
-  const dispatch = useAppDispatch();
-
-  useEffect(() => {
-    dispatch(viewDisplayed(true));
-    return () => {
-      dispatch(viewDisplayed(false));
-    };
-  }, [dispatch]);
 
   const handleClick = () => {
     navigate(`/${search}`);
