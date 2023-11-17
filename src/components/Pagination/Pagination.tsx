@@ -9,8 +9,7 @@ import {
 } from '../../constants/constants';
 import { selectLimit } from '../../features/limitSlice';
 import { selectPage } from '../../features/pageSlice';
-import { useAppSelector } from '../../hooks';
-import { useActions } from '../../hooks/useActions';
+import { useActions, useAppSelector } from '../../hooks';
 
 type Props = {
   total: number;

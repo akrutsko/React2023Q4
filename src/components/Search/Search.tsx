@@ -5,8 +5,7 @@ import { useRef } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { INIT_PAGE, SEARCH_PARAM_PAGE } from '../../constants/constants';
 import { selectSearch } from '../../features/searchSlice';
-import { useAppSelector } from '../../hooks';
-import { useActions } from '../../hooks/useActions';
+import { useActions, useAppSelector } from '../../hooks';
 import { setSearchTerm } from '../../services/local-storage';
 
 export default function Search() {

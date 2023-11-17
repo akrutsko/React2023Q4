@@ -2,7 +2,7 @@ import styles from './ResultDetails.module.css';
 
 import { useEffect } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
-import { useActions } from '../../../hooks/useActions';
+import { useActions } from '../../../hooks';
 import { Person } from '../../../interfaces/SWApi';
 import { useGetPersonQuery } from '../../../services/api';
 import NotFound from '../../NotFound/NotFound';

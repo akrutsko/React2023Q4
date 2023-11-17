@@ -5,7 +5,7 @@ import { loadingDetails, loadingMain } from '../features/loadingSlice';
 import { pageUpdated } from '../features/pageSlice';
 import { searchChanged, searchCleared } from '../features/searchSlice';
 
-export const useActions = () => {
+const useActions = () => {
   const dispatch = useAppDispatch();
   return bindActionCreators(
     {
@@ -19,3 +19,5 @@ export const useActions = () => {
     dispatch,
   );
 };
+
+export default useActions;
