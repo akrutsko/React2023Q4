@@ -1,6 +1,6 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { getSearchTerm } from '../services/local-storage';
-import { RootState } from '../app/store';
+import { RootState } from '../store/store';
 
 type SearchState = {
   searchTerm: string;

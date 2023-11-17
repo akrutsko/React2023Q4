@@ -21,11 +21,7 @@ const initialData = {
   results: [],
 };
 
-let n = 1;
-
 export default function Results() {
-  // TODO remove logs
-  console.log('RENDER: ', n++);
   const dispatch = useAppDispatch();
   const searchTerm = useAppSelector(selectSearch);
   const limit = useAppSelector(selectLimit);
