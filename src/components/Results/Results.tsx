@@ -3,10 +3,10 @@ import styles from './Results.module.css';
 import { useEffect } from 'react';
 import { Outlet } from 'react-router-dom';
 import { selectLimit } from '../../features/limitSlice';
-import { loadingMain } from '../../features/loadingSlice';
 import { selectPage } from '../../features/pageSlice';
 import { selectSearch } from '../../features/searchSlice';
-import { useAppDispatch, useAppSelector } from '../../hooks';
+import { useAppSelector } from '../../hooks';
+import { useActions } from '../../hooks/useActions';
 import { Person } from '../../interfaces/SWApi';
 import { useGetPeopleQuery } from '../../services/api';
 import Pagination from '../Pagination/Pagination';
@@ -14,15 +14,8 @@ import Spinner from '../Spinner/Spinner';
 import NoResults from './NoResults/NoResults';
 import Result from './Result/Result';
 
-const initialData = {
-  count: 0,
-  next: '',
-  previous: '',
-  results: [],
-};
-
 export default function Results() {
-  const dispatch = useAppDispatch();
+  const { loadingMain } = useActions();
   const searchTerm = useAppSelector(selectSearch);
   const limit = useAppSelector(selectLimit);
   const currentPage = useAppSelector(selectPage);
@@ -32,17 +25,16 @@ export default function Results() {
   limit && searchParams.append('limit', limit.toString());
   currentPage && searchParams.append('page', currentPage.toString());
 
-  const { isFetching, data = initialData } = useGetPeopleQuery(
-    searchParams.toString() || '',
-  );
-  const persons = [...data.results] as Person[];
+  const { isFetching, data } = useGetPeopleQuery(searchParams.toString());
 
   useEffect(() => {
-    dispatch(loadingMain(isFetching));
-  }, [dispatch, isFetching]);
+    loadingMain(isFetching);
+  }, [loadingMain, isFetching]);
 
   if (isFetching) return <Spinner />;
-  if (!persons.length) return <NoResults />;
+
+  const persons = [...data.results] as Person[];
+  if (!persons) return <NoResults />;
   persons.length = limit;
 
   return (

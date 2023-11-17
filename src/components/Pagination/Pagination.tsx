@@ -7,9 +7,10 @@ import {
   LIMIT_PER_PAGE,
   SEARCH_PARAM_PAGE,
 } from '../../constants/constants';
-import { limitChanged, selectLimit } from '../../features/limitSlice';
-import { pageUpdated, selectPage } from '../../features/pageSlice';
-import { useAppDispatch, useAppSelector } from '../../hooks';
+import { selectLimit } from '../../features/limitSlice';
+import { selectPage } from '../../features/pageSlice';
+import { useAppSelector } from '../../hooks';
+import { useActions } from '../../hooks/useActions';
 
 type Props = {
   total: number;
@@ -18,7 +19,7 @@ type Props = {
 export default function Pagination({ total }: Props) {
   const limit = useAppSelector(selectLimit);
   const currentPage = useAppSelector(selectPage);
-  const dispatch = useAppDispatch();
+  const { limitChanged, pageUpdated } = useActions();
 
   const [searchParams, setSearchParams] = useSearchParams();
 
@@ -29,15 +30,15 @@ export default function Pagination({ total }: Props) {
   const handleLimitChange = (e: ChangeEvent<HTMLSelectElement>) => {
     const { value } = e.target;
 
-    dispatch(limitChanged(+value));
-    dispatch(pageUpdated(INIT_PAGE));
+    limitChanged(+value);
+    pageUpdated(INIT_PAGE);
 
     searchParams.delete(SEARCH_PARAM_PAGE);
     setSearchParams(searchParams);
   };
 
   const handlePageChange = (pageNumber: number) => {
-    dispatch(pageUpdated(pageNumber));
+    pageUpdated(pageNumber);
     setSearchParams({ [SEARCH_PARAM_PAGE]: String(pageNumber) });
   };
 

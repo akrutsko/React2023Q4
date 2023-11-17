@@ -2,8 +2,7 @@ import styles from './ResultDetails.module.css';
 
 import { useEffect } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
-import { loadingDetails } from '../../../features/loadingSlice';
-import { useAppDispatch } from '../../../hooks';
+import { useActions } from '../../../hooks/useActions';
 import { Person } from '../../../interfaces/SWApi';
 import { useGetPersonQuery } from '../../../services/api';
 import NotFound from '../../NotFound/NotFound';
@@ -12,15 +11,15 @@ import Spinner from '../../Spinner/Spinner';
 export default function ResultDetails() {
   const { id } = useParams() as { id: string };
 
-  const dispatch = useAppDispatch();
+  const { loadingDetails } = useActions();
   const { data, isFetching, isError } = useGetPersonQuery(id);
 
   const navigate = useNavigate();
   const { search } = useLocation();
 
   useEffect(() => {
-    dispatch(loadingDetails(isFetching));
-  }, [dispatch, isFetching]);
+    loadingDetails(isFetching);
+  }, [loadingDetails, isFetching]);
 
   const handleClick = () => {
     navigate(`/${search}`);

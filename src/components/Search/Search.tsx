@@ -4,9 +4,9 @@ import styles from './Search.module.css';
 import { useRef } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { INIT_PAGE, SEARCH_PARAM_PAGE } from '../../constants/constants';
-import { pageUpdated } from '../../features/pageSlice';
-import { searchChanged, selectSearch } from '../../features/searchSlice';
-import { useAppDispatch, useAppSelector } from '../../hooks';
+import { selectSearch } from '../../features/searchSlice';
+import { useAppSelector } from '../../hooks';
+import { useActions } from '../../hooks/useActions';
 import { setSearchTerm } from '../../services/local-storage';
 
 export default function Search() {
@@ -14,14 +14,14 @@ export default function Search() {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const searchTerm = useAppSelector(selectSearch);
-  const dispatch = useAppDispatch();
+  const { searchChanged, pageUpdated } = useActions();
 
   const handleSearchClick = () => {
     const value = textInput.current?.value.trim() || '';
     setSearchTerm(value);
 
-    dispatch(searchChanged(value));
-    dispatch(pageUpdated(INIT_PAGE));
+    searchChanged(value);
+    pageUpdated(INIT_PAGE);
 
     searchParams.delete(SEARCH_PARAM_PAGE);
     setSearchParams(searchParams);
