@@ -8,8 +8,7 @@ export const peopleApi = createApi({
   endpoints: (build) => ({
     getPeople: build.query({
       query: (searchParams: string) =>
-        `/${ResourcesType.People}` +
-        (searchParams ? `?${new URLSearchParams(searchParams)}` : ''),
+        `/${ResourcesType.People}` + (searchParams ? `?${searchParams}` : ''),
     }),
     getPerson: build.query({
       query: (id: string) => `/${ResourcesType.People}/${id}`,
