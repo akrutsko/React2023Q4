@@ -7,7 +7,7 @@ import { selectPage } from '../../features/pageSlice';
 import { selectSearch } from '../../features/searchSlice';
 import { useAppSelector } from '../../hooks';
 import { useActions } from '../../hooks/useActions';
-import { Person } from '../../interfaces/SWApi';
+import { Data, Person } from '../../interfaces/SWApi';
 import { useGetPeopleQuery } from '../../services/api';
 import Pagination from '../Pagination/Pagination';
 import Spinner from '../Spinner/Spinner';
@@ -25,21 +25,25 @@ export default function Results() {
   limit && searchParams.append('limit', limit.toString());
   currentPage && searchParams.append('page', currentPage.toString());
 
-  const { isFetching, data } = useGetPeopleQuery(searchParams.toString());
+  const { isFetching, data, isError } = useGetPeopleQuery(
+    searchParams.toString(),
+  );
+  const res = data as Data<Person>;
 
   useEffect(() => {
     loadingMain(isFetching);
   }, [loadingMain, isFetching]);
 
   if (isFetching) return <Spinner />;
+  if (isError) return <NoResults />;
 
-  const persons = [...data.results] as Person[];
-  if (!persons) return <NoResults />;
+  const persons = [...res.results];
+  if (!persons.length) return <NoResults />;
   persons.length = limit;
 
   return (
     <section className={styles.wrapper}>
-      <Pagination total={82} />
+      <Pagination total={res.count} />
       <h1 className={styles.title}>Search Results</h1>
       <div className={styles['results-wrapper']}>
         <ul className={styles.results}>

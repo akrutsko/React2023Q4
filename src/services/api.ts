@@ -8,7 +8,6 @@ export const peopleApi = createApi({
   endpoints: (build) => ({
     getPeople: build.query({
       query: (searchParams: string) => {
-        console.log('API searchParams:', searchParams);
         return (
           `/${ResourcesType.People}` +
           (searchParams ? `?${new URLSearchParams(searchParams)}` : '')
