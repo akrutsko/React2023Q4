@@ -15,10 +15,10 @@ const loadSlice = createSlice({
   name: 'loading',
   initialState,
   reducers: {
-    loadingMain(state: LoadingState, action: PayloadAction<boolean>) {
+    loadingMain(state, action: PayloadAction<boolean>) {
       state.main = action.payload;
     },
-    loadingDetails(state: LoadingState, action: PayloadAction<boolean>) {
+    loadingDetails(state, action: PayloadAction<boolean>) {
       state.details = action.payload;
     },
   },

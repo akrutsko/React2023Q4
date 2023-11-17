@@ -14,10 +14,10 @@ const searchSlice = createSlice({
   name: 'search',
   initialState,
   reducers: {
-    searchChanged(state: SearchState, action: PayloadAction<string>) {
+    searchChanged(state, action: PayloadAction<string>) {
       state.searchTerm = action.payload;
     },
-    searchCleared(state: SearchState) {
+    searchCleared(state) {
       state.searchTerm = '';
     },
   },
