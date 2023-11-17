@@ -3,7 +3,6 @@ import styles from './ResultDetails.module.css';
 import { useEffect } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useActions } from '../../../hooks';
-import { Person } from '../../../interfaces/SWApi';
 import { useGetPersonQuery } from '../../../services/api';
 import NotFound from '../../NotFound/NotFound';
 import Spinner from '../../Spinner/Spinner';
@@ -26,10 +25,9 @@ export default function ResultDetails() {
   };
 
   if (isFetching) return <Spinner />;
-  if (isError) return <NotFound />;
+  if (isError || !data) return <NotFound />;
 
-  const { name, eye_color, gender, hair_color, height, skin_color } =
-    data as Person;
+  const { name, eye_color, gender, hair_color, height, skin_color } = data;
   return (
     <div className={styles.wrapper}>
       <ul>

@@ -6,7 +6,6 @@ import { selectLimit } from '../../features/limitSlice';
 import { selectPage } from '../../features/pageSlice';
 import { selectSearch } from '../../features/searchSlice';
 import { useActions, useAppSelector } from '../../hooks';
-import { Data, Person } from '../../interfaces/SWApi';
 import { useGetPeopleQuery } from '../../services/api';
 import Pagination from '../Pagination/Pagination';
 import Spinner from '../Spinner/Spinner';
@@ -27,26 +26,25 @@ export default function Results() {
   const { isFetching, data, isError } = useGetPeopleQuery(
     searchParams.toString(),
   );
-  const res = data as Data<Person>;
 
   useEffect(() => {
     loadingMain(isFetching);
   }, [loadingMain, isFetching]);
 
   if (isFetching) return <Spinner />;
-  if (isError) return <NoResults />;
+  if (isError || !data) return <NoResults />;
 
-  const persons = [...res.results];
+  const persons = [...data.results];
   if (!persons.length) return <NoResults />;
   persons.length = limit;
 
   return (
     <section className={styles.wrapper}>
-      <Pagination total={res.count} />
+      <Pagination total={data.count} />
       <h1 className={styles.title}>Search Results</h1>
       <div className={styles['results-wrapper']}>
         <ul className={styles.results}>
-          {persons.map((person: Person) => {
+          {persons.map((person) => {
             const { name, birth_year, url } = person;
             return (
               <Result
