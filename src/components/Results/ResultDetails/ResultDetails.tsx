@@ -1,26 +1,36 @@
 import styles from './ResultDetails.module.css';
 
+import { useEffect } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
-import { useFetchPerson } from '../../../hooks';
+import { loadingDetails } from '../../../features/loadingSlice';
+import { useAppDispatch } from '../../../hooks';
+import { Person } from '../../../interfaces/SWApi';
+import { useGetPersonQuery } from '../../../services/api';
 import NotFound from '../../NotFound/NotFound';
 import Spinner from '../../Spinner/Spinner';
 
 export default function ResultDetails() {
   const { id } = useParams() as { id: string };
-  const [person, error, isLoading] = useFetchPerson(+id);
+
+  const dispatch = useAppDispatch();
+  const { data, isFetching, isError } = useGetPersonQuery(id);
 
   const navigate = useNavigate();
   const { search } = useLocation();
+
+  useEffect(() => {
+    dispatch(loadingDetails(isFetching));
+  }, [dispatch, isFetching]);
 
   const handleClick = () => {
     navigate(`/${search}`);
   };
 
-  if (isLoading) return <Spinner />;
-  if (error) return <NotFound />;
-  if (!person) return null;
+  if (isFetching) return <Spinner />;
+  if (isError) return <NotFound />;
 
-  const { name, eye_color, gender, hair_color, height, skin_color } = person;
+  const { name, eye_color, gender, hair_color, height, skin_color } =
+    data as Person;
   return (
     <div className={styles.wrapper}>
       <ul>

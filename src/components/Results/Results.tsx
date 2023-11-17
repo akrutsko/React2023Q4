@@ -36,19 +36,16 @@ export default function Results() {
   limit && searchParams.append('limit', limit.toString());
   currentPage && searchParams.append('page', currentPage.toString());
 
-  console.log('searchParams:', searchParams.toString());
-
-  const { isLoading, data = initialData } = useGetPeopleQuery(
+  const { isFetching, data = initialData } = useGetPeopleQuery(
     searchParams.toString() || '',
   );
-  console.log('isLoading after hook:', isLoading);
   const persons = [...data.results] as Person[];
 
   useEffect(() => {
-    dispatch(loadingMain(isLoading));
-  }, [dispatch, isLoading]);
+    dispatch(loadingMain(isFetching));
+  }, [dispatch, isFetching]);
 
-  if (isLoading) return <Spinner />;
+  if (isFetching) return <Spinner />;
   if (!persons.length) return <NoResults />;
   persons.length = limit;
 

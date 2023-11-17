@@ -1,18 +1,6 @@
-import { BASE_URL } from '../constants/constants';
-import { Person, ResourcesType } from '../interfaces/SWApi';
-
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-
-export const fetchPerson = async (
-  id: number,
-  options: RequestInit = {},
-): Promise<Person> => {
-  const res = await fetch(BASE_URL + id, options);
-  if (!res.ok) {
-    throw new Error();
-  }
-  return res.json();
-};
+import { BASE_URL } from '../constants/constants';
+import { ResourcesType } from '../interfaces/SWApi';
 
 export const peopleApi = createApi({
   reducerPath: 'peopleApi',
@@ -28,9 +16,9 @@ export const peopleApi = createApi({
       },
     }),
     getPerson: build.query({
-      query: (id: number) => `/${ResourcesType.People}${id}`,
+      query: (id: string) => `/${ResourcesType.People}/${id}`,
     }),
   }),
 });
 
-export const { useGetPeopleQuery } = peopleApi;
+export const { useGetPeopleQuery, useGetPersonQuery } = peopleApi;
