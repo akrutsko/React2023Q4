@@ -13,7 +13,6 @@ describe('Search component', () => {
 
     const { mockStore } = await import('../../tests/mocks/mockStore');
 
-    user.setup();
     render(
       <Provider store={mockStore}>
         <BrowserRouter>
