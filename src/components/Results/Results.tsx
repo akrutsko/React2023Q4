@@ -2,11 +2,11 @@ import styles from './Results.module.css';
 
 import { useEffect } from 'react';
 import { Outlet } from 'react-router-dom';
+import { useGetPeopleQuery } from '../../features/api/peopleApi';
 import { selectLimit } from '../../features/limitSlice';
 import { selectPage } from '../../features/pageSlice';
 import { selectSearch } from '../../features/searchSlice';
 import { useActions, useAppSelector } from '../../hooks';
-import { useGetPeopleQuery } from '../../services/api';
 import Pagination from '../Pagination/Pagination';
 import Spinner from '../Spinner/Spinner';
 import NoResults from './NoResults/NoResults';

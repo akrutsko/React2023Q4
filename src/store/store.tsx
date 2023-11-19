@@ -5,7 +5,7 @@ import {
   pageReducer,
   searchReducer,
 } from '../features';
-import { peopleApi } from '../services/api';
+import { peopleApi } from '../features/api/peopleApi';
 
 export const store = configureStore({
   reducer: {

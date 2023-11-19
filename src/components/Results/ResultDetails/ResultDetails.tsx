@@ -2,8 +2,8 @@ import styles from './ResultDetails.module.css';
 
 import { useEffect } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { useGetPersonQuery } from '../../../features/api/peopleApi';
 import { useActions } from '../../../hooks';
-import { useGetPersonQuery } from '../../../services/api';
 import NotFound from '../../NotFound/NotFound';
 import Spinner from '../../Spinner/Spinner';
 
