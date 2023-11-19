@@ -6,7 +6,7 @@ import { limitChanged } from '../../features/limitSlice';
 import { searchChanged } from '../../features/searchSlice';
 import { store } from '../../store/store';
 import { personsResponse } from '../../tests/data/personsResponse';
-import { server } from '../../tests/mocks/server';
+import { server } from '../../tests/msw/server';
 import Results from './Results';
 import { peopleApi } from '../../features/api/peopleApi';
 

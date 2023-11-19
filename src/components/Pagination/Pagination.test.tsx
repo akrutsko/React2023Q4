@@ -4,7 +4,7 @@ import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 import { pageUpdated } from '../../features/pageSlice';
 import { store } from '../../store/store';
-import { server } from '../../tests/mocks/server';
+import { server } from '../../tests/msw/server';
 import Results from '../Results/Results';
 import Pagination from './Pagination';
 

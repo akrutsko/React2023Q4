@@ -3,8 +3,8 @@ import user from '@testing-library/user-event';
 import { Provider } from 'react-redux';
 import { BrowserRouter, MemoryRouter, Route, Routes } from 'react-router-dom';
 import { store } from '../../../store/store';
-import { personsMock } from '../../../tests/data/personsMock';
-import { server } from '../../../tests/mocks/server';
+import { personsData } from '../../../tests/data/personsData';
+import { server } from '../../../tests/msw/server';
 import ResultDetails from '../ResultDetails/ResultDetails';
 import Results from '../Results';
 import Result from './Result';
@@ -52,7 +52,7 @@ describe('Result component', () => {
   });
 
   test('the card component renders the relevant card data', () => {
-    const { name, birth_year, url } = personsMock[0];
+    const { name, birth_year, url } = personsData[0];
 
     render(
       <BrowserRouter>

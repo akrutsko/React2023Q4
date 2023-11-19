@@ -2,7 +2,7 @@ import { render, screen } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
 import { store } from '../../store/store';
-import { server } from '../../tests/mocks/server';
+import { server } from '../../tests/msw/server';
 import ResultDetails from '../Results/ResultDetails/ResultDetails';
 
 beforeAll(() => server.listen({ onUnhandledRequest: 'error' }));

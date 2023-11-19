@@ -4,12 +4,12 @@ import { Data, Person, ResourcesType } from '../../interfaces/SWApi';
 
 export const peopleApi = createApi({
   reducerPath: 'peopleApi',
-  tagTypes: ['Person'],
+  tagTypes: ['People'],
   baseQuery: fetchBaseQuery({ baseUrl: BASE_URL + `/${ResourcesType.People}` }),
   endpoints: (build) => ({
     getPeople: build.query<Data<Person>, string>({
       query: (searchParams) => `?${searchParams}`,
-      providesTags: ['Person'],
+      providesTags: ['People'],
     }),
     getPerson: build.query<Person, string>({
       query: (id) => `/${id}`,
@@ -18,6 +18,3 @@ export const peopleApi = createApi({
 });
 
 export const { useGetPeopleQuery, useGetPersonQuery } = peopleApi;
-
-export const selectPersons = (id: string) =>
-  peopleApi.endpoints.getPeople.select(id);

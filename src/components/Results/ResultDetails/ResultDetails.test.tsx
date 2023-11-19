@@ -3,9 +3,10 @@ import user from '@testing-library/user-event';
 import { Provider } from 'react-redux';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
 import { store } from '../../../store/store';
-import { personsMock } from '../../../tests/data/personsMock';
-import { server } from '../../../tests/mocks/server';
+import { personsData } from '../../../tests/data/personsData';
+import { server } from '../../../tests/msw/server';
 import ResultDetails from './ResultDetails';
+import Results from '../Results';
 
 beforeAll(() => server.listen({ onUnhandledRequest: 'error' }));
 afterAll(() => server.close());
@@ -40,7 +41,7 @@ describe('ResultDetails component', () => {
     await screen.findByRole('button', { name: 'Close' });
 
     const { gender, height, skin_color, hair_color, eye_color } =
-      personsMock[0];
+      personsData[0];
 
     expect(screen.getByText(gender, { exact: false })).toBeInTheDocument();
     expect(screen.getByText(height, { exact: false })).toBeInTheDocument();
@@ -56,7 +57,9 @@ describe('ResultDetails component', () => {
       <Provider store={store}>
         <MemoryRouter initialEntries={['/1']}>
           <Routes>
-            <Route path=":id" element={<ResultDetails />} />
+            <Route path="/" element={<Results />}>
+              <Route path=":id" element={<ResultDetails />} />
+            </Route>
           </Routes>
         </MemoryRouter>
       </Provider>,

@@ -6,9 +6,7 @@ type SearchState = {
   searchTerm: string;
 };
 
-const initialState: SearchState = {
-  searchTerm: getSearchTerm(),
-};
+const initialState = (): SearchState => ({ searchTerm: getSearchTerm() || '' });
 
 const searchSlice = createSlice({
   name: 'search',
