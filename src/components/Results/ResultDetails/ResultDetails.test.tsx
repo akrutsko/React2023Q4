@@ -1,21 +1,26 @@
 import { render, screen } from '@testing-library/react';
-import { MemoryRouter, Route, Routes } from 'react-router-dom';
-import { personsMock } from '../../../tests/data/personsMock';
-import { server } from '../../../tests/mocks/server';
-import ResultDetails from './ResultDetails';
 import user from '@testing-library/user-event';
+import { Provider } from 'react-redux';
+import { MemoryRouter, Route, Routes } from 'react-router-dom';
+import { store } from '../../../store/store';
+import { personsData } from '../../../tests/data/personsData';
+import { server } from '../../../tests/msw/server';
+import ResultDetails from './ResultDetails';
+import Results from '../Results';
 
-beforeAll(() => server.listen());
+beforeAll(() => server.listen({ onUnhandledRequest: 'error' }));
 afterAll(() => server.close());
 
 describe('ResultDetails component', () => {
   test('a loading indicator is displayed while fetching data', async () => {
     render(
-      <MemoryRouter initialEntries={['/100']}>
-        <Routes>
-          <Route path=":id" element={<ResultDetails />} />
-        </Routes>
-      </MemoryRouter>,
+      <Provider store={store}>
+        <MemoryRouter initialEntries={['/1']}>
+          <Routes>
+            <Route path=":id" element={<ResultDetails />} />
+          </Routes>
+        </MemoryRouter>
+      </Provider>,
     );
 
     const spinner = await screen.findByTestId('spinner');
@@ -24,17 +29,19 @@ describe('ResultDetails component', () => {
 
   test('the detailed card component correctly displays the detailed card data', async () => {
     render(
-      <MemoryRouter initialEntries={['/1']}>
-        <Routes>
-          <Route path=":id" element={<ResultDetails />} />
-        </Routes>
-      </MemoryRouter>,
+      <Provider store={store}>
+        <MemoryRouter initialEntries={['/1']}>
+          <Routes>
+            <Route path=":id" element={<ResultDetails />} />
+          </Routes>
+        </MemoryRouter>
+      </Provider>,
     );
 
     await screen.findByRole('button', { name: 'Close' });
 
     const { gender, height, skin_color, hair_color, eye_color } =
-      personsMock[0];
+      personsData[0];
 
     expect(screen.getByText(gender, { exact: false })).toBeInTheDocument();
     expect(screen.getByText(height, { exact: false })).toBeInTheDocument();
@@ -47,12 +54,15 @@ describe('ResultDetails component', () => {
     user.setup();
 
     render(
-      <MemoryRouter initialEntries={['/1']}>
-        <Routes>
-          <Route path="/" element={null} />
-          <Route path=":id" element={<ResultDetails />} />
-        </Routes>
-      </MemoryRouter>,
+      <Provider store={store}>
+        <MemoryRouter initialEntries={['/1']}>
+          <Routes>
+            <Route path="/" element={<Results />}>
+              <Route path=":id" element={<ResultDetails />} />
+            </Route>
+          </Routes>
+        </MemoryRouter>
+      </Provider>,
     );
 
     const button = await screen.findByRole('button', { name: 'Close' });

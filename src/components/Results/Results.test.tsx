@@ -1,37 +1,56 @@
 import { render, screen } from '@testing-library/react';
-import { Fragment } from 'react';
+import { HttpResponse, http } from 'msw';
+import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
-import { PersonsContext } from '../../contexts/PersonsContext';
-import { personsMock } from '../../tests/data/personsMock';
+import { limitChanged } from '../../features/limitSlice';
+import { searchChanged } from '../../features/searchSlice';
+import { store } from '../../store/store';
+import { personsResponse } from '../../tests/data/personsResponse';
+import { server } from '../../tests/msw/server';
 import Results from './Results';
+import { peopleApi } from '../../features/api/peopleApi';
+
+beforeAll(() => server.listen({ onUnhandledRequest: 'error' }));
+afterEach(() => {
+  peopleApi.util.resetApiState();
+  server.resetHandlers();
+});
+afterAll(() => server.close());
 
 describe('Results component', () => {
-  test('the component renders the specified number of cards', () => {
-    const limit = 3;
+  test('the message is displayed if no cards are present', async () => {
+    server.use(
+      http.get('https://swapi.dev/api/people', () =>
+        HttpResponse.json({ ...personsResponse, results: [] }),
+      ),
+    );
+    store.dispatch(searchChanged('uknown'));
 
     render(
-      <BrowserRouter>
-        <PersonsContext.Provider value={personsMock}>
-          <Results isLoading={false} limit={limit}>
-            <Fragment />
-          </Results>
-        </PersonsContext.Provider>
-      </BrowserRouter>,
+      <Provider store={store}>
+        <BrowserRouter>
+          <Results />
+        </BrowserRouter>
+      </Provider>,
     );
 
-    expect(screen.getAllByRole('listitem')).toHaveLength(limit);
+    const text = await screen.findByText(/No results found/i);
+    expect(text).toBeInTheDocument();
   });
 
-  test('the message is displayed if no cards are present', () => {
+  test('the component renders the specified number of cards', async () => {
+    const limit = 3;
+    store.dispatch(limitChanged(3));
+
     render(
-      <BrowserRouter>
-        <PersonsContext.Provider value={[]}>
-          <Results isLoading={false} limit={10}>
-            <Fragment />
-          </Results>
-        </PersonsContext.Provider>
-      </BrowserRouter>,
+      <Provider store={store}>
+        <BrowserRouter>
+          <Results />
+        </BrowserRouter>
+      </Provider>,
     );
-    expect(screen.getByText(/No results found/i)).toBeInTheDocument();
+
+    const listItems = await screen.findAllByRole('listitem');
+    expect(listItems).toHaveLength(limit);
   });
 });

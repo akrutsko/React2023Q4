@@ -1,6 +1,6 @@
-export * from './useFetchPerson';
-export * from './useFetchPersons';
-export * from './usePersons';
-export * from './usePersonsDispatch';
-export * from './useSearch';
-export * from './useSearchDispatch';
+import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
+import type { AppDispatch, RootState } from '../store/store';
+
+export const useAppDispatch: () => AppDispatch = useDispatch;
+export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
+export { default as useActions } from './useActions';

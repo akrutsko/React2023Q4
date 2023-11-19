@@ -1,30 +1,28 @@
 import { render, screen } from '@testing-library/react';
 import user from '@testing-library/user-event';
+import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
-import PersonsProvider from '../../contexts/PersonsContext';
-import SearchProvider from '../../contexts/SearchContext';
-import { SEARCH_TERM_KEY } from '../../services/local-storage';
-import Main from '../Main/Main';
+import { getSearchTerm, setSearchTerm } from '../../services/local-storage';
+import { store } from '../../store/store';
 import Search from './Search';
-
-const setItem = vi.fn();
-const getItem = vi.fn();
-const localStorageMock = { setItem, getItem };
-vi.stubGlobal('localStorage', localStorageMock);
 
 describe('Search component', () => {
   test('the component retrieves the value from the local storage upon mounting', async () => {
-    user.setup();
+    const searchTerm = 'Darth';
+    setSearchTerm(searchTerm);
+
+    const { mockStore } = await import('../../tests/mocks/mockStore');
 
     render(
-      <BrowserRouter>
-        <SearchProvider>
-          <Search onClick={vi.fn} />
-        </SearchProvider>
-      </BrowserRouter>,
+      <Provider store={mockStore}>
+        <BrowserRouter>
+          <Search />
+        </BrowserRouter>
+      </Provider>,
     );
 
-    expect(getItem).toHaveBeenCalledWith(SEARCH_TERM_KEY);
+    const input = await screen.findByRole<HTMLInputElement>('textbox');
+    expect(input).toHaveValue(searchTerm);
   });
 
   test('clicking the Search button saves the entered value to the local storage', async () => {
@@ -33,11 +31,9 @@ describe('Search component', () => {
 
     render(
       <BrowserRouter>
-        <SearchProvider>
-          <PersonsProvider>
-            <Main />
-          </PersonsProvider>
-        </SearchProvider>
+        <Provider store={store}>
+          <Search />
+        </Provider>
       </BrowserRouter>,
     );
 
@@ -45,6 +41,6 @@ describe('Search component', () => {
     const input = screen.getByRole('textbox');
     await user.type(input, searchTerm);
     await user.click(searchBtn);
-    expect(setItem).toHaveBeenCalledWith(SEARCH_TERM_KEY, searchTerm);
+    expect(getSearchTerm()).toEqual(searchTerm);
   });
 });

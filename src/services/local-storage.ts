@@ -5,5 +5,5 @@ export function getSearchTerm() {
 }
 
 export function setSearchTerm(search: string) {
-  return localStorage.setItem(SEARCH_TERM_KEY, search);
+  localStorage.setItem(SEARCH_TERM_KEY, search);
 }

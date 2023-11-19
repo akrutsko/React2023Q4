@@ -1,48 +1,59 @@
 import { render, screen } from '@testing-library/react';
 import user from '@testing-library/user-event';
+import { Provider } from 'react-redux';
+import { BrowserRouter } from 'react-router-dom';
+import { pageUpdated } from '../../features/pageSlice';
+import { store } from '../../store/store';
+import { server } from '../../tests/msw/server';
+import Results from '../Results/Results';
 import Pagination from './Pagination';
+
+beforeAll(() => server.listen({ onUnhandledRequest: 'error' }));
+afterAll(() => server.close());
 
 describe('Pagination component', () => {
   test('the component updates URL query parameter when page changes', async () => {
-    const currentPage = 5;
-    const handlePageChange = vi.fn();
+    const page = 5;
+    store.dispatch(pageUpdated(page));
     user.setup();
 
     render(
-      <Pagination
-        currentPage={currentPage}
-        total={100}
-        limit={10}
-        onPageChange={handlePageChange}
-        onLimitChage={vi.fn}
-      />,
+      <Provider store={store}>
+        <BrowserRouter>
+          <Pagination total={100} />
+        </BrowserRouter>
+      </Provider>,
     );
 
-    const buttonPrev = screen.getByRole('button', { name: '←' });
-    const buttonNext = screen.getByRole('button', { name: '→' });
+    const buttonPrev = await screen.findByRole('button', { name: '←' });
+    const buttonNext = await screen.findByRole('button', { name: '→' });
 
     await user.click(buttonPrev);
-    expect(handlePageChange).toBeCalledWith(currentPage - 1);
+    expect(window.location.search).toContain(`page=${page - 1}`);
     await user.click(buttonNext);
-    expect(handlePageChange).toBeCalledWith(currentPage + 1);
+    await user.click(buttonNext);
+    expect(window.location.search).toContain(`page=${page + 1}`);
   });
 
   test('the component updates the number of items shown per page when limit changes', async () => {
-    const handleLimitChange = vi.fn();
+    const limitBefore = 10;
+    const limitAfter = 5;
     user.setup();
 
     render(
-      <Pagination
-        currentPage={1}
-        total={10}
-        limit={10}
-        onPageChange={vi.fn}
-        onLimitChage={handleLimitChange}
-      />,
+      <Provider store={store}>
+        <BrowserRouter>
+          <Results />
+        </BrowserRouter>
+      </Provider>,
     );
 
-    const select = screen.getByRole('combobox');
-    await user.selectOptions(select, '5');
-    expect(handleLimitChange).toBeCalled();
+    const select = await screen.findByRole('combobox');
+    let listItems = await screen.findAllByRole('listitem');
+    expect(listItems).toHaveLength(limitBefore);
+
+    await user.selectOptions(select, String(limitAfter));
+    listItems = await screen.findAllByRole('listitem');
+    expect(listItems).toHaveLength(limitAfter);
   });
 });

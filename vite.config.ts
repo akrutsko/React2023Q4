@@ -20,6 +20,7 @@ export default defineConfig({
         'src/main.tsx',
         'src/app',
         'src/interfaces',
+        'src/router',
         'src/tests',
         '**/*.d.ts',
       ],

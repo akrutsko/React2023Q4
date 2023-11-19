@@ -1,28 +1,36 @@
-import { Link } from 'react-router-dom';
 import logo from '../../assets/images/star-wars.png';
 import styles from './Search.module.css';
 
 import { useRef } from 'react';
-import { useSearch } from '../../hooks';
+import { Link, useSearchParams } from 'react-router-dom';
+import { INIT_PAGE, SEARCH_PARAM_PAGE } from '../../constants/constants';
+import { selectSearch } from '../../features/searchSlice';
+import { useActions, useAppSelector } from '../../hooks';
+import { setSearchTerm } from '../../services/local-storage';
 
-type Props = {
-  onClick: (searchTerm: string) => void;
-};
-
-export default function Search({ onClick }: Props) {
-  const searchTerm = useSearch();
+export default function Search() {
   const textInput = useRef<HTMLInputElement>(null);
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const searchTerm = useAppSelector(selectSearch);
+  const { searchChanged, pageUpdated } = useActions();
 
   const handleSearchClick = () => {
     const value = textInput.current?.value.trim() || '';
-    onClick(value);
+    setSearchTerm(value);
+
+    searchChanged(value);
+    pageUpdated(INIT_PAGE);
+
+    searchParams.delete(SEARCH_PARAM_PAGE);
+    setSearchParams(searchParams);
   };
 
   const handleLogoClick = () => {
     if (textInput.current) {
       textInput.current.value = '';
     }
-    onClick('');
+    handleSearchClick();
   };
 
   return (

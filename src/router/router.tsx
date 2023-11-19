@@ -3,8 +3,8 @@ import {
   createRoutesFromElements,
   Route,
 } from 'react-router-dom';
-import App from '../App';
-import ResultDetails from '../../components/Results/ResultDetails/ResultDetails';
+import App from '../app/App';
+import ResultDetails from '../components/Results/ResultDetails/ResultDetails';
 
 export const router = createBrowserRouter(
   createRoutesFromElements(
