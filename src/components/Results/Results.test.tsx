@@ -1,37 +1,52 @@
 import { render, screen } from '@testing-library/react';
-import { Fragment } from 'react';
+import { HttpResponse, http } from 'msw';
+import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
-import { PersonsContext } from '../../contexts/PersonsContext';
-import { personsMock } from '../../tests/data/personsMock';
+import { limitChanged } from '../../features/limitSlice';
+import { searchChanged } from '../../features/searchSlice';
+import { store } from '../../store/store';
+import { personsResponse } from '../../tests/data/personsResponse';
+import { server } from '../../tests/mocks/server';
 import Results from './Results';
 
+beforeAll(() => server.listen({ onUnhandledRequest: 'error' }));
+afterEach(() => server.resetHandlers());
+afterAll(() => server.close());
+
 describe('Results component', () => {
-  test('the component renders the specified number of cards', () => {
+  test('the component renders the specified number of cards', async () => {
     const limit = 3;
+    store.dispatch(limitChanged(3));
 
     render(
-      <BrowserRouter>
-        <PersonsContext.Provider value={personsMock}>
-          <Results isLoading={false} limit={limit}>
-            <Fragment />
-          </Results>
-        </PersonsContext.Provider>
-      </BrowserRouter>,
+      <Provider store={store}>
+        <BrowserRouter>
+          <Results />
+        </BrowserRouter>
+      </Provider>,
     );
 
-    expect(screen.getAllByRole('listitem')).toHaveLength(limit);
+    const listItems = await screen.findAllByRole('listitem');
+    expect(listItems).toHaveLength(limit);
   });
 
-  test('the message is displayed if no cards are present', () => {
-    render(
-      <BrowserRouter>
-        <PersonsContext.Provider value={[]}>
-          <Results isLoading={false} limit={10}>
-            <Fragment />
-          </Results>
-        </PersonsContext.Provider>
-      </BrowserRouter>,
+  test('the message is displayed if no cards are present', async () => {
+    server.use(
+      http.get('https://swapi.dev/api/people', () =>
+        HttpResponse.json({ ...personsResponse, results: [] }),
+      ),
     );
-    expect(screen.getByText(/No results found/i)).toBeInTheDocument();
+    store.dispatch(searchChanged('uknown'));
+
+    render(
+      <Provider store={store}>
+        <BrowserRouter>
+          <Results />
+        </BrowserRouter>
+      </Provider>,
+    );
+
+    const text = await screen.findByText(/No results found/i);
+    expect(text).toBeInTheDocument();
   });
 });
