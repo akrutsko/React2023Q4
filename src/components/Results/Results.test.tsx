@@ -8,28 +8,16 @@ import { store } from '../../store/store';
 import { personsResponse } from '../../tests/data/personsResponse';
 import { server } from '../../tests/mocks/server';
 import Results from './Results';
+import { peopleApi } from '../../features/api/peopleApi';
 
 beforeAll(() => server.listen({ onUnhandledRequest: 'error' }));
-afterEach(() => server.resetHandlers());
+afterEach(() => {
+  peopleApi.util.resetApiState();
+  server.resetHandlers();
+});
 afterAll(() => server.close());
 
 describe('Results component', () => {
-  test('the component renders the specified number of cards', async () => {
-    const limit = 3;
-    store.dispatch(limitChanged(3));
-
-    render(
-      <Provider store={store}>
-        <BrowserRouter>
-          <Results />
-        </BrowserRouter>
-      </Provider>,
-    );
-
-    const listItems = await screen.findAllByRole('listitem');
-    expect(listItems).toHaveLength(limit);
-  });
-
   test('the message is displayed if no cards are present', async () => {
     server.use(
       http.get('https://swapi.dev/api/people', () =>
@@ -48,5 +36,21 @@ describe('Results component', () => {
 
     const text = await screen.findByText(/No results found/i);
     expect(text).toBeInTheDocument();
+  });
+
+  test('the component renders the specified number of cards', async () => {
+    const limit = 3;
+    store.dispatch(limitChanged(3));
+
+    render(
+      <Provider store={store}>
+        <BrowserRouter>
+          <Results />
+        </BrowserRouter>
+      </Provider>,
+    );
+
+    const listItems = await screen.findAllByRole('listitem');
+    expect(listItems).toHaveLength(limit);
   });
 });
