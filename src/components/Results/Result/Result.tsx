@@ -1,4 +1,4 @@
-import { LinkWithQuery } from '../../LinkWithQuery/LinkWithQuery';
+import Link from 'next/link';
 
 type Props = {
   name: string;
@@ -11,14 +11,14 @@ export default function Result({ name, birth_year, url }: Props) {
 
   return (
     <li>
-      <LinkWithQuery to={id || ''}>
+      <Link href={id || '/invalid'}>
         <p>
           <i>Name:</i> {name}
         </p>
         <p>
           <i>Birth year:</i> {birth_year}
         </p>
-      </LinkWithQuery>
+      </Link>
     </li>
   );
 }

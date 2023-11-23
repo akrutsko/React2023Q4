@@ -1,46 +1,31 @@
 import styles from './Results.module.css';
 
-import { useEffect } from 'react';
-import { Outlet } from 'react-router-dom';
-import { useGetPeopleQuery } from '../../features/api/peopleApi';
-import { selectLimit } from '../../features/limitSlice';
-import { selectPage } from '../../features/pageSlice';
-import { selectSearch } from '../../features/searchSlice';
-import { useActions, useAppSelector } from '../../hooks';
+import { encode } from 'querystring';
+
+import { LIMIT_PER_PAGE } from '@/src/constants/constants';
+import type { Data, Person } from '@/src/interfaces/SWApi';
+import { useRouter } from 'next/router';
 import Pagination from '../Pagination/Pagination';
-import Spinner from '../Spinner/Spinner';
 import NoResults from './NoResults/NoResults';
 import Result from './Result/Result';
 
-export default function Results() {
-  const { loadingMain } = useActions();
-  const searchTerm = useAppSelector(selectSearch);
-  const limit = useAppSelector(selectLimit);
-  const currentPage = useAppSelector(selectPage);
+type Props = {
+  data: Data<Person>;
+};
 
-  const searchParams = new URLSearchParams();
-  searchTerm && searchParams.append('search', searchTerm);
-  limit && searchParams.append('limit', limit.toString());
-  currentPage && searchParams.append('page', currentPage.toString());
+export default function Results({ data }: Props) {
+  const router = useRouter();
+  const searchParams = new URLSearchParams(encode(router.query));
 
-  const { isFetching, data, isError } = useGetPeopleQuery(
-    searchParams.toString(),
-  );
-
-  useEffect(() => {
-    loadingMain(isFetching);
-  }, [loadingMain, isFetching]);
-
-  if (isFetching) return <Spinner />;
-  if (isError || !data) return <NoResults />;
+  if (!data) return <NoResults />;
 
   const persons = [...data.results];
   if (!persons.length) return <NoResults />;
-  persons.length = limit;
+  persons.length = Number(searchParams.get('limit')) || LIMIT_PER_PAGE;
 
   return (
     <section className={styles.wrapper}>
-      <Pagination total={data.count} />
+      <Pagination key={router.asPath} total={data.count} />
       <h1 className={styles.title}>Search Results</h1>
       <div className={styles['results-wrapper']}>
         <ul className={styles.results}>
@@ -56,7 +41,6 @@ export default function Results() {
             );
           })}
         </ul>
-        <Outlet />
       </div>
     </section>
   );
