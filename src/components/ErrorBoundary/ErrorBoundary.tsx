@@ -1,19 +1,20 @@
 import styles from './ErrorBoundary.module.css';
 
-import { Component, PropsWithChildren } from 'react';
+import { Component, ErrorInfo, PropsWithChildren } from 'react';
 
 type State = {
   hasError: boolean;
 };
 
 export default class ErrorBoundary extends Component<PropsWithChildren, State> {
-  state = {
-    hasError: false,
-  };
+  state = { hasError: false };
 
-  componentDidCatch(error: Error) {
-    console.log('An error has been thrown:', error.message);
-    this.setState({ hasError: true });
+  static getDerivedStateFromError() {
+    return { hasError: true };
+  }
+
+  componentDidCatch(error: Error, errorInfo: ErrorInfo) {
+    console.log({ error, errorInfo });
   }
 
   render() {

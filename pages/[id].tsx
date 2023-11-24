@@ -26,7 +26,7 @@ export const getServerSideProps = wrapper.getServerSideProps(
 
     return {
       props: {
-        people: people.data,
+        people: people?.data || null,
         person: person?.data || null,
       },
     };
@@ -38,7 +38,7 @@ type Props = {
   person: Person;
 };
 
-export default function Home({ people, person }: Props) {
+export default function Details({ people, person }: Props) {
   return (
     <main>
       <Search />

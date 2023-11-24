@@ -19,7 +19,7 @@ export const getServerSideProps = wrapper.getServerSideProps(
 
     return {
       props: {
-        people: people.data,
+        people: people?.data || null,
       },
     };
   },

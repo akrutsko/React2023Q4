@@ -1,15 +1,22 @@
 import '@/styles/globals.css';
 
-import { wrapper } from '@/src/store/store';
+import ErrorBoundary from '@/src/components/ErrorBoundary/ErrorBoundary';
+import ErrorButton from '@/src/components/ErrorButton/ErrorButton';
+import StoreProvider from '@/src/components/StoreProvider/StoreProvider';
 import type { AppProps } from 'next/app';
 import RootLayout from './layout';
 
-export function App({ Component, pageProps }: AppProps) {
+function App({ Component, pageProps }: AppProps) {
   return (
-    <RootLayout>
-      <Component {...pageProps} />
-    </RootLayout>
+    <StoreProvider>
+      <RootLayout>
+        <ErrorBoundary>
+          <Component {...pageProps} />
+          <ErrorButton />
+        </ErrorBoundary>
+      </RootLayout>
+    </StoreProvider>
   );
 }
 
-export default wrapper.withRedux(App);
+export default App;
