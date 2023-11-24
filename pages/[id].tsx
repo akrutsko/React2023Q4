@@ -1,7 +1,9 @@
+import ResultDetails from '@/src/components/Results/ResultDetails/ResultDetails';
 import Results from '@/src/components/Results/Results';
 import Search from '@/src/components/Search/Search';
 import {
   getPeople,
+  getPerson,
   getRunningQueriesThunk,
 } from '@/src/features/api/peopleApi';
 import type { Data, Person } from '@/src/interfaces/SWApi';
@@ -13,13 +15,19 @@ export const getServerSideProps = wrapper.getServerSideProps(
     const searchParams = new URLSearchParams(encode(context.query));
     store.dispatch(getPeople.initiate(searchParams.toString()));
 
-    const [people] = await Promise.all(
+    const id = context.params?.id;
+    if (typeof id === 'string') {
+      store.dispatch(getPerson.initiate(id));
+    }
+
+    const [people, person] = await Promise.all(
       store.dispatch(getRunningQueriesThunk()),
     );
 
     return {
       props: {
         people: people.data,
+        person: person?.data || null,
       },
     };
   },
@@ -27,13 +35,16 @@ export const getServerSideProps = wrapper.getServerSideProps(
 
 type Props = {
   people: Data<Person>;
+  person: Person;
 };
 
-export default function Home({ people }: Props) {
+export default function Home({ people, person }: Props) {
   return (
     <main>
       <Search />
-      <Results people={people} />
+      <Results people={people}>
+        <ResultDetails person={person} />
+      </Results>
     </main>
   );
 }

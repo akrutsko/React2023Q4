@@ -1,12 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { createWrapper } from 'next-redux-wrapper';
 import { peopleApi } from '../features/api/peopleApi';
-import loadingReducer from '../features/loadingSlice';
 
 export const makeStore = () =>
   configureStore({
     reducer: {
-      loading: loadingReducer,
       [peopleApi.reducerPath]: peopleApi.reducer,
     },
     middleware: (getDefaultMiddleware) =>

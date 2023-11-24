@@ -1,20 +1,32 @@
 import styles from './ResultDetails.module.css';
 
+import { INIT_PAGE, LIMIT_PER_PAGE } from '@/src/constants/constants';
 import type { Person } from '@/src/interfaces/SWApi';
+import { useRouter } from 'next/router';
+import { encode } from 'querystring';
 import NotFound from '../../NotFound/NotFound';
 
 type Props = {
-  data: Person;
+  person: Person;
 };
 
-export default function ResultDetails({ data }: Props) {
+export default function ResultDetails({ person }: Props) {
+  const router = useRouter();
+  const searchParams = new URLSearchParams(encode(router.query));
+  const limit = Number(searchParams.get('limit')) || LIMIT_PER_PAGE;
+  const page = Number(searchParams.get('page')) || INIT_PAGE;
+  const search = Number(searchParams.get('search')) || '';
+
   const handleClick = () => {
-    // navigate(`/${search}`);
+    router.push({
+      pathname: '/',
+      query: { search, page, limit },
+    });
   };
 
-  if (!data) return <NotFound />;
+  if (!person) return <NotFound />;
 
-  const { name, eye_color, gender, hair_color, height, skin_color } = data;
+  const { name, eye_color, gender, hair_color, height, skin_color } = person;
   return (
     <div className={styles.wrapper}>
       <ul>
