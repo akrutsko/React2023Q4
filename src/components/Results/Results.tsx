@@ -1,9 +1,7 @@
 import styles from './Results.module.css';
 
-import { encode } from 'querystring';
-
-import { LIMIT_PER_PAGE } from '@/src/constants/constants';
 import type { Data, Person } from '@/src/interfaces/SWApi';
+import { getSearchParams } from '@/src/utils/search-params';
 import { Router, useRouter } from 'next/router';
 import { PropsWithChildren, useEffect, useState } from 'react';
 import Pagination from '../Pagination/Pagination';
@@ -37,14 +35,14 @@ export default function Results({
   }, []);
 
   const router = useRouter();
-  const searchParams = new URLSearchParams(encode(router.query));
+  const { limit } = getSearchParams(router.query);
 
   if (loading) return <Spinner />;
   if (!people) return <NoResults />;
 
   const persons = [...people.results];
   if (!persons.length) return <NoResults />;
-  persons.length = Number(searchParams.get('limit')) || LIMIT_PER_PAGE;
+  persons.length = limit;
 
   return (
     <section className={styles.wrapper}>

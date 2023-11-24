@@ -1,19 +1,16 @@
-import { LIMIT_PER_PAGE } from '@/src/constants/constants';
 import styles from './Search.module.css';
 
+import { getSearchParams } from '@/src/utils/search-params';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { encode } from 'querystring';
 import { useRef } from 'react';
 
 export default function Search() {
   const textInput = useRef<HTMLInputElement>(null);
 
   const router = useRouter();
-  const searchParams = new URLSearchParams(encode(router.query));
-  const search = Number(searchParams.get('search')) || '';
-  const limit = Number(searchParams.get('limit')) || LIMIT_PER_PAGE;
+  const { search, limit } = getSearchParams(router.query);
 
   const handleSearchClick = () => {
     const search = textInput.current?.value.trim() || '';

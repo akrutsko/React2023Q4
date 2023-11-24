@@ -1,9 +1,9 @@
 import styles from './Pagination.module.css';
 
+import { getSearchParams } from '@/src/utils/search-params';
 import { useRouter } from 'next/router';
-import { encode } from 'querystring';
 import { ChangeEvent } from 'react';
-import { INIT_PAGE, LIMIT_PER_PAGE } from '../../constants/constants';
+import { LIMIT_PER_PAGE } from '../../constants/constants';
 
 type Props = {
   total: number;
@@ -11,10 +11,7 @@ type Props = {
 
 export default function Pagination({ total }: Props) {
   const router = useRouter();
-  const searchParams = new URLSearchParams(encode(router.query));
-  const limit = Number(searchParams.get('limit')) || LIMIT_PER_PAGE;
-  const page = Number(searchParams.get('page')) || INIT_PAGE;
-  const search = Number(searchParams.get('search')) || '';
+  const { search, limit, page } = getSearchParams(router.query);
 
   const pagesCount = Math.ceil(total / LIMIT_PER_PAGE);
   const isPrevBtnDisabled = page <= 1;

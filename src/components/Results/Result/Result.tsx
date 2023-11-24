@@ -1,7 +1,6 @@
-import { INIT_PAGE, LIMIT_PER_PAGE } from '@/src/constants/constants';
+import { getSearchParams } from '@/src/utils/search-params';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { encode } from 'querystring';
 
 type Props = {
   name: string;
@@ -11,10 +10,7 @@ type Props = {
 
 export default function Result({ name, birth_year, url }: Props) {
   const router = useRouter();
-  const searchParams = new URLSearchParams(encode(router.query));
-  const limit = Number(searchParams.get('limit')) || LIMIT_PER_PAGE;
-  const page = Number(searchParams.get('page')) || INIT_PAGE;
-  const search = Number(searchParams.get('search')) || '';
+  const { search, limit, page } = getSearchParams(router.query);
 
   const id = url.split('/').filter(Boolean).at(-1);
 
