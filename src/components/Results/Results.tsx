@@ -3,42 +3,52 @@ import styles from './Results.module.css';
 import { encode } from 'querystring';
 
 import { LIMIT_PER_PAGE } from '@/src/constants/constants';
-import { loadingMain, selectLoadingMain } from '@/src/features/loadingSlice';
-import { useAppSelector } from '@/src/hooks';
 import type { Data, Person } from '@/src/interfaces/SWApi';
 import { Router, useRouter } from 'next/router';
+import { PropsWithChildren, useEffect, useState } from 'react';
+import Pagination from '../Pagination/Pagination';
 import Spinner from '../Spinner/Spinner';
 import NoResults from './NoResults/NoResults';
 import Result from './Result/Result';
-import Pagination from '../Pagination/Pagination';
-import { useEffect } from 'react';
 
 type Props = {
-  data: Data<Person>;
+  people: Data<Person>;
 };
 
-export default function Results({ data }: Props) {
-  useEffect(() => {
-    Router.events.on('routeChangeStart', () => {
-      loadingMain(true);
-    });
-  }, []);
+export default function Results({
+  children,
+  people,
+}: PropsWithChildren<Props>) {
+  const [loading, setLoading] = useState(false);
 
-  const isLoading = useAppSelector(selectLoadingMain);
+  useEffect(() => {
+    const handlerOn = () => setLoading(true);
+    const handlerOff = () => setLoading(false);
+
+    Router.events.on('routeChangeStart', handlerOn);
+    Router.events.on('routeChangeComplete', handlerOff);
+    Router.events.on('routeChangeError', handlerOff);
+
+    return () => {
+      Router.events.off('routeChangeStart', handlerOn);
+      Router.events.off('routeChangeComplete', handlerOff);
+      Router.events.off('routeChangeError', handlerOff);
+    };
+  }, []);
 
   const router = useRouter();
   const searchParams = new URLSearchParams(encode(router.query));
 
-  if (isLoading) return <Spinner />;
-  if (!data) return <NoResults />;
+  if (loading) return <Spinner />;
+  if (!people) return <NoResults />;
 
-  const persons = [...data.results];
+  const persons = [...people.results];
   if (!persons.length) return <NoResults />;
   persons.length = Number(searchParams.get('limit')) || LIMIT_PER_PAGE;
 
   return (
     <section className={styles.wrapper}>
-      <Pagination key={router.asPath} total={data.count} />
+      <Pagination key={router.asPath} total={people.count} />
       <h1 className={styles.title}>Search Results</h1>
       <div className={styles['results-wrapper']}>
         <ul className={styles.results}>
@@ -54,6 +64,7 @@ export default function Results({ data }: Props) {
             );
           })}
         </ul>
+        {children}
       </div>
     </section>
   );
