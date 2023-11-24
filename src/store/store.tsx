@@ -1,20 +1,12 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { createWrapper } from 'next-redux-wrapper';
-import {
-  limitReducer,
-  loadingReducer,
-  pageReducer,
-  searchReducer,
-} from '../features';
 import { peopleApi } from '../features/api/peopleApi';
+import loadingReducer from '../features/loadingSlice';
 
 export const makeStore = () =>
   configureStore({
     reducer: {
-      search: searchReducer,
-      limit: limitReducer,
       loading: loadingReducer,
-      page: pageReducer,
       [peopleApi.reducerPath]: peopleApi.reducer,
     },
     middleware: (getDefaultMiddleware) =>

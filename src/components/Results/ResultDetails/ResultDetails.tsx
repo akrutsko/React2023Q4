@@ -1,31 +1,18 @@
 import styles from './ResultDetails.module.css';
 
-import { useEffect } from 'react';
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
-import { useGetPersonQuery } from '../../../features/api/peopleApi';
-import { useActions } from '../../../hooks';
+import type { Person } from '@/src/interfaces/SWApi';
 import NotFound from '../../NotFound/NotFound';
-import Spinner from '../../Spinner/Spinner';
 
-export default function ResultDetails() {
-  const { id } = useParams() as { id: string };
+type Props = {
+  data: Person;
+};
 
-  const { loadingDetails } = useActions();
-  const { data, isFetching, isError } = useGetPersonQuery(id);
-
-  const navigate = useNavigate();
-  const { search } = useLocation();
-
-  useEffect(() => {
-    loadingDetails(isFetching);
-  }, [loadingDetails, isFetching]);
-
+export default function ResultDetails({ data }: Props) {
   const handleClick = () => {
-    navigate(`/${search}`);
+    // navigate(`/${search}`);
   };
 
-  if (isFetching) return <Spinner />;
-  if (isError || !data) return <NotFound />;
+  if (!data) return <NotFound />;
 
   const { name, eye_color, gender, hair_color, height, skin_color } = data;
   return (

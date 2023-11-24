@@ -5,7 +5,8 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { encode } from 'querystring';
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
+import { getSearchTerm, setSearchTerm } from '@/src/services/local-storage';
 
 export default function Search() {
   const textInput = useRef<HTMLInputElement>(null);
@@ -15,8 +16,17 @@ export default function Search() {
   const search = Number(searchParams.get('search')) || '';
   const limit = Number(searchParams.get('limit')) || LIMIT_PER_PAGE;
 
+  useEffect(() => {
+    const searchTerm = getSearchTerm();
+    if (!search && searchTerm && textInput.current) {
+      textInput.current.value = searchTerm;
+    }
+  }, [search]);
+
   const handleSearchClick = () => {
     const search = textInput.current?.value.trim() || '';
+    setSearchTerm(search);
+
     router.push({
       pathname: '/',
       query: { search, limit },

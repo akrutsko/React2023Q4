@@ -1,16 +1,12 @@
 import styles from './ErrorBoundary.module.css';
 
-import { Component, ReactNode } from 'react';
-
-type Props = {
-  children: ReactNode;
-};
+import { Component, PropsWithChildren } from 'react';
 
 type State = {
   hasError: boolean;
 };
 
-export default class ErrorBoundary extends Component<Props, State> {
+export default class ErrorBoundary extends Component<PropsWithChildren, State> {
   state = {
     hasError: false,
   };

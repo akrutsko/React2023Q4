@@ -1,9 +1,9 @@
-import noPerson from '../../assets/images/no-person.png';
+import Image from 'next/image';
 
 export default function NoResults() {
   return (
     <div>
-      <img src={noPerson} alt="no person data" />
+      <Image src="/assets/images/no-person.png" alt="no person data" />
     </div>
   );
 }
