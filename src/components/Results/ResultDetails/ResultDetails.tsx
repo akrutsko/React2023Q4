@@ -3,12 +3,10 @@ import styles from './ResultDetails.module.css';
 import type { Person } from '@/src/interfaces/SWApi';
 import { getSearchParams } from '@/src/utils/search-params';
 import { useRouter } from 'next/router';
-import { ParsedUrlQuery } from 'querystring';
 import NotFound from '../../NotFound/NotFound';
 
 type Props = {
   person: Person;
-  searchParams2: ParsedUrlQuery;
 };
 
 export default function ResultDetails({ person }: Props) {
