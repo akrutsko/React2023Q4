@@ -1,4 +1,3 @@
-import { getSearchParams } from '@/utils/search-params';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 
@@ -10,18 +9,12 @@ type Props = {
 
 export default function Result({ name, birth_year, url }: Props) {
   const router = useRouter();
-  const { search, limit, page } = getSearchParams(router.query);
 
   const id = url.split('/').filter(Boolean).at(-1);
 
   return (
     <li>
-      <Link
-        href={{
-          pathname: `/${id}`,
-          query: { search, page, limit },
-        }}
-      >
+      <Link href={`/${id}${router.asPath}`}>
         <p>
           <i>Name:</i> {name}
         </p>

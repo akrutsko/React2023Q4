@@ -1,14 +1,9 @@
 import { render, screen } from '@testing-library/react';
-import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
 import ErrorButton from './ErrorButton';
 
 describe('ErrorButton component', () => {
   test('the component is rendered', async () => {
-    render(
-      <ErrorBoundary>
-        <ErrorButton />
-      </ErrorBoundary>,
-    );
+    render(<ErrorButton />);
 
     expect(screen.getByRole('button')).toBeInTheDocument();
   });

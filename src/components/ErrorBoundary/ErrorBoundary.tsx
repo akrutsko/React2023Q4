@@ -1,6 +1,6 @@
 import styles from './ErrorBoundary.module.css';
 
-import { Component, ErrorInfo, PropsWithChildren } from 'react';
+import { Component, PropsWithChildren } from 'react';
 
 type State = {
   hasError: boolean;
@@ -11,10 +11,6 @@ export default class ErrorBoundary extends Component<PropsWithChildren, State> {
 
   static getDerivedStateFromError() {
     return { hasError: true };
-  }
-
-  componentDidCatch(error: Error, errorInfo: ErrorInfo) {
-    console.log({ error, errorInfo });
   }
 
   render() {
