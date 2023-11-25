@@ -3,7 +3,7 @@ import styles from './ResultDetails.module.css';
 import type { Person } from '@/src/interfaces/SWApi';
 import { getSearchParams } from '@/src/utils/search-params';
 import { useRouter } from 'next/router';
-import NotFound from '../../NotFound/NotFound';
+import NoDetails from '../NoDetails/NoDetails';
 
 type Props = {
   person: Person;
@@ -20,7 +20,7 @@ export default function ResultDetails({ person }: Props) {
     });
   };
 
-  if (!person) return <NotFound />;
+  if (!person) return <NoDetails />;
 
   const { name, eye_color, gender, hair_color, height, skin_color } = person;
   return (

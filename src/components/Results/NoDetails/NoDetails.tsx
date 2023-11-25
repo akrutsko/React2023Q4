@@ -1,8 +1,8 @@
-import styles from './NotFound.module.css';
+import styles from './NoDetails.module.css';
 
 import Image from 'next/image';
 
-export default function NotFound() {
+export default function NoDetails() {
   return (
     <div className={styles['not-found']}>
       <Image
