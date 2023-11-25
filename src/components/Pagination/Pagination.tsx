@@ -1,6 +1,6 @@
 import styles from './Pagination.module.css';
 
-import { getSearchParams } from '@/src/utils/search-params';
+import { getSearchParams } from '@/utils/search-params';
 import { useRouter } from 'next/router';
 import { ChangeEvent } from 'react';
 import { LIMIT_PER_PAGE } from '../../constants/constants';

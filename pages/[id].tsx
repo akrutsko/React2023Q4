@@ -1,13 +1,13 @@
-import ResultDetails from '@/src/components/Results/ResultDetails/ResultDetails';
-import Results from '@/src/components/Results/Results';
-import Search from '@/src/components/Search/Search';
+import ResultDetails from '@/components/Results/ResultDetails/ResultDetails';
+import Results from '@/components/Results/Results';
+import Search from '@/components/Search/Search';
 import {
   getPeople,
   getPerson,
   getRunningQueriesThunk,
-} from '@/src/features/api/peopleApi';
-import type { Data, Person } from '@/src/interfaces/SWApi';
-import { wrapper } from '@/src/store/store';
+} from '@/store/api/peopleApi';
+import type { Data, Person } from '@/interfaces/SWApi';
+import { wrapper } from '@/store/store';
 import { encode } from 'querystring';
 
 export const getServerSideProps = wrapper.getServerSideProps(

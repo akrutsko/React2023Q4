@@ -1,7 +1,7 @@
 import styles from './ResultDetails.module.css';
 
-import type { Person } from '@/src/interfaces/SWApi';
-import { getSearchParams } from '@/src/utils/search-params';
+import type { Person } from '@/interfaces/SWApi';
+import { getSearchParams } from '@/utils/search-params';
 import { useRouter } from 'next/router';
 import NoDetails from '../NoDetails/NoDetails';
 

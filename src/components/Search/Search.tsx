@@ -1,6 +1,6 @@
 import styles from './Search.module.css';
 
-import { getSearchParams } from '@/src/utils/search-params';
+import { getSearchParams } from '@/utils/search-params';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';

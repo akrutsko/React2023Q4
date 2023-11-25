@@ -24,8 +24,6 @@ export const peopleApi = createApi({
 });
 
 export const {
-  useGetPeopleQuery,
-  useGetPersonQuery,
   util: { getRunningQueriesThunk },
 } = peopleApi;
 

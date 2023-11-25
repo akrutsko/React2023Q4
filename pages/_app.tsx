@@ -1,8 +1,8 @@
-import '@/styles/globals.css';
+import '../styles/globals.css';
 
-import ErrorBoundary from '@/src/components/ErrorBoundary/ErrorBoundary';
-import ErrorButton from '@/src/components/ErrorButton/ErrorButton';
-import StoreProvider from '@/src/components/StoreProvider/StoreProvider';
+import ErrorBoundary from '@/components/ErrorBoundary/ErrorBoundary';
+import ErrorButton from '@/components/ErrorButton/ErrorButton';
+import StoreProvider from '@/components/StoreProvider/StoreProvider';
 import type { AppProps } from 'next/app';
 import RootLayout from './_layout';
 

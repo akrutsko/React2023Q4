@@ -1,7 +1,7 @@
 import styles from './Results.module.css';
 
-import type { Data, Person } from '@/src/interfaces/SWApi';
-import { getSearchParams } from '@/src/utils/search-params';
+import type { Data, Person } from '@/interfaces/SWApi';
+import { getSearchParams } from '@/utils/search-params';
 import { Router, useRouter } from 'next/router';
 import { PropsWithChildren, useEffect, useState } from 'react';
 import Pagination from '../Pagination/Pagination';

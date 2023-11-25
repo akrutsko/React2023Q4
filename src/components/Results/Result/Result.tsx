@@ -1,4 +1,4 @@
-import { getSearchParams } from '@/src/utils/search-params';
+import { getSearchParams } from '@/utils/search-params';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 
