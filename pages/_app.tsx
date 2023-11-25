@@ -4,7 +4,7 @@ import ErrorBoundary from '@/src/components/ErrorBoundary/ErrorBoundary';
 import ErrorButton from '@/src/components/ErrorButton/ErrorButton';
 import StoreProvider from '@/src/components/StoreProvider/StoreProvider';
 import type { AppProps } from 'next/app';
-import RootLayout from './layout';
+import RootLayout from './_layout';
 
 function App({ Component, pageProps }: AppProps) {
   return (
