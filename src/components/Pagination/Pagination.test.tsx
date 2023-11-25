@@ -1,59 +1,54 @@
+import { createMockRouter } from '@/tests/mocks/mockRouter';
 import { render, screen } from '@testing-library/react';
 import user from '@testing-library/user-event';
-import { Provider } from 'react-redux';
-import { BrowserRouter } from 'react-router-dom';
-import { pageUpdated } from '../../features/pageSlice';
-import { store } from '../../store/store';
-import { server } from '../../tests/msw/server';
-import Results from '../Results/Results';
+import { RouterContext } from 'next/dist/shared/lib/router-context.shared-runtime';
 import Pagination from './Pagination';
 
-beforeAll(() => server.listen({ onUnhandledRequest: 'error' }));
-afterAll(() => server.close());
-
 describe('Pagination component', () => {
-  test('the component updates URL query parameter when page changes', async () => {
-    const page = 5;
-    store.dispatch(pageUpdated(page));
+  test('the component updates "page" URL query parameter when page changes', async () => {
+    const router = createMockRouter({ query: { page: '5' } });
     user.setup();
 
     render(
-      <Provider store={store}>
-        <BrowserRouter>
-          <Pagination total={100} />
-        </BrowserRouter>
-      </Provider>,
+      <RouterContext.Provider value={router}>
+        <Pagination total={100} />
+      </RouterContext.Provider>,
     );
 
     const buttonPrev = await screen.findByRole('button', { name: '←' });
     const buttonNext = await screen.findByRole('button', { name: '→' });
 
     await user.click(buttonPrev);
-    expect(window.location.search).toContain(`page=${page - 1}`);
+    expect(router.push).toHaveBeenCalledWith(
+      expect.objectContaining({
+        query: expect.objectContaining({ page: 4 }),
+      }),
+    );
     await user.click(buttonNext);
     await user.click(buttonNext);
-    expect(window.location.search).toContain(`page=${page + 1}`);
+    expect(router.push).toHaveBeenCalledWith(
+      expect.objectContaining({
+        query: expect.objectContaining({ page: 6 }),
+      }),
+    );
   });
 
-  test('the component updates the number of items shown per page when limit changes', async () => {
-    const limitBefore = 10;
-    const limitAfter = 5;
+  test('the component updates "limit" and "page" URL query parameters when limit changes', async () => {
+    const router = createMockRouter({ query: { limit: '10' } });
     user.setup();
 
     render(
-      <Provider store={store}>
-        <BrowserRouter>
-          <Results />
-        </BrowserRouter>
-      </Provider>,
+      <RouterContext.Provider value={router}>
+        <Pagination total={100} />
+      </RouterContext.Provider>,
     );
 
     const select = await screen.findByRole('combobox');
-    let listItems = await screen.findAllByRole('listitem');
-    expect(listItems).toHaveLength(limitBefore);
-
-    await user.selectOptions(select, String(limitAfter));
-    listItems = await screen.findAllByRole('listitem');
-    expect(listItems).toHaveLength(limitAfter);
+    await user.selectOptions(select, '5');
+    expect(router.push).toHaveBeenCalledWith(
+      expect.objectContaining({
+        query: expect.objectContaining({ limit: '5' }),
+      }),
+    );
   });
 });

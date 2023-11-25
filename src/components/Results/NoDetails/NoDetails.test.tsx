@@ -1,23 +1,17 @@
+import { Person } from '@/interfaces/SWApi';
+import { createMockRouter } from '@/tests/mocks/mockRouter';
 import { render, screen } from '@testing-library/react';
-import { Provider } from 'react-redux';
-import { MemoryRouter, Route, Routes } from 'react-router-dom';
-import { store } from '../../../store/store';
-import { server } from '../../../tests/msw/server';
+import { RouterContext } from 'next/dist/shared/lib/router-context.shared-runtime';
 import ResultDetails from '../ResultDetails/ResultDetails';
 
-beforeAll(() => server.listen({ onUnhandledRequest: 'error' }));
-afterAll(() => server.close());
+describe('NoDetails component', () => {
+  test('the image is displayed if no person is present', async () => {
+    const router = createMockRouter({});
 
-describe('NotFound component', () => {
-  test('the 404 page is displayed when navigating to an invalid route', async () => {
     render(
-      <Provider store={store}>
-        <MemoryRouter initialEntries={['/invalid-route']}>
-          <Routes>
-            <Route path=":id" element={<ResultDetails />} />
-          </Routes>
-        </MemoryRouter>
-      </Provider>,
+      <RouterContext.Provider value={router}>
+        <ResultDetails person={null as unknown as Person} />
+      </RouterContext.Provider>,
     );
 
     const img = await screen.findByAltText('no person data');

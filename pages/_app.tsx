@@ -2,7 +2,7 @@ import '../styles/globals.css';
 
 import ErrorBoundary from '@/components/ErrorBoundary/ErrorBoundary';
 import ErrorButton from '@/components/ErrorButton/ErrorButton';
-import StoreProvider from '@/components/StoreProvider/StoreProvider';
+import StoreProvider from '@/store/StoreProvider/StoreProvider';
 import type { AppProps } from 'next/app';
 import RootLayout from './_layout';
 

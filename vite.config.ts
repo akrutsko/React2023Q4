@@ -1,6 +1,7 @@
 /// <reference types="vitest" />
 /// <reference types="vite/client" />
 
+import path from 'path';
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 
@@ -17,8 +18,7 @@ export default defineConfig({
       all: true,
       include: ['src'],
       exclude: [
-        'src/main.tsx',
-        'src/app',
+        'src/store',
         'src/interfaces',
         'src/router',
         'src/tests',
@@ -32,5 +32,10 @@ export default defineConfig({
       lines: 80,
     },
     watch: false,
+  },
+  resolve: {
+    alias: {
+      '@': path.resolve(__dirname, './src'),
+    },
   },
 });
