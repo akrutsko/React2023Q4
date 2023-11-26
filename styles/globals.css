@@ -36,3 +36,17 @@ button {
 input {
   outline: none;
 }
+
+/* App */
+body {
+  background-color: lightcyan;
+}
+
+input,
+button {
+  padding: 5px;
+}
+
+button:not(:disabled) {
+  cursor: pointer;
+}

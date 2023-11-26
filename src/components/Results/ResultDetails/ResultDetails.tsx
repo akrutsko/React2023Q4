@@ -1,33 +1,21 @@
 import styles from './ResultDetails.module.css';
 
-import { useEffect } from 'react';
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
-import { useGetPersonQuery } from '../../../features/api/peopleApi';
-import { useActions } from '../../../hooks';
-import NotFound from '../../NotFound/NotFound';
-import Spinner from '../../Spinner/Spinner';
+import type { Person } from '@/interfaces/SWApi';
+import { useRouter } from 'next/router';
+import NoDetails from '../NoDetails/NoDetails';
 
-export default function ResultDetails() {
-  const { id } = useParams() as { id: string };
+type Props = {
+  person: Person;
+};
 
-  const { loadingDetails } = useActions();
-  const { data, isFetching, isError } = useGetPersonQuery(id);
+export default function ResultDetails({ person }: Props) {
+  const router = useRouter();
 
-  const navigate = useNavigate();
-  const { search } = useLocation();
+  const navigateBack = () => router.back();
 
-  useEffect(() => {
-    loadingDetails(isFetching);
-  }, [loadingDetails, isFetching]);
+  if (!person) return <NoDetails />;
 
-  const handleClick = () => {
-    navigate(`/${search}`);
-  };
-
-  if (isFetching) return <Spinner />;
-  if (isError || !data) return <NotFound />;
-
-  const { name, eye_color, gender, hair_color, height, skin_color } = data;
+  const { name, eye_color, gender, hair_color, height, skin_color } = person;
   return (
     <div className={styles.wrapper}>
       <ul>
@@ -39,9 +27,9 @@ export default function ResultDetails() {
         <li>Eye color: {eye_color}</li>
       </ul>
       <div className={styles['wrapper-button']}>
-        <button onClick={handleClick}>Close</button>
+        <button onClick={navigateBack}>Close</button>
       </div>
-      <button className={styles.overlay} onClick={handleClick}></button>
+      <button className={styles.overlay} onClick={navigateBack}></button>
     </div>
   );
 }

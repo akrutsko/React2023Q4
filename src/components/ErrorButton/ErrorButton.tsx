@@ -8,7 +8,9 @@ export default function ErrorButton() {
   const handleClick = () => setError(true);
 
   if (error) {
-    throw new Error('Crashed!');
+    throw new Error(
+      'This is a test error triggered by the ErrorButton component.',
+    );
   }
 
   return (

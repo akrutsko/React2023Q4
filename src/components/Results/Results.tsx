@@ -1,46 +1,52 @@
 import styles from './Results.module.css';
 
-import { useEffect } from 'react';
-import { Outlet } from 'react-router-dom';
-import { useGetPeopleQuery } from '../../features/api/peopleApi';
-import { selectLimit } from '../../features/limitSlice';
-import { selectPage } from '../../features/pageSlice';
-import { selectSearch } from '../../features/searchSlice';
-import { useActions, useAppSelector } from '../../hooks';
+import type { Data, Person } from '@/interfaces/SWApi';
+import { getSearchParams } from '@/utils/search-params';
+import { Router, useRouter } from 'next/router';
+import { PropsWithChildren, useEffect, useState } from 'react';
 import Pagination from '../Pagination/Pagination';
 import Spinner from '../Spinner/Spinner';
 import NoResults from './NoResults/NoResults';
 import Result from './Result/Result';
 
-export default function Results() {
-  const { loadingMain } = useActions();
-  const searchTerm = useAppSelector(selectSearch);
-  const limit = useAppSelector(selectLimit);
-  const currentPage = useAppSelector(selectPage);
+type Props = {
+  people: Data<Person>;
+};
 
-  const searchParams = new URLSearchParams();
-  searchTerm && searchParams.append('search', searchTerm);
-  limit && searchParams.append('limit', limit.toString());
-  currentPage && searchParams.append('page', currentPage.toString());
-
-  const { isFetching, data, isError } = useGetPeopleQuery(
-    searchParams.toString(),
-  );
+export default function Results({
+  children,
+  people,
+}: PropsWithChildren<Props>) {
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    loadingMain(isFetching);
-  }, [loadingMain, isFetching]);
+    const handlerOn = () => setLoading(true);
+    const handlerOff = () => setLoading(false);
 
-  if (isFetching) return <Spinner />;
-  if (isError || !data) return <NoResults />;
+    Router.events.on('routeChangeStart', handlerOn);
+    Router.events.on('routeChangeComplete', handlerOff);
+    Router.events.on('routeChangeError', handlerOff);
 
-  const persons = [...data.results];
+    return () => {
+      Router.events.off('routeChangeStart', handlerOn);
+      Router.events.off('routeChangeComplete', handlerOff);
+      Router.events.off('routeChangeError', handlerOff);
+    };
+  }, []);
+
+  const router = useRouter();
+  const { limit } = getSearchParams(router.query);
+
+  if (loading) return <Spinner />;
+  if (!people) return <NoResults />;
+
+  const persons = [...people.results];
   if (!persons.length) return <NoResults />;
   persons.length = limit;
 
   return (
     <section className={styles.wrapper}>
-      <Pagination total={data.count} />
+      <Pagination key={router.asPath} total={people.count} />
       <h1 className={styles.title}>Search Results</h1>
       <div className={styles['results-wrapper']}>
         <ul className={styles.results}>
@@ -56,7 +62,7 @@ export default function Results() {
             );
           })}
         </ul>
-        <Outlet />
+        {children}
       </div>
     </section>
   );

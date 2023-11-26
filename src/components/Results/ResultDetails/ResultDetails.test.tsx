@@ -1,41 +1,20 @@
+import { personsResponse } from '@/tests/data/personsResponse';
+import { createMockRouter } from '@/tests/mocks/mockRouter';
 import { render, screen } from '@testing-library/react';
 import user from '@testing-library/user-event';
-import { Provider } from 'react-redux';
-import { MemoryRouter, Route, Routes } from 'react-router-dom';
-import { store } from '../../../store/store';
+import { RouterContext } from 'next/dist/shared/lib/router-context.shared-runtime';
 import { personsData } from '../../../tests/data/personsData';
-import { server } from '../../../tests/msw/server';
-import ResultDetails from './ResultDetails';
 import Results from '../Results';
-
-beforeAll(() => server.listen({ onUnhandledRequest: 'error' }));
-afterAll(() => server.close());
+import ResultDetails from './ResultDetails';
 
 describe('ResultDetails component', () => {
-  test('a loading indicator is displayed while fetching data', async () => {
-    render(
-      <Provider store={store}>
-        <MemoryRouter initialEntries={['/1']}>
-          <Routes>
-            <Route path=":id" element={<ResultDetails />} />
-          </Routes>
-        </MemoryRouter>
-      </Provider>,
-    );
-
-    const spinner = await screen.findByTestId('spinner');
-    expect(spinner).toBeInTheDocument();
-  });
-
   test('the detailed card component correctly displays the detailed card data', async () => {
+    const router = createMockRouter({});
+
     render(
-      <Provider store={store}>
-        <MemoryRouter initialEntries={['/1']}>
-          <Routes>
-            <Route path=":id" element={<ResultDetails />} />
-          </Routes>
-        </MemoryRouter>
-      </Provider>,
+      <RouterContext.Provider value={router}>
+        <ResultDetails person={personsData[0]} />
+      </RouterContext.Provider>,
     );
 
     await screen.findByRole('button', { name: 'Close' });
@@ -50,26 +29,20 @@ describe('ResultDetails component', () => {
     expect(screen.getByText(eye_color, { exact: false })).toBeInTheDocument();
   });
 
-  test('clicking the close button hides the component', async () => {
+  test('clicking the close button navigates back to the index page', async () => {
+    const router = createMockRouter({});
     user.setup();
 
     render(
-      <Provider store={store}>
-        <MemoryRouter initialEntries={['/1']}>
-          <Routes>
-            <Route path="/" element={<Results />}>
-              <Route path=":id" element={<ResultDetails />} />
-            </Route>
-          </Routes>
-        </MemoryRouter>
-      </Provider>,
+      <RouterContext.Provider value={router}>
+        <Results people={personsResponse}>
+          <ResultDetails person={personsData[0]} />
+        </Results>
+      </RouterContext.Provider>,
     );
 
     const button = await screen.findByRole('button', { name: 'Close' });
     await user.click(button);
-
-    expect(
-      screen.queryByRole('button', { name: 'Close' }),
-    ).not.toBeInTheDocument();
+    expect(router.back).toHaveBeenCalled();
   });
 });

@@ -1,46 +1,66 @@
+import { createMockRouter } from '@/tests/mocks/mockRouter';
 import { render, screen } from '@testing-library/react';
 import user from '@testing-library/user-event';
-import { Provider } from 'react-redux';
-import { BrowserRouter } from 'react-router-dom';
-import { getSearchTerm, setSearchTerm } from '../../services/local-storage';
-import { store } from '../../store/store';
+import { RouterContext } from 'next/dist/shared/lib/router-context.shared-runtime';
 import Search from './Search';
 
 describe('Search component', () => {
-  test('the component retrieves the value from the local storage upon mounting', async () => {
-    const searchTerm = 'Darth';
-    setSearchTerm(searchTerm);
-
-    const { mockStore } = await import('../../tests/mocks/mockStore');
-
+  test('a value from the url is displayed in the component', () => {
+    const searchTerm = 'Luke';
+    const router = createMockRouter({ query: { search: searchTerm } });
     render(
-      <Provider store={mockStore}>
-        <BrowserRouter>
-          <Search />
-        </BrowserRouter>
-      </Provider>,
+      <RouterContext.Provider value={router}>
+        <Search />
+      </RouterContext.Provider>,
     );
 
-    const input = await screen.findByRole<HTMLInputElement>('textbox');
+    const input = screen.getByRole<HTMLInputElement>('textbox');
     expect(input).toHaveValue(searchTerm);
   });
 
-  test('clicking the Search button saves the entered value to the local storage', async () => {
+  test('the component updates "search" URL query parameter on search', async () => {
+    const router = createMockRouter({});
     const searchTerm = 'Luke';
     user.setup();
 
     render(
-      <BrowserRouter>
-        <Provider store={store}>
-          <Search />
-        </Provider>
-      </BrowserRouter>,
+      <RouterContext.Provider value={router}>
+        <Search />
+      </RouterContext.Provider>,
     );
 
-    const searchBtn = screen.getByRole('button', { name: 'Search' });
-    const input = screen.getByRole('textbox');
+    const input = screen.getByRole<HTMLInputElement>('textbox');
     await user.type(input, searchTerm);
-    await user.click(searchBtn);
-    expect(getSearchTerm()).toEqual(searchTerm);
+
+    const button = screen.getByRole('button');
+    await user.click(button);
+
+    expect(router.push).toHaveBeenCalledWith(
+      expect.objectContaining({
+        query: expect.objectContaining({ search: searchTerm }),
+      }),
+    );
+  });
+
+  test('clicking on the logo navigates to the index page and clears input', async () => {
+    const router = createMockRouter({});
+    user.setup();
+
+    render(
+      <RouterContext.Provider value={router}>
+        <Search />
+      </RouterContext.Provider>,
+    );
+
+    const input = screen.getByRole<HTMLInputElement>('textbox');
+    await user.type(input, 'Luke');
+
+    const logo = screen.getByRole('img');
+    await user.click(logo);
+
+    expect(router.push).toHaveBeenCalledWith(
+      expect.objectContaining({ pathname: '/' }),
+    );
+    expect(input.value).toBe('');
   });
 });

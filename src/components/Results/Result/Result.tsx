@@ -1,4 +1,5 @@
-import { LinkWithQuery } from '../../LinkWithQuery/LinkWithQuery';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
 
 type Props = {
   name: string;
@@ -7,18 +8,20 @@ type Props = {
 };
 
 export default function Result({ name, birth_year, url }: Props) {
+  const router = useRouter();
+
   const id = url.split('/').filter(Boolean).at(-1);
 
   return (
     <li>
-      <LinkWithQuery to={id || ''}>
+      <Link href={`/${id}${router.asPath}`}>
         <p>
           <i>Name:</i> {name}
         </p>
         <p>
           <i>Birth year:</i> {birth_year}
         </p>
-      </LinkWithQuery>
+      </Link>
     </li>
   );
 }
