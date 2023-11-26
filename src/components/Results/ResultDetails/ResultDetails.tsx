@@ -1,7 +1,6 @@
 import styles from './ResultDetails.module.css';
 
 import type { Person } from '@/interfaces/SWApi';
-import { getSearchParams } from '@/utils/search-params';
 import { useRouter } from 'next/router';
 import NoDetails from '../NoDetails/NoDetails';
 
@@ -11,14 +10,6 @@ type Props = {
 
 export default function ResultDetails({ person }: Props) {
   const router = useRouter();
-  const { search, limit, page } = getSearchParams(router.query);
-
-  const handleClick = () => {
-    router.push({
-      pathname: '/',
-      query: { search, page, limit },
-    });
-  };
 
   if (!person) return <NoDetails />;
 
@@ -34,9 +25,9 @@ export default function ResultDetails({ person }: Props) {
         <li>Eye color: {eye_color}</li>
       </ul>
       <div className={styles['wrapper-button']}>
-        <button onClick={handleClick}>Close</button>
+        <button onClick={router.back}>Close</button>
       </div>
-      <button className={styles.overlay} onClick={handleClick}></button>
+      <button className={styles.overlay} onClick={router.back}></button>
     </div>
   );
 }

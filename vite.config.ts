@@ -31,7 +31,7 @@ export default defineConfig({
       functions: 80,
       lines: 80,
     },
-    watch: false,
+    watch: true,
   },
   resolve: {
     alias: {

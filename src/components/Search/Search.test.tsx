@@ -5,10 +5,9 @@ import { RouterContext } from 'next/dist/shared/lib/router-context.shared-runtim
 import Search from './Search';
 
 describe('Search component', () => {
-  test('clicking on the logo navigates to the index page and clears input', async () => {
-    const router = createMockRouter({});
-    user.setup();
-
+  test('a value from the url is displayed in the component', () => {
+    const searchTerm = 'Luke';
+    const router = createMockRouter({ query: { search: searchTerm } });
     render(
       <RouterContext.Provider value={router}>
         <Search />
@@ -16,15 +15,7 @@ describe('Search component', () => {
     );
 
     const input = screen.getByRole<HTMLInputElement>('textbox');
-    await user.type(input, 'Luke');
-
-    const logo = screen.getByRole('img');
-    await user.click(logo);
-
-    expect(router.push).toHaveBeenCalledWith(
-      expect.objectContaining({ pathname: '/' }),
-    );
-    expect(input.value).toBe('');
+    expect(input).toHaveValue(searchTerm);
   });
 
   test('the component updates "search" URL query parameter on search', async () => {
@@ -49,5 +40,27 @@ describe('Search component', () => {
         query: expect.objectContaining({ search: searchTerm }),
       }),
     );
+  });
+
+  test('clicking on the logo navigates to the index page and clears input', async () => {
+    const router = createMockRouter({});
+    user.setup();
+
+    render(
+      <RouterContext.Provider value={router}>
+        <Search />
+      </RouterContext.Provider>,
+    );
+
+    const input = screen.getByRole<HTMLInputElement>('textbox');
+    await user.type(input, 'Luke');
+
+    const logo = screen.getByRole('img');
+    await user.click(logo);
+
+    expect(router.push).toHaveBeenCalledWith(
+      expect.objectContaining({ pathname: '/' }),
+    );
+    expect(input.value).toBe('');
   });
 });

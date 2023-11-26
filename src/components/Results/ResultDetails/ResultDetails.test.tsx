@@ -29,7 +29,7 @@ describe('ResultDetails component', () => {
     expect(screen.getByText(eye_color, { exact: false })).toBeInTheDocument();
   });
 
-  test('clicking the close button navigates to the index page', async () => {
+  test('clicking the close button navigates back to the index page', async () => {
     const router = createMockRouter({});
     user.setup();
 
@@ -43,8 +43,6 @@ describe('ResultDetails component', () => {
 
     const button = await screen.findByRole('button', { name: 'Close' });
     await user.click(button);
-    expect(router.push).toHaveBeenCalledWith(
-      expect.objectContaining({ pathname: '/' }),
-    );
+    expect(router.back).toHaveBeenCalled();
   });
 });

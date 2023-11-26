@@ -21,7 +21,7 @@ export default function Pagination({ total }: Props) {
     const { value } = e.target;
     router.push({
       pathname: '/',
-      query: { search, page, limit: value },
+      query: { search, limit: value, page },
     });
   };
 
