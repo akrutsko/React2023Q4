@@ -11,6 +11,8 @@ type Props = {
 export default function ResultDetails({ person }: Props) {
   const router = useRouter();
 
+  const navigateBack = () => router.back();
+
   if (!person) return <NoDetails />;
 
   const { name, eye_color, gender, hair_color, height, skin_color } = person;
@@ -25,9 +27,9 @@ export default function ResultDetails({ person }: Props) {
         <li>Eye color: {eye_color}</li>
       </ul>
       <div className={styles['wrapper-button']}>
-        <button onClick={router.back}>Close</button>
+        <button onClick={navigateBack}>Close</button>
       </div>
-      <button className={styles.overlay} onClick={router.back}></button>
+      <button className={styles.overlay} onClick={navigateBack}></button>
     </div>
   );
 }
