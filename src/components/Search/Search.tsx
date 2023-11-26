@@ -10,13 +10,13 @@ export default function Search() {
   const textInput = useRef<HTMLInputElement>(null);
 
   const router = useRouter();
-  const { search, limit, page } = getSearchParams(router.query);
+  const { search } = getSearchParams(router.query);
 
   const handleSearchClick = () => {
     const search = textInput.current?.value.trim() || '';
     router.push({
       pathname: '/',
-      query: { search, limit, page },
+      query: { search },
     });
   };
 
