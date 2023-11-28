@@ -1,3 +1,13 @@
+@import url("https://fonts.googleapis.com/css?family=Ubuntu:700|Ubuntu:400&display=swap");
+
+:root {
+  --text: #03050c;
+  --bg: #f7f8fd;
+  --primary: #3751c3;
+  --secondary: #bbc4ec;
+  --accent: #3047ab;
+}
+
 html {
   box-sizing: border-box;
   font-size: 62.5%;
@@ -25,14 +35,21 @@ svg {
 
 :any-link {
   text-decoration: none;
-  color: inherit;
 }
 
 button {
   outline-color: transparent;
   background-color: transparent;
+  border: none;
 }
 
 input {
   outline: none;
+}
+
+body {
+  background-color: var(--bg);
+  color: var(--text);
+  font-family: "Ubuntu";
+  font-weight: 400;
 }
