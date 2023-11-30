@@ -5,10 +5,5 @@ import { useAppDispatch } from './hooks';
 export function useActions() {
   const dispatch = useAppDispatch();
 
-  return bindActionCreators(
-    {
-      formsReducer,
-    },
-    dispatch,
-  );
+  return bindActionCreators({ formsReducer }, dispatch);
 }
