@@ -5,20 +5,21 @@ main {
   padding: 2rem;
 }
 
-.button {
+button {
   display: grid;
   place-items: center;
+  font-size: 3rem;
+  color: rgb(247, 248, 253);
   background-color: var(--primary);
   border-radius: 6px;
+  cursor: pointer;
   transition:
     transform ease 0.2s,
     box-shadow ease 0.2s;
 }
 
 .button-link {
-  width: 100%;
-  padding: 3rem;
-  font-size: 3rem;
+  padding: 2rem;
   color: rgb(247, 248, 253);
 }
 

@@ -1,3 +1,5 @@
+import type { Image } from './Image';
+
 export type Form = {
   name: string;
   age: number;
@@ -6,7 +8,7 @@ export type Form = {
   confirmPassword: string;
   gender: string;
   consent: boolean;
-  image: InstanceType<typeof Blob>;
+  image: Image;
   country: string;
   createdAt: ReturnType<typeof Date.now>;
 };
