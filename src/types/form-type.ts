@@ -1,14 +1,14 @@
-import type { Image } from './Image';
+import type { Image } from './image-type';
 
 export type Form = {
   name: string;
   age: number;
+  gender: string;
+  country: string;
+  image: Image;
   email: string;
   password: string;
   confirmPassword: string;
-  gender: string;
   consent: boolean;
-  image: Image;
-  country: string;
   createdAt: ReturnType<typeof Date.now>;
 };
