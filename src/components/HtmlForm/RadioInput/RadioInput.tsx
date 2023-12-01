@@ -1,5 +1,10 @@
-import type { ChangeEvent, InputHTMLAttributes, MutableRefObject } from 'react';
-import type { Input } from '../../../types/Input';
+import {
+  Fragment,
+  type ChangeEvent,
+  type InputHTMLAttributes,
+  type MutableRefObject,
+} from 'react';
+import type { Input } from '../../../types/input';
 
 type Props = {
   error: string;
@@ -14,7 +19,7 @@ export default function RadioInput({ input, name, error, gender }: RadioProps) {
   };
 
   const inputs = input.map((input) => (
-    <>
+    <Fragment key={input.id}>
       <input
         id={input.id}
         name={name}
@@ -24,7 +29,7 @@ export default function RadioInput({ input, name, error, gender }: RadioProps) {
         onChange={handleChange}
       />
       <label htmlFor="male">{input.label}</label>
-    </>
+    </Fragment>
   ));
 
   return (

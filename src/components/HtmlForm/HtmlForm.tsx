@@ -1,6 +1,9 @@
 import './HtmlForm.module.css';
 
-import { useRef, type FormEvent } from 'react';
+import { useRef, useState, type FormEvent } from 'react';
+import { ValidationError } from 'yup';
+import { formSchema } from '../../types/schema';
+import type { Validation } from '../../types/validation';
 import CheckboxInput from './CheckboxInput/CheckboxInput';
 import EmailInput from './EmailInput/EmailInput';
 import FileInput from './FileInput/FileInput';
@@ -9,8 +12,17 @@ import NumberInput from './NumberInput/NumberInput';
 import PasswordInput from './PasswordInput/PasswordInput';
 import RadioInput from './RadioInput/RadioInput';
 import TextInput from './TextInput/TextInput';
+import { validationErrors } from '../../assets/constants';
+import { getBase64 } from '../../utils/image-base64';
+import type { Form } from '../../types/form';
+import { useActions } from '../../hooks/useActions';
+import { useNavigate } from 'react-router-dom';
 
 export default function HtmlForm() {
+  const [errors, setErrors] = useState<Validation>(validationErrors);
+  const { addForm } = useActions();
+  const navigate = useNavigate();
+
   const nameRef = useRef<HTMLInputElement>(null);
   const ageRef = useRef<HTMLInputElement>(null);
   const genderRef = useRef('');
@@ -21,29 +33,40 @@ export default function HtmlForm() {
   const pwdConfirmRef = useRef<HTMLInputElement>(null);
   const consentRef = useRef<HTMLInputElement>(null);
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    console.log(nameRef.current?.value);
-    console.log(ageRef.current?.value);
-    console.log(genderRef.current);
-    console.log(countryRef.current?.value);
-    console.log(fileRef.current?.value);
-    console.log(emailRef.current?.value);
-    console.log((fileRef.current?.files?.[0] as File).type);
-    console.log((fileRef.current?.files?.[0] as File).size);
-    console.log(pwdRef.current?.value);
-    console.log(pwdConfirmRef.current?.value);
-    console.log(consentRef.current?.checked);
+    setErrors(validationErrors);
 
-    const reader = new FileReader();
-    if (fileRef.current?.files?.[0]) {
-      reader.readAsBinaryString(fileRef.current?.files?.[0]);
-      reader.onload = function () {
-        console.log('Result:', btoa(reader.result as string));
-      };
-      reader.onerror = function (error) {
-        console.log('Error: ', error);
-      };
+    const form = {
+      name: nameRef.current?.value,
+      age: ageRef.current?.value,
+      gender: genderRef.current,
+      country: countryRef.current?.value,
+      imageType: (fileRef.current?.files?.[0] as File)?.type,
+      imageSize: (fileRef.current?.files?.[0] as File)?.size,
+      imageBase64: '',
+      email: emailRef.current?.value,
+      password: pwdRef.current?.value,
+      confirmPassword: pwdConfirmRef.current?.value,
+      consent: consentRef.current?.checked,
+    };
+
+    try {
+      await formSchema.validate(form, { abortEarly: false });
+      const file = fileRef.current?.files?.[0];
+      form.imageBase64 = await getBase64(file!);
+      addForm(form as unknown as Form);
+      navigate('/');
+    } catch (err) {
+      if (err instanceof ValidationError) {
+        err.inner.reverse().forEach((err) => {
+          const path = err.path as keyof Validation;
+          setErrors((errors) => ({
+            ...errors,
+            [path]: err.message,
+          }));
+        });
+      }
     }
   };
 
@@ -60,59 +83,65 @@ export default function HtmlForm() {
           id="name"
           name="name"
           label="Name:"
-          error="Name is required."
+          error={errors.name}
           ref={nameRef}
         />
-        <NumberInput id="age" name="age" label="Age:" error="" ref={ageRef} />
+        <NumberInput
+          id="age"
+          name="age"
+          label="Age:"
+          error={errors.age}
+          ref={ageRef}
+        />
         <RadioInput
           input={[
             { id: 'male', label: 'Male', defaultValue: 'Male' },
             { id: 'female', label: 'Female', defaultValue: 'Female' },
           ]}
           name="gender"
-          error=""
+          error={errors.gender}
           gender={genderRef}
         />
         <ListInput
           id="country"
           name="country"
           label="Country:"
-          error=""
+          error={errors.country}
           ref={countryRef}
         />
         <FileInput
           id="image"
           name="image"
           label="Image:"
-          error=""
+          error={errors.imageType || errors.imageSize}
           ref={fileRef}
         />
         <EmailInput
           id="email"
           name="email"
           label="Email:"
-          error=""
+          error={errors.email}
           ref={emailRef}
         />
         <PasswordInput
           id="pwd1"
           name="pwd1"
           label="Password:"
-          error=""
+          error={errors.password}
           ref={pwdRef}
         />
         <PasswordInput
           id="pwd2"
           name="pwd2"
           label="Password Confirmed:"
-          error=""
+          error={errors.confirmPassword}
           ref={pwdConfirmRef}
         />
         <CheckboxInput
           id="consent"
           name="consent"
-          label="I agree..."
-          error=""
+          label="I accept the terms and conditions"
+          error={errors.consent}
           ref={consentRef}
         />
         <button>Submit</button>
