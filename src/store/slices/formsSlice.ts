@@ -1,6 +1,6 @@
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { createSlice } from '@reduxjs/toolkit';
-import type { Form } from '../../types/Form';
+import type { Form } from '../../types/form';
 
 type InitialState = Form[];
 
@@ -10,7 +10,7 @@ export const formsSlice = createSlice({
   name: 'forms',
   initialState,
   reducers: {
-    formAdded: {
+    addForm: {
       reducer(state, action: PayloadAction<Form>) {
         state.push(action.payload);
       },
@@ -26,6 +26,6 @@ export const formsSlice = createSlice({
   },
 });
 
-export const { formAdded } = formsSlice.actions;
+export const { addForm } = formsSlice.actions;
 
 export const formsReducer = formsSlice.reducer;

@@ -1,11 +1,11 @@
-import type { Image } from './image-type';
-
 export type Form = {
   name: string;
   age: number;
   gender: string;
   country: string;
-  image: Image;
+  imageType: string;
+  imageSize: number;
+  imageBase64: string;
   email: string;
   password: string;
   confirmPassword: string;
