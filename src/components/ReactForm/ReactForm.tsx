@@ -6,17 +6,13 @@ import { useActions } from '../../hooks/useActions';
 import { selectCountries } from '../../store/slices/countriesSlice';
 import { formSchema, type FormSchema } from '../../types';
 import { getSliceForm } from '../../utils';
+import Countries from '../Countries/Countries';
 
 export default function ReactFrom() {
   const { addForm } = useActions();
   const navigate = useNavigate();
 
   const countries = useAppSelector(selectCountries);
-  const options = countries.map((country) => (
-    <option key={country.code} value={country.name}>
-      {country.name}
-    </option>
-  ));
 
   const form = useForm<FormSchema>({
     mode: 'onBlur',
@@ -60,7 +56,7 @@ export default function ReactFrom() {
           <label htmlFor="c">Country:</label>
           <input id="c" type="text" list="countries" {...register('country')} />
         </fieldset>
-        <datalist id="countries">{options}</datalist>
+        <Countries id="countries" countries={countries} />
 
         <fieldset name="file">
           <legend>{errors.image?.message}</legend>

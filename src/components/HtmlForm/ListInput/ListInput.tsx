@@ -2,6 +2,7 @@ import type { InputHTMLAttributes, LegacyRef } from 'react';
 import { forwardRef } from 'react';
 import { useAppSelector } from '../../../hooks/hooks';
 import { selectCountries } from '../../../store/slices/countriesSlice';
+import Countries from '../../Countries/Countries';
 
 type Props = {
   error: string;
@@ -14,11 +15,6 @@ function Text(
   ref: LegacyRef<HTMLInputElement>,
 ) {
   const countries = useAppSelector(selectCountries);
-  const options = countries.map((country) => (
-    <option key={country.code} value={country.name}>
-      {country.name}
-    </option>
-  ));
 
   return (
     <>
@@ -34,7 +30,7 @@ function Text(
           defaultValue=""
         />
       </fieldset>
-      <datalist id={`${id}${name}`}>{options}</datalist>
+      <Countries id={`${id}${name}`} countries={countries} />
     </>
   );
 }
