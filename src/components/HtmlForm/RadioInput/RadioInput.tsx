@@ -4,11 +4,14 @@ import {
   type InputHTMLAttributes,
   type MutableRefObject,
 } from 'react';
-import type { Input } from '../../../types/input';
 
 type Props = {
   error: string;
-  input: Input[];
+  input: Array<{
+    id: string;
+    label: string;
+    defaultValue: string;
+  }>;
   gender: MutableRefObject<string>;
 };
 type RadioProps = Props & InputHTMLAttributes<HTMLInputElement>;
@@ -28,7 +31,7 @@ export default function RadioInput({ input, name, error, gender }: RadioProps) {
         defaultValue={input.defaultValue}
         onChange={handleChange}
       />
-      <label htmlFor="male">{input.label}</label>
+      <label htmlFor={input.id}>{input.label}</label>
     </Fragment>
   ));
 

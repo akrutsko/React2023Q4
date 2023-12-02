@@ -1,38 +1,4 @@
-main {
-  display: flex;
-  justify-content: center;
-  gap: 3rem;
-  padding: 2rem;
-}
-
-button {
-  display: grid;
-  place-items: center;
-  font-size: 3rem;
-  color: rgb(247, 248, 253);
-  background-color: var(--primary);
-  border-radius: 6px;
-  cursor: pointer;
-  transition:
-    transform ease 0.2s,
-    box-shadow ease 0.2s;
-}
-
 .button-link {
   padding: 2rem;
   color: rgb(247, 248, 253);
-}
-
-button:hover,
-button:focus {
-  box-shadow: rgba(0, 0, 0, 0.1) 0 4px 12px;
-}
-
-button:hover {
-  transform: translateY(-3px);
-}
-
-button:active {
-  box-shadow: rgba(0, 0, 0, 0.06) 0 2px 4px;
-  transform: translateY(0);
 }

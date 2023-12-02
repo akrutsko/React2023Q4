@@ -1,9 +1,10 @@
-import './HtmlForm.module.css';
-
 import { useRef, useState, type FormEvent } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { ValidationError } from 'yup';
-import { formSchema } from '../../types/schema';
-import type { Validation } from '../../types/validation';
+import { validationErrors } from '../../assets/constants';
+import { useActions } from '../../hooks/useActions';
+import { type WebForm, type FormSchema, formSchema } from '../../types';
+import { getSliceForm } from '../../utils';
 import CheckboxInput from './CheckboxInput/CheckboxInput';
 import EmailInput from './EmailInput/EmailInput';
 import FileInput from './FileInput/FileInput';
@@ -12,14 +13,9 @@ import NumberInput from './NumberInput/NumberInput';
 import PasswordInput from './PasswordInput/PasswordInput';
 import RadioInput from './RadioInput/RadioInput';
 import TextInput from './TextInput/TextInput';
-import { validationErrors } from '../../assets/constants';
-import { getBase64 } from '../../utils/image-base64';
-import type { Form } from '../../types/form';
-import { useActions } from '../../hooks/useActions';
-import { useNavigate } from 'react-router-dom';
 
 export default function HtmlForm() {
-  const [errors, setErrors] = useState<Validation>(validationErrors);
+  const [errors, setErrors] = useState(validationErrors);
   const { addForm } = useActions();
   const navigate = useNavigate();
 
@@ -35,6 +31,7 @@ export default function HtmlForm() {
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+
     setErrors(validationErrors);
 
     const form = {
@@ -42,25 +39,22 @@ export default function HtmlForm() {
       age: ageRef.current?.value,
       gender: genderRef.current,
       country: countryRef.current?.value,
-      imageType: (fileRef.current?.files?.[0] as File)?.type,
-      imageSize: (fileRef.current?.files?.[0] as File)?.size,
-      imageBase64: '',
+      image: fileRef.current?.files,
       email: emailRef.current?.value,
       password: pwdRef.current?.value,
       confirmPassword: pwdConfirmRef.current?.value,
       consent: consentRef.current?.checked,
-    };
+    } as unknown as FormSchema;
 
     try {
       await formSchema.validate(form, { abortEarly: false });
-      const file = fileRef.current?.files?.[0];
-      form.imageBase64 = await getBase64(file!);
-      addForm(form as unknown as Form);
+      const sliceForm = await getSliceForm(form);
+      addForm(sliceForm);
       navigate('/');
     } catch (err) {
       if (err instanceof ValidationError) {
         err.inner.reverse().forEach((err) => {
-          const path = err.path as keyof Validation;
+          const path = err.path as keyof WebForm;
           setErrors((errors) => ({
             ...errors,
             [path]: err.message,
@@ -73,12 +67,7 @@ export default function HtmlForm() {
   return (
     <section>
       <h1>HtmlForm</h1>
-      <form
-        id="html-form"
-        autoComplete="off"
-        noValidate
-        onSubmit={handleSubmit}
-      >
+      <form id="html-form" noValidate onSubmit={handleSubmit}>
         <TextInput
           id="name"
           name="name"
@@ -113,7 +102,7 @@ export default function HtmlForm() {
           id="image"
           name="image"
           label="Image:"
-          error={errors.imageType || errors.imageSize}
+          error={errors.image}
           ref={fileRef}
         />
         <EmailInput
@@ -124,15 +113,15 @@ export default function HtmlForm() {
           ref={emailRef}
         />
         <PasswordInput
-          id="pwd1"
-          name="pwd1"
+          id="password"
+          name="password"
           label="Password:"
           error={errors.password}
           ref={pwdRef}
         />
         <PasswordInput
-          id="pwd2"
-          name="pwd2"
+          id="confirmPassword"
+          name="confirmPassword"
           label="Password Confirmed:"
           error={errors.confirmPassword}
           ref={pwdConfirmRef}

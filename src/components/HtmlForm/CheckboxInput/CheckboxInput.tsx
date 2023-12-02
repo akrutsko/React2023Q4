@@ -21,7 +21,7 @@ function Checkbox(
         ref={ref}
         defaultChecked={false}
       />
-      <label htmlFor="consent">{label}</label>
+      <label htmlFor={id}>{label}</label>
     </fieldset>
   );
 }
