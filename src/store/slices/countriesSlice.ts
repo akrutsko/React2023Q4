@@ -1,7 +1,7 @@
 import countries from '../../data/countries.json';
 
 import { createSlice } from '@reduxjs/toolkit';
-import type { Country } from '../../types/country';
+import type { Country } from '../../types';
 import type { RootState } from '../store';
 
 type initialState = Country[];

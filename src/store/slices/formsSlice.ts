@@ -1,8 +1,8 @@
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { createSlice } from '@reduxjs/toolkit';
-import type { Form } from '../../types/form';
+import type { SliceForm } from '../../types';
 
-type InitialState = Form[];
+type InitialState = SliceForm[];
 
 const initialState: InitialState = [];
 
@@ -11,10 +11,10 @@ export const formsSlice = createSlice({
   initialState,
   reducers: {
     addForm: {
-      reducer(state, action: PayloadAction<Form>) {
+      reducer(state, action: PayloadAction<SliceForm>) {
         state.push(action.payload);
       },
-      prepare(form: Omit<Form, 'createdAt'>) {
+      prepare(form: Omit<SliceForm, 'createdAt'>) {
         return {
           payload: {
             ...form,
