@@ -123,7 +123,7 @@ export default function HtmlForm() {
         <PasswordInput
           id="confirmPassword"
           name="confirmPassword"
-          label="Password Confirmed:"
+          label="Confirm Password:"
           error={errors.confirmPassword}
           ref={pwdConfirmRef}
         />

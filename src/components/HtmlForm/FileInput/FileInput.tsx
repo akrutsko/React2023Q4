@@ -12,7 +12,7 @@ function File(
   ref: LegacyRef<HTMLInputElement>,
 ) {
   return (
-    <fieldset name="checkbox">
+    <fieldset name="file">
       <legend>{error}</legend>
       <label htmlFor={id}>{label}</label>
       <input id={id} name={name} type="file" ref={ref} />

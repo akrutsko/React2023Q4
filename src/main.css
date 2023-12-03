@@ -90,8 +90,7 @@ fieldset {
 }
 
 fieldset[name="checkbox"],
-fieldset[name="radio"],
-fieldset[name="file"] {
+fieldset[name="radio"] {
   flex-direction: row;
   gap: 1rem;
 }
