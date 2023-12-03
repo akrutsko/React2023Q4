@@ -1,12 +1,12 @@
-import Forms from './Forms/Forms';
 import styles from './Main.module.css';
 
 import { Link } from 'react-router-dom';
+import Forms from './Forms/Forms';
 
 export default function Main() {
   return (
     <>
-      <main>
+      <header>
         <button>
           <Link to="/html-form" className={styles['button-link']}>
             HTML Form
@@ -17,10 +17,10 @@ export default function Main() {
             React Hook Form
           </Link>
         </button>
-      </main>
-      <div>
+      </header>
+      <main>
         <Forms />
-      </div>
+      </main>
     </>
   );
 }
