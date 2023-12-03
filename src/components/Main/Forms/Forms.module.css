@@ -4,7 +4,7 @@
 
 @keyframes bgc {
   from {
-    background-color: var(--accent);
+    background-color: gold;
   }
   to {
     background-color: var(--secondary);

@@ -14,6 +14,14 @@ export default function Forms() {
 
         return (
           <li key={form.createdAt} className={isNew ? styles.new : ''}>
+            <div>
+              <img
+                src={form.image.base64}
+                alt="photo"
+                width={100}
+                height={100}
+              />
+            </div>
             <p>Name: {form.name}</p>
             <p>Age: {form.age}</p>
             <p>Gender: {form.gender}</p>
@@ -21,9 +29,6 @@ export default function Forms() {
             <p>Email: {form.email}</p>
             <p>Password: {form.password}</p>
             <p>Consent: {form.consent ? 'true' : 'false'}</p>
-            <div>
-              <img src={form.image.base64} alt="photo" />
-            </div>
           </li>
         );
       })}

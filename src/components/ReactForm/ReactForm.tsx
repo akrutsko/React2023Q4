@@ -36,7 +36,7 @@ export default function ReactFrom() {
 
   return (
     <section>
-      <h1>ReactFrom</h1>
+      <h1>ReactForm</h1>
       <form id="react-form" noValidate onSubmit={handleSubmit(onSubmit)}>
         <fieldset>
           <legend>{errors.name?.message}</legend>
@@ -104,8 +104,8 @@ export default function ReactFrom() {
 
         <fieldset name="checkbox">
           <legend>{errors.consent?.message}</legend>
-          <input id="c" type="checkbox" {...register('consent')} />
-          <label htmlFor="c">I accept the terms and conditions</label>
+          <input id="cb" type="checkbox" {...register('consent')} />
+          <label htmlFor="cb">I accept the terms and conditions</label>
         </fieldset>
 
         <button disabled={!isValid}>Submit</button>
