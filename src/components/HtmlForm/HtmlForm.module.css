@@ -1,0 +1,48 @@
+section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+h1 {
+  margin: 2rem 0;
+  font-size: 3rem;
+}
+
+form > *:not(:last-child) {
+  width: clamp(300px, 35vw, 500px);
+  margin-bottom: 1.2rem;
+}
+
+form button {
+  padding: 1rem;
+  max-width: 150px;
+  margin: 0 auto;
+}
+
+fieldset {
+  display: flex;
+  flex-direction: column;
+  border: none;
+
+  *:not(:first-child) {
+    font-size: 1.5rem;
+  }
+}
+
+fieldset[name="checkbox"],
+fieldset[name="radio"] {
+  flex-direction: row;
+  gap: 1rem;
+}
+
+legend {
+  min-height: 10px;
+  font-family: sans-serif;
+  font-size: 9px;
+  color: red;
+}
+
+label {
+  padding-bottom: 2px;
+}

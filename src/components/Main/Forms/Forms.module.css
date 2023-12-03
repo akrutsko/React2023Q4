@@ -1,0 +1,12 @@
+.new {
+  animation: bgc 10s linear;
+}
+
+@keyframes bgc {
+  from {
+    background-color: gold;
+  }
+  to {
+    background-color: var(--secondary);
+  }
+}
