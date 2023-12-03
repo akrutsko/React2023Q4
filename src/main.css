@@ -146,3 +146,13 @@ button:active:not(:disabled) {
   box-shadow: rgba(0, 0, 0, 0.06) 0 2px 4px;
   transform: translateY(0);
 }
+
+fieldset[name="password"] {
+  position: relative;
+}
+
+meter {
+  position: absolute;
+  right: 0;
+  top: 0.5rem;
+}

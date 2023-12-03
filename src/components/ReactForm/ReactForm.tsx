@@ -5,8 +5,9 @@ import { useAppSelector } from '../../hooks/hooks';
 import { useActions } from '../../hooks/useActions';
 import { selectCountries } from '../../store/slices/countriesSlice';
 import { formSchema, type FormSchema } from '../../types';
-import { getSliceForm } from '../../utils';
+import { getPasswordStrength, getSliceForm } from '../../utils';
 import Countries from '../Countries/Countries';
+import { type ChangeEvent, useState } from 'react';
 
 export default function ReactFrom() {
   const { addForm } = useActions();
@@ -20,6 +21,12 @@ export default function ReactFrom() {
   });
   const { register, handleSubmit, formState } = form;
   const { errors, isValid } = formState;
+
+  const [strength, setStrength] = useState(0);
+  const handleMeter = (event: ChangeEvent<HTMLInputElement>) => {
+    const strength = getPasswordStrength(event.target.value);
+    setStrength(strength);
+  };
 
   const onSubmit = async (data: FormSchema) => {
     const sliceForm = await getSliceForm(data);
@@ -70,10 +77,23 @@ export default function ReactFrom() {
           <input id="e" type="email" {...register('email')} />
         </fieldset>
 
-        <fieldset>
+        <fieldset name="password">
           <legend>{errors.password?.message}</legend>
           <label htmlFor="p1">Password:</label>
-          <input id="p1" type="password" {...register('password')} />
+          <input
+            id="p1"
+            type="password"
+            {...register('password')}
+            onChange={handleMeter}
+          />
+          <meter
+            min={0}
+            max={85}
+            low={35}
+            high={65}
+            optimum={85}
+            value={strength}
+          />
         </fieldset>
 
         <fieldset>

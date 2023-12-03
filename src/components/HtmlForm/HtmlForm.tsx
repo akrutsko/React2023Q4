@@ -118,6 +118,7 @@ export default function HtmlForm() {
           label="Password:"
           error={errors.password}
           ref={pwdRef}
+          meter
         />
         <PasswordInput
           id="confirmPassword"
