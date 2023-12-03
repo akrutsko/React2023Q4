@@ -15,7 +15,7 @@ export default function ReactFrom() {
   const countries = useAppSelector(selectCountries);
 
   const form = useForm<FormSchema>({
-    mode: 'onBlur',
+    mode: 'all',
     resolver: yupResolver(formSchema),
   });
   const { register, handleSubmit, formState } = form;

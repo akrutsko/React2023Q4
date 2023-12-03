@@ -2,3 +2,30 @@
   padding: 2rem;
   color: rgb(247, 248, 253);
 }
+
+ul {
+  padding: 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  gap: 1rem;
+}
+
+li {
+  width: 400px;
+  height: 400px;
+  flex-grow: 1;
+  overflow: hidden;
+  background-color: var(--secondary);
+  font-size: 2rem;
+  padding: 1rem;
+}
+
+li p {
+  text-wrap: nowrap;
+}
+
+li img {
+  width: 100%;
+  object-fit: cover;
+}
